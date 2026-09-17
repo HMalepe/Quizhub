@@ -18,7 +18,6 @@ export class Controls {
       categorySelect: $('categorySelect'),
       start: $('startBtn'),
       shuffle: $('shuffleBtn'),
-      flip: $('flipBtn'),
       record: $('recordBtn'),
       recDot: $('recDot'),
       right: $('rightBtn'),
@@ -47,7 +46,6 @@ export class Controls {
       h.onCategoryChange(e.target.value);
     });
     this.el.shuffle.addEventListener('click', () => h.onShuffle());
-    this.el.flip.addEventListener('click', () => h.onFlip());
     this.el.record.addEventListener('click', () => h.onToggleRecord());
     this.el.right.addEventListener('click', () => h.onMark('right'));
     this.el.wrong.addEventListener('click', () => h.onMark('wrong'));
@@ -87,7 +85,7 @@ export class Controls {
     this.el.permOverlay.style.display = 'none';
     this._cameraEnabled = true;
     this.el.categorySelect.disabled = false;
-    [this.el.shuffle, this.el.flip, this.el.record].forEach((btn) => {
+    [this.el.shuffle, this.el.record].forEach((btn) => {
       btn.disabled = false;
     });
     this._updateStartEnabled();
@@ -150,10 +148,6 @@ export class Controls {
   setRecording(isRecording) {
     this.el.record.textContent = isRecording ? '■ Stop' : '● Record';
     this.el.recDot.classList.toggle('on', isRecording);
-    // Flipping rebuilds the camera stream, which kills the mic track the
-    // recorder is holding — the rest of the take would come out silent.
-    this.el.flip.disabled = isRecording;
-    this.el.flip.title = isRecording ? 'Stop recording first — flipping would cut the audio' : '';
     if (isRecording) this.el.download.classList.remove('show');
   }
 

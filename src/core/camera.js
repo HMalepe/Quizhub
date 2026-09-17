@@ -1,10 +1,12 @@
 /**
  * Wraps getUserMedia and keeps a hidden <video> element fed with the stream.
  * The video element is never shown — it's a texture source for the canvas.
+ *
+ * Front camera only — this is a selfie-reaction tool, so there's no rear
+ * camera and no flipping. The feed is always mirrored (see renderer.js).
  */
 export class Camera {
   constructor() {
-    this.facing = 'user';
     this.stream = null;
     this.video = document.createElement('video');
     this.video.playsInline = true;
@@ -21,12 +23,6 @@ export class Camera {
     return track || null;
   }
 
-  get isMirrored() {
-    // Front camera should be mirrored so it matches what you see in a mirror.
-    // Rear camera should not.
-    return this.facing === 'user';
-  }
-
   get ready() {
     return Boolean(this.video.videoWidth);
   }
@@ -35,7 +31,7 @@ export class Camera {
     this.stop();
     this.stream = await navigator.mediaDevices.getUserMedia({
       video: {
-        facingMode: this.facing,
+        facingMode: 'user',
         width: { ideal: 1080 },
         height: { ideal: 1920 }
       },
@@ -49,11 +45,6 @@ export class Camera {
     });
     this.video.srcObject = this.stream;
     await this.video.play();
-  }
-
-  async flip() {
-    this.facing = this.facing === 'user' ? 'environment' : 'user';
-    await this.start();
   }
 
   stop() {

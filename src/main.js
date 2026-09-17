@@ -66,14 +66,6 @@ const controls = new Controls({
     controls.setQuestionBankText(stringifyQuestions(questions));
   },
 
-  onFlip: async () => {
-    try {
-      await camera.flip();
-    } catch (err) {
-      alert(describeCameraError(err));
-    }
-  },
-
   onAdvance: () => machine.advance(),
 
   onMark: (result) => machine.mark(result),
@@ -81,9 +73,6 @@ const controls = new Controls({
   onToggleRecord: async () => {
     if (!recorder.recording) {
       try {
-        // Read the mic track at record time, not at camera-enable time —
-        // flip() tears down the stream and builds a new one, so an earlier
-        // reference would be a stopped track.
         recorder.audioTrack = camera.audioTrack;
         recorder.start();
         controls.setRecording(true);
