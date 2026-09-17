@@ -1,0 +1,288 @@
+:root {
+  --bg: #0b0d12;
+  --bg-2: #12151c;
+  --surface: #171a22;
+  --amber: #f2b705;
+  --violet: #8b6cff;
+  --right: #3ecf8e;
+  --wrong: #ff4d4d;
+  --ink: #f4f3f0;
+  --ink-dim: #9ba0ac;
+  --line: #232733;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  margin: 0;
+  padding: 0;
+  min-height: 100%;
+  background: var(--bg);
+}
+
+body {
+  color: var(--ink);
+  font-family: 'Inter', system-ui, -apple-system, sans-serif;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  min-height: 100dvh;
+}
+
+/* ---------- canvas stage ---------- */
+
+.canvas-wrap {
+  position: relative;
+  width: 100%;
+  max-width: 480px;
+  aspect-ratio: 9 / 16;
+  background: #000;
+  cursor: pointer;
+  user-select: none;
+  -webkit-tap-highlight-color: transparent;
+}
+
+canvas {
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
+.rec-dot {
+  position: absolute;
+  top: 14px;
+  left: 14px;
+  display: none;
+  align-items: center;
+  gap: 6px;
+  background: rgba(0, 0, 0, 0.55);
+  padding: 6px 11px;
+  border-radius: 99px;
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+}
+
+.rec-dot.on {
+  display: flex;
+}
+
+.rec-dot::before {
+  content: '';
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--wrong);
+  animation: blink 1s infinite;
+}
+
+@keyframes blink {
+  50% {
+    opacity: 0.25;
+  }
+}
+
+.permission-overlay {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+  text-align: center;
+  padding: 0 32px;
+  background: radial-gradient(ellipse at 50% 20%, rgba(139, 108, 255, 0.18), transparent 62%),
+    var(--bg);
+}
+
+.permission-overlay h2 {
+  font-family: 'Unbounded', sans-serif;
+  font-size: 21px;
+  font-weight: 700;
+  margin: 0;
+}
+
+.permission-overlay p {
+  color: var(--ink-dim);
+  font-size: 13px;
+  line-height: 1.55;
+  margin: 0;
+  max-width: 300px;
+}
+
+/* ---------- control panel ---------- */
+
+.panel {
+  width: 100%;
+  max-width: 480px;
+  background: var(--bg-2);
+  border-top: 1px solid var(--line);
+  padding: 14px 16px calc(16px + env(safe-area-inset-bottom));
+  display: flex;
+  flex-direction: column;
+  gap: 9px;
+}
+
+.row {
+  display: flex;
+  gap: 8px;
+}
+
+button {
+  font-family: inherit;
+  font-weight: 600;
+  font-size: 13px;
+  border: 1px solid var(--line);
+  background: var(--surface);
+  color: var(--ink);
+  border-radius: 10px;
+  padding: 13px 10px;
+  flex: 1;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+  transition: opacity 0.12s ease;
+}
+
+button:active {
+  opacity: 0.75;
+}
+
+button:disabled {
+  opacity: 0.35;
+  cursor: not-allowed;
+}
+
+button:focus-visible {
+  outline: 2px solid var(--violet);
+  outline-offset: 2px;
+}
+
+button.primary {
+  background: var(--amber);
+  color: #20180a;
+  border-color: var(--amber);
+}
+
+button.record {
+  background: var(--wrong);
+  color: #fff;
+  border-color: var(--wrong);
+}
+
+button.right {
+  background: transparent;
+  color: var(--right);
+  border-color: var(--right);
+}
+
+button.right.active {
+  background: var(--right);
+  color: #08281a;
+}
+
+button.wrong {
+  background: transparent;
+  color: var(--wrong);
+  border-color: var(--wrong);
+}
+
+button.wrong.active {
+  background: var(--wrong);
+  color: #fff;
+}
+
+button.ghost {
+  background: transparent;
+}
+
+button.wide {
+  flex: none;
+  padding: 14px 30px;
+}
+
+/* ---------- settings ---------- */
+
+.settings {
+  display: none;
+  flex-direction: column;
+  gap: 11px;
+  border-top: 1px solid var(--line);
+  padding-top: 13px;
+  margin-top: 2px;
+}
+
+.settings.open {
+  display: flex;
+}
+
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.field label {
+  font-size: 11px;
+  color: var(--ink-dim);
+  font-weight: 600;
+}
+
+input[type='number'],
+textarea {
+  background: var(--surface);
+  border: 1px solid var(--line);
+  color: var(--ink);
+  border-radius: 8px;
+  padding: 10px;
+  font-family: inherit;
+  font-size: 13px;
+}
+
+textarea {
+  min-height: 150px;
+  line-height: 1.55;
+  resize: vertical;
+  font-size: 12px;
+}
+
+input:focus,
+textarea:focus {
+  outline: none;
+  border-color: var(--violet);
+}
+
+/* ---------- download ---------- */
+
+.download-link {
+  display: none;
+  text-align: center;
+  background: var(--violet);
+  color: #fff;
+  text-decoration: none;
+  padding: 13px;
+  border-radius: 10px;
+  font-weight: 700;
+  font-size: 13px;
+}
+
+.download-link.show {
+  display: block;
+}
+
+.note {
+  font-size: 11px;
+  color: var(--ink-dim);
+  text-align: center;
+  line-height: 1.5;
+  margin: 2px 0 0;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .rec-dot::before {
+    animation: none;
+  }
+}

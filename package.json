@@ -1,0 +1,15 @@
+{
+  "name": "trivia-reel",
+  "private": true,
+  "version": "0.1.0",
+  "type": "module",
+  "description": "Records split-screen trivia reaction videos: quiz overlay on top, live camera below, composited to one canvas and downloaded as a single file.",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview"
+  },
+  "devDependencies": {
+    "vite": "^5.4.0"
+  }
+}
