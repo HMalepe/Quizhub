@@ -3,9 +3,9 @@ import { CANVAS } from './config.js';
 /**
  * Records the composited canvas to a file.
  *
- * Video-only by design — no audio track at all. Sound goes on in CapCut,
- * which means you're free to retime the countdown and buzzer without being
- * locked to whatever the app played during filming.
+ * Carries one audio track: your mic, so your answering voice is in the file
+ * and in sync with the footage. App-generated sound (ticks, buzzer, stings)
+ * still goes on in CapCut, so you can retime it freely.
  *
  * Codec note: Safari historically only supports MP4 here while Chrome/Firefox
  * prefer WebM, so we probe in preference order rather than hardcoding.
@@ -39,9 +39,8 @@ export class CanvasRecorder {
     this.recording = false;
     this.lastUrl = null;
     /**
-     * Optional audio track mixed into the recording. Set this to a track from
-     * ClipVoice.getStreamTrack() if you want voiceover baked into the file.
-     * Left null, the recording is silent by design (sound added in CapCut).
+     * Audio track mixed into the recording — main.js assigns the camera's mic
+     * track here at record time. Left null, the recording comes out silent.
      */
     this.audioTrack = null;
   }

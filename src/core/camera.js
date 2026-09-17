@@ -1,21 +1,26 @@
 /**
  * Wraps getUserMedia and keeps a hidden <video> element fed with the stream.
  * The video element is never shown — it's a texture source for the canvas.
+ *
+ * Front camera only — this is a selfie-reaction tool, so there's no rear
+ * camera and no flipping. The feed is always mirrored (see renderer.js).
  */
 export class Camera {
   constructor() {
-    this.facing = 'user';
     this.stream = null;
     this.video = document.createElement('video');
     this.video.playsInline = true;
+    // Must stay muted even though the stream carries mic audio: an unmuted
+    // element would play your own mic back through the speakers and howl.
     this.video.muted = true;
     this.video.autoplay = true;
   }
 
-  get isMirrored() {
-    // Front camera should be mirrored so it matches what you see in a mirror.
-    // Rear camera should not.
-    return this.facing === 'user';
+  /** Mic track for the recorder to mix in, or null before the stream starts. */
+  get audioTrack() {
+    if (!this.stream) return null;
+    const [track] = this.stream.getAudioTracks();
+    return track || null;
   }
 
   get ready() {
@@ -26,22 +31,20 @@ export class Camera {
     this.stop();
     this.stream = await navigator.mediaDevices.getUserMedia({
       video: {
-        facingMode: this.facing,
+        facingMode: 'user',
         width: { ideal: 1080 },
         height: { ideal: 1920 }
       },
-      // Mic audio is deliberately off: the recorded file is silent and you
-      // add sound in CapCut. If you ever want your voice baked in, flip this
-      // to true and add the mic track in recorder.js.
-      audio: false
+      // Your answering voice is the one sound that has to be in the file —
+      // it's the content, and it has to stay in sync with the footage.
+      // Everything else (ticks, buzzer, stings) still gets added in CapCut.
+      audio: {
+        echoCancellation: true,
+        noiseSuppression: true
+      }
     });
     this.video.srcObject = this.stream;
     await this.video.play();
-  }
-
-  async flip() {
-    this.facing = this.facing === 'user' ? 'environment' : 'user';
-    await this.start();
   }
 
   stop() {
@@ -58,16 +61,16 @@ export class Camera {
 export function describeCameraError(err) {
   const name = err && err.name;
   if (name === 'NotAllowedError' || name === 'PermissionDeniedError') {
-    return 'Camera permission was denied. Allow camera access for this site in your browser settings, then reload.';
+    return 'Camera or microphone permission was denied. Allow both for this site in your browser settings, then reload.';
   }
   if (name === 'NotFoundError' || name === 'DevicesNotFoundError') {
-    return 'No camera found on this device.';
+    return 'No camera or microphone found on this device.';
   }
   if (name === 'NotReadableError') {
-    return 'The camera is already in use by another app. Close it and try again.';
+    return 'The camera or microphone is already in use by another app. Close it and try again.';
   }
   if (!window.isSecureContext) {
-    return 'Camera access requires HTTPS or localhost. Deploy the app or run it on localhost.';
+    return 'Camera and mic access require HTTPS or localhost. Deploy the app or run it on localhost.';
   }
   return `Camera failed to start: ${err && err.message ? err.message : 'unknown error'}`;
 }

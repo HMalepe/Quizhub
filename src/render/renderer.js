@@ -66,14 +66,12 @@ export class Renderer {
     const srcX = (vw - srcW) / 2;
     const srcY = (vh - srcH) / 2;
 
+    // Always mirrored — front camera only, and a selfie view is what people
+    // expect to see of themselves.
     ctx.save();
-    if (camera.isMirrored) {
-      ctx.translate(W, topH);
-      ctx.scale(-1, 1);
-      ctx.drawImage(camera.video, srcX, srcY, srcW, srcH, 0, 0, W, destH);
-    } else {
-      ctx.drawImage(camera.video, srcX, srcY, srcW, srcH, 0, topH, W, destH);
-    }
+    ctx.translate(W, topH);
+    ctx.scale(-1, 1);
+    ctx.drawImage(camera.video, srcX, srcY, srcW, srcH, 0, 0, W, destH);
     ctx.restore();
   }
 

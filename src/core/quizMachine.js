@@ -16,20 +16,15 @@ import { TIMING } from './config.js';
  * state, they don't own it.
  */
 export class QuizMachine {
-  constructor({ questions, onChange, onQuestionShown, onReveal }) {
+  constructor({ questions, onChange }) {
     this.questions = questions;
     this.onChange = onChange || (() => {});
-    /** Fired when a new question becomes visible — hook for reading it aloud. */
-    this.onQuestionShown = onQuestionShown || (() => {});
-    /** Fired the instant reveal starts — hook for auto-grading a spoken answer. */
-    this.onReveal = onReveal || (() => {});
     this.index = 0;
     this.phase = 'idle'; // 'idle' | 'question' | 'countdown' | 'reveal'
     this.countdownValue = 0;
     this.countdownSeconds = TIMING.countdownSeconds;
     this.answerResult = null; // null | 'right' | 'wrong'
     this.flashUntil = 0;
-    this.holdForVoice = false;
     this._timer = null;
   }
 
@@ -44,15 +39,6 @@ export class QuizMachine {
     const n = Number.parseInt(seconds, 10);
     this.countdownSeconds = Number.isFinite(n) && n > 0 ? n : TIMING.countdownSeconds;
     this._emit();
-  }
-
-  /**
-   * When a voice is reading the question aloud, the fixed 1.6s hold would cut
-   * it off mid-sentence. Setting this true suspends the auto-advance timer;
-   * the caller then calls startCountdown() when speech ends.
-   */
-  setHoldForVoice(hold) {
-    this.holdForVoice = Boolean(hold);
   }
 
   get current() {
@@ -94,13 +80,7 @@ export class QuizMachine {
     this.phase = 'question';
     this.answerResult = null;
     this._emit();
-    this.onQuestionShown(this.current[0], this.index);
-
-    // With a voice reading aloud, the caller starts the countdown when the
-    // utterance ends rather than on a fixed timer.
-    if (!this.holdForVoice) {
-      this._timer = setTimeout(() => this.startCountdown(), TIMING.questionHoldMs);
-    }
+    this._timer = setTimeout(() => this.startCountdown(), TIMING.questionHoldMs);
   }
 
   startCountdown() {
@@ -129,7 +109,6 @@ export class QuizMachine {
     this.answerResult = null;
     this.flashUntil = performance.now() + TIMING.flashMs;
     this._emit();
-    this.onReveal(this.current[1], this.index);
     // No timer here on purpose — waits for you to mark and tap on.
   }
 
