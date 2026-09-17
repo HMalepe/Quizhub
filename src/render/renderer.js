@@ -7,8 +7,15 @@ import { drawWrapped, drawFitted } from './text.js';
  *
  * Runs on requestAnimationFrame. Everything it draws is what MediaRecorder
  * captures — there is no separate "export" path, so what you see is exactly
- * what lands in the file.
+ * what lands in the file. That also means **a stalled draw loop is a ruined
+ * take**: `captureStream` keeps emitting the last painted frame while the mic
+ * track records on, so the video freezes and the audio doesn't. Hence the
+ * paranoia below.
  */
+
+/** How long without a paint before the watchdog steps in (ms). */
+const STALL_MS = 400;
+
 export class Renderer {
   constructor({ canvas, camera, getState }) {
     this.canvas = canvas;
@@ -17,6 +24,9 @@ export class Renderer {
     this.getState = getState;
     this.running = false;
     this._frame = null;
+    this._watchdog = null;
+    this._lastDrawAt = 0;
+    this._tick = this._tick.bind(this);
 
     this.W = CANVAS.width;
     this.H = CANVAS.height;
@@ -26,17 +36,51 @@ export class Renderer {
   start() {
     if (this.running) return;
     this.running = true;
-    const loop = () => {
-      if (!this.running) return;
-      this.drawFrame();
-      this._frame = requestAnimationFrame(loop);
-    };
-    loop();
+    this._lastDrawAt = performance.now();
+    this._tick();
+    this._watchdog = setInterval(() => this._checkStall(), STALL_MS);
   }
 
   stop() {
     this.running = false;
     if (this._frame) cancelAnimationFrame(this._frame);
+    if (this._watchdog) {
+      clearInterval(this._watchdog);
+      this._watchdog = null;
+    }
+  }
+
+  /**
+   * One rAF step. The next frame is queued in `finally` on purpose: a throw
+   * in drawFrame() used to kill the loop permanently, and since `running`
+   * stayed true, start() would refuse to restart it.
+   */
+  _tick() {
+    if (!this.running) return;
+    try {
+      this.drawFrame();
+      this._lastDrawAt = performance.now();
+    } catch (err) {
+      console.error('Frame draw failed:', err);
+    } finally {
+      this._frame = requestAnimationFrame(this._tick);
+    }
+  }
+
+  /**
+   * rAF doesn't fire on a hidden page and can be throttled on a visible one.
+   * If it's gone quiet, paint directly so the captured stream keeps moving.
+   * (A hidden page can't be rescued from here — that's what WakeLock is for.)
+   */
+  _checkStall() {
+    if (!this.running || document.hidden) return;
+    if (performance.now() - this._lastDrawAt < STALL_MS) return;
+    try {
+      this.drawFrame();
+      this._lastDrawAt = performance.now();
+    } catch (err) {
+      console.error('Watchdog draw failed:', err);
+    }
   }
 
   drawFrame() {

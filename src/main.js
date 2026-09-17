@@ -13,12 +13,14 @@ import { SECTIONS, CATEGORY_BANK } from './core/categoryBank.js';
 import { QuizMachine } from './core/quizMachine.js';
 import { Camera, describeCameraError } from './core/camera.js';
 import { CanvasRecorder, isRecordingSupported } from './core/recorder.js';
+import { WakeLock } from './core/wakeLock.js';
 import { Renderer } from './render/renderer.js';
 import { Controls } from './ui/controls.js';
 
 const canvas = document.getElementById('stage');
 const camera = new Camera();
 const recorder = new CanvasRecorder(canvas);
+const wakeLock = new WakeLock();
 
 let questions = loadQuestions();
 let latestState = null;
@@ -76,6 +78,9 @@ const controls = new Controls({
         recorder.audioTrack = camera.audioTrack;
         recorder.start();
         controls.setRecording(true);
+        // A sleeping screen stops requestAnimationFrame, which freezes the
+        // canvas mid-take while the mic keeps going. Hold the screen awake.
+        wakeLock.request();
       } catch (err) {
         alert(err.message);
       }
@@ -87,6 +92,8 @@ const controls = new Controls({
       } catch (err) {
         controls.setRecording(false);
         alert(`Could not finish the recording: ${err.message}`);
+      } finally {
+        wakeLock.release();
       }
     }
   },
@@ -125,6 +132,14 @@ const controls = new Controls({
 // Tapping the canvas is the primary interaction during a take.
 canvas.addEventListener('click', () => machine.advance());
 
+// Coming back from a hidden page needs two things put right: the browser drops
+// the wake lock while hidden, and iOS pauses the <video> the canvas draws from.
+document.addEventListener('visibilitychange', () => {
+  if (document.hidden) return;
+  camera.resume();
+  wakeLock.reacquire();
+});
+
 // ---- restore persisted settings ----
 const storedCountdown = (() => {
   try {
@@ -154,4 +169,5 @@ window.addEventListener('beforeunload', () => {
   machine.destroy();
   renderer.stop();
   camera.stop();
+  wakeLock.release();
 });
