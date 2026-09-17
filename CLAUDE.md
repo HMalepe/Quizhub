@@ -18,24 +18,53 @@ split-screen editing needed afterwards.
 
 These look like omissions but are intentional. Check here before changing them.
 
-1. **The recording has no audio track.** Not a bug. The user adds countdown
-   ticks, buzzer, and right/wrong stings in CapCut, so baking audio in would
-   lock the timing. `camera.js` requests `audio: false`; `recorder.js` builds
-   a video-only `MediaStream`.
+1. **The recording has no audio track by default.** Not a bug. The user adds
+   countdown ticks, buzzer, and right/wrong stings in CapCut, so baking audio
+   in would lock the timing. `camera.js` requests `audio: false`;
+   `recorder.audioTrack` is null unless deliberately assigned.
 
-2. **The `reveal` phase does not auto-advance.** Every other phase has a timer.
+2. **`LiveVoice` (speechSynthesis) is deliberately NOT in the recording.**
+   This is a platform constraint, not an oversight — `speechSynthesis` has no
+   `MediaStream` output in any browser, so `MediaRecorder` cannot capture it.
+   Do not attempt to "fix" this by routing it through Web Audio; it is not
+   possible. If voice-in-file is wanted, that's what `ClipVoice` exists for
+   (pre-generated audio files → Web Audio → recordable).
+
+3. **`holdForVoice` suspends the question auto-advance timer.** When a voice is
+   reading aloud, `showQuestion()` deliberately sets no timer; `main.js` calls
+   `startCountdown()` from the utterance's end callback instead. A fixed timer
+   would cut the question off mid-sentence.
+
+4. **The `reveal` phase does not auto-advance.** Every other phase has a timer.
    Reveal waits indefinitely because the user needs an open beat to tap
    Right/Wrong before moving on.
 
-3. **Front camera is mirrored, rear is not.** `Camera.isMirrored` — matches
+5. **Front camera is mirrored, rear is not.** `Camera.isMirrored` — matches
    what people expect from a selfie view.
 
-4. **`answerResult` resets to `null` on every new question.** Unmarked answers
+6. **`answerResult` resets to `null` on every new question.** Unmarked answers
    render in neutral white; that's a valid state, not an error.
 
-5. **The canvas is a fixed 1080×1920 regardless of screen size.** CSS scales it
+7. **The canvas is a fixed 1080×1920 regardless of screen size.** CSS scales it
    for display. Never set canvas width/height from `clientWidth` — output
    resolution must stay constant for consistent recordings.
+
+8. **`voice.unlock()` is called inside the camera-enable click handler.**
+   iOS Safari gates speech synthesis on a user gesture and silently no-ops
+   otherwise. Do not move this call out of a gesture handler.
+
+9. **Answer-listening never bypasses the manual Right/Wrong buttons.** It's an
+   assist, not an authority — `matchAnswer()` is a heuristic and will be wrong
+   sometimes (see `matching.js` header). `AnswerListener.enabled` being true
+   auto-calls `machine.mark()`, but the buttons stay enabled during `reveal`
+   exactly as they do without it, so a bad guess is a one-tap correction, not
+   a re-shoot. Do not remove the buttons or hide them when listening is on.
+
+10. **When both `voice` and `listener` are enabled, listening is deliberately
+    delayed until TTS finishes speaking.** See the `onQuestionShown` handler
+    in `main.js`. Starting the mic while the app's own voice is reading the
+    question causes the mic to hear itself and corrupt the transcript. If you
+    change the ordering here, re-test with both features on together.
 
 ## Architecture
 
@@ -44,11 +73,14 @@ src/
 ├── main.js              Entry point. Wires modules together. The only file
 │                        that knows about all the others.
 ├── core/
-│   ├── config.js        Colors, fonts, timings, layout ratios. Change look here.
-│   ├── questions.js     Default bank, parse/stringify, shuffle, localStorage.
-│   ├── quizMachine.js   Phase state machine. No DOM, no canvas — pure logic.
-│   ├── camera.js        getUserMedia wrapper + human-readable error messages.
-│   └── recorder.js      MediaRecorder wrapper + codec probing.
+│   ├── config.js         Colors, fonts, timings, layout ratios. Change look here.
+│   ├── questions.js      Default bank, parse/stringify, shuffle, localStorage.
+│   ├── quizMachine.js    Phase state machine. No DOM, no canvas — pure logic.
+│   ├── camera.js         getUserMedia wrapper + human-readable error messages.
+│   ├── speech.js         LiveVoice (cue, not recordable) + ClipVoice (recordable).
+│   ├── answerListener.js SpeechRecognition wrapper — hears your spoken answer.
+│   ├── matching.js        Fuzzy comparison of what was heard against the answer.
+│   └── recorder.js       MediaRecorder wrapper + codec probing.
 ├── render/
 │   ├── text.js          Canvas text wrapping and auto-fit helpers.
 │   └── renderer.js      The rAF draw loop. Composites camera + overlay.

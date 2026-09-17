@@ -12,12 +12,17 @@ import {
 import { QuizMachine } from './core/quizMachine.js';
 import { Camera, describeCameraError } from './core/camera.js';
 import { CanvasRecorder, isRecordingSupported } from './core/recorder.js';
+import { LiveVoice } from './core/speech.js';
+import { AnswerListener } from './core/answerListener.js';
+import { matchAnswer } from './core/matching.js';
 import { Renderer } from './render/renderer.js';
 import { Controls } from './ui/controls.js';
 
 const canvas = document.getElementById('stage');
 const camera = new Camera();
 const recorder = new CanvasRecorder(canvas);
+const voice = new LiveVoice();
+const listener = new AnswerListener();
 
 let questions = loadQuestions();
 let latestState = null;
@@ -27,6 +32,29 @@ const machine = new QuizMachine({
   onChange: (state) => {
     latestState = state;
     controls.syncPhase(state);
+  },
+  onQuestionShown: (questionText) => {
+    // If both features are on, don't start listening until the TTS has
+    // finished speaking — otherwise the mic hears the app's own voice
+    // reading the question and treats it as your answer.
+    if (voice.enabled) {
+      voice.speak(questionText, () => {
+        if (listener.enabled) listener.start();
+        if (machine.phase === 'question') machine.startCountdown();
+      });
+    } else if (listener.enabled) {
+      listener.start();
+    }
+  },
+  onReveal: (answerText) => {
+    if (!listener.enabled) return;
+    const heard = listener.transcript;
+    listener.stop();
+    controls.showHeardTranscript(heard);
+
+    if (!heard) return; // nothing to grade — leave it for a manual tap
+    const result = matchAnswer(heard, answerText);
+    machine.mark(result.isMatch ? 'right' : 'wrong');
   }
 });
 
@@ -40,6 +68,9 @@ const controls = new Controls({
   onEnableCamera: async () => {
     try {
       await camera.start();
+      // Must happen inside this click handler — iOS Safari gates speech on a
+      // user gesture and silently no-ops otherwise.
+      voice.unlock();
       controls.enableCameraDependentControls();
       renderer.start();
       if (!isRecordingSupported()) {
@@ -116,6 +147,29 @@ const controls = new Controls({
     saveQuestions(questions);
     machine.setQuestions(questions);
     controls.setQuestionBankText(stringifyQuestions(questions));
+  },
+
+  onVoiceToggle: async (on) => {
+    voice.enabled = on;
+    machine.setHoldForVoice(on);
+    if (on) {
+      const voices = await voice.ready();
+      if (!voice.voice) await voice.pickBestVoice();
+      controls.populateVoices(voices, voice.voice ? voice.voice.name : null);
+    } else {
+      voice.cancel();
+    }
+  },
+
+  onVoiceChange: (name) => voice.setVoiceByName(name),
+
+  onVoiceRateChange: (rate) => {
+    voice.rate = rate;
+  },
+
+  onListenToggle: (on) => {
+    listener.enabled = on;
+    if (!on) listener.stop();
   }
 });
 
@@ -142,6 +196,19 @@ controls.setQuestionBankText(stringifyQuestions(questions));
 latestState = machine.snapshot();
 controls.syncPhase(latestState);
 
+if (!voice.supported) {
+  controls.disableVoiceUI('Speech synthesis is not available in this browser.');
+}
+
+if (!listener.supported) {
+  controls.disableListenUI('Speech recognition is not available in this browser.');
+} else {
+  listener.onPermissionDenied = () => {
+    controls.disableListenUI('Microphone permission was denied.');
+    alert('Microphone access was denied, so answer listening has been turned off. You can still mark Right/Wrong manually.');
+  };
+}
+
 // Draw the idle frame before camera permission is granted, so the canvas
 // isn't just black behind the permission overlay.
 renderer.drawFrame();
@@ -150,4 +217,6 @@ window.addEventListener('beforeunload', () => {
   machine.destroy();
   renderer.stop();
   camera.stop();
+  voice.cancel();
+  listener.stop();
 });
