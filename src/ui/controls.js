@@ -9,10 +9,13 @@ const $ = (id) => document.getElementById(id);
 export class Controls {
   constructor(handlers) {
     this.handlers = handlers;
+    this._cameraEnabled = false;
+    this._categoryChosen = false;
 
     this.el = {
       enableCam: $('enableCamBtn'),
       permOverlay: $('permOverlay'),
+      categorySelect: $('categorySelect'),
       start: $('startBtn'),
       shuffle: $('shuffleBtn'),
       flip: $('flipBtn'),
@@ -45,6 +48,12 @@ export class Controls {
 
     this.el.enableCam.addEventListener('click', () => h.onEnableCamera());
     this.el.start.addEventListener('click', () => h.onStart());
+
+    this.el.categorySelect.addEventListener('change', (e) => {
+      this._categoryChosen = Boolean(e.target.value);
+      this._updateStartEnabled();
+      h.onCategoryChange(e.target.value);
+    });
     this.el.shuffle.addEventListener('click', () => h.onShuffle());
     this.el.flip.addEventListener('click', () => h.onFlip());
     this.el.record.addEventListener('click', () => h.onToggleRecord());
@@ -106,9 +115,57 @@ export class Controls {
 
   enableCameraDependentControls() {
     this.el.permOverlay.style.display = 'none';
-    [this.el.start, this.el.shuffle, this.el.flip, this.el.record].forEach((btn) => {
+    this._cameraEnabled = true;
+    this.el.categorySelect.disabled = false;
+    [this.el.shuffle, this.el.flip, this.el.record].forEach((btn) => {
       btn.disabled = false;
     });
+    this._updateStartEnabled();
+  }
+
+  /** Start needs both camera access and a chosen category/question set. */
+  _updateStartEnabled() {
+    this.el.start.disabled = !(this._cameraEnabled && this._categoryChosen);
+  }
+
+  /** Builds the category picker: one <optgroup> per section, plus a "My Questions" option. */
+  populateCategories(sections) {
+    const select = this.el.categorySelect;
+    select.innerHTML = '';
+
+    const placeholder = document.createElement('option');
+    placeholder.value = '';
+    placeholder.textContent = 'Choose a category…';
+    placeholder.disabled = true;
+    placeholder.selected = true;
+    select.appendChild(placeholder);
+
+    sections.forEach(({ section, categories }) => {
+      const group = document.createElement('optgroup');
+      group.label = section;
+      categories.forEach(({ name }) => {
+        const opt = document.createElement('option');
+        opt.value = name;
+        opt.textContent = `Can You Pass as ${name}`;
+        group.appendChild(opt);
+      });
+      select.appendChild(group);
+    });
+
+    const customGroup = document.createElement('optgroup');
+    customGroup.label = 'Other';
+    const customOpt = document.createElement('option');
+    customOpt.value = '__custom';
+    customOpt.textContent = 'My Questions (custom)';
+    customGroup.appendChild(customOpt);
+    select.appendChild(customGroup);
+  }
+
+  /** Reflects an in-code category change (e.g. after editing/resetting custom questions). */
+  setCategorySelectValue(value) {
+    this.el.categorySelect.value = value;
+    this._categoryChosen = Boolean(value);
+    this._updateStartEnabled();
   }
 
   /** Right/Wrong are only meaningful during the reveal phase. */

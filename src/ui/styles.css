@@ -204,6 +204,11 @@ button.wide {
   padding: 14px 30px;
 }
 
+select.wide {
+  flex: 1;
+  width: 100%;
+}
+
 /* ---------- settings ---------- */
 
 .settings {

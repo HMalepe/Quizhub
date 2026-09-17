@@ -66,6 +66,14 @@ These look like omissions but are intentional. Check here before changing them.
     question causes the mic to hear itself and corrupt the transcript. If you
     change the ordering here, re-test with both features on together.
 
+11. **`startBtn` is gated on camera AND a chosen category, not camera alone.**
+    `Controls._updateStartEnabled()` tracks both `_cameraEnabled` and
+    `_categoryChosen` and only enables Start when both are true. The category
+    `<select>` starts on a disabled, unselected placeholder — picking a
+    built-in category (or "My Questions") is what calls `machine.setQuestions()`
+    with the right bank in the first place, so Start being enabled without a
+    real bank behind it isn't a state worth allowing.
+
 ## Architecture
 
 ```
@@ -80,6 +88,8 @@ src/
 │   ├── speech.js         LiveVoice (cue, not recordable) + ClipVoice (recordable).
 │   ├── answerListener.js SpeechRecognition wrapper — hears your spoken answer.
 │   ├── matching.js        Fuzzy comparison of what was heard against the answer.
+│   ├── categoryBank.js    "Can You Pass As..." — 50 built-in categories (8
+│   │                      sections × ~6 categories, 8 Qs each, 400 total).
 │   └── recorder.js       MediaRecorder wrapper + codec probing.
 ├── render/
 │   ├── text.js          Canvas text wrapping and auto-fit helpers.
@@ -154,9 +164,26 @@ Useful when the phone/laptop is on a tripod and the user has a bluetooth remote.
 If asked to add these, here's where they'd go:
 - **Score tracking across a session** → new state on `QuizMachine`, rendered in
   `drawOverlayZone`
-- **Question categories / filtering** → extend the parse format in
-  `questions.js` (a second pipe field), filter before `setQuestions`
 - **Custom overlay themes** → additional exported theme objects in `config.js`,
   swap which one `renderer.js` imports
 - **Importing questions from a CSV/JSON file** → new module in `core/`, feed
   output into `machine.setQuestions()`
+
+## Category picker
+
+Built-in categories live in `core/categoryBank.js` as `SECTIONS` (8 sections,
+grouping 50 "Can You Pass as..." categories, 8 questions each — 400 total).
+`main.js` builds a flat `CATEGORY_BANK` name → questions lookup from it.
+
+The `#categorySelect` dropdown in the panel is populated from `SECTIONS` via
+`Controls.populateCategories()` (one `<optgroup>` per section), plus a
+"My Questions (custom)" option that maps to whatever's in `localStorage`
+(the same bank the Settings → Questions textarea edits). Picking anything
+calls `machine.setQuestions()` with that bank, shuffled for built-ins.
+
+This intentionally did *not* extend the `Question | Answer` textarea parse
+format with a category field (the previous roadmap note here suggested a
+second pipe field) — the 400 built-in questions are curated, named batches
+rather than user-taggable rows, so a separate lookup module fit better than
+teaching `questions.js` about categories. The textarea format is unchanged;
+"My Questions" still means whatever the user pasted in Settings.
