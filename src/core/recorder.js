@@ -38,6 +38,12 @@ export class CanvasRecorder {
     this.chunks = [];
     this.recording = false;
     this.lastUrl = null;
+    /**
+     * Optional audio track mixed into the recording. Set this to a track from
+     * ClipVoice.getStreamTrack() if you want voiceover baked into the file.
+     * Left null, the recording is silent by design (sound added in CapCut).
+     */
+    this.audioTrack = null;
   }
 
   start() {
@@ -55,12 +61,14 @@ export class CanvasRecorder {
     }
 
     const stream = this.canvas.captureStream(CANVAS.fps);
-    const videoOnly = new MediaStream(stream.getVideoTracks());
+    const tracks = [...stream.getVideoTracks()];
+    if (this.audioTrack) tracks.push(this.audioTrack);
+    const output = new MediaStream(tracks);
 
     this.chunks = [];
     this.recorder = mimeType
-      ? new MediaRecorder(videoOnly, { mimeType })
-      : new MediaRecorder(videoOnly);
+      ? new MediaRecorder(output, { mimeType })
+      : new MediaRecorder(output);
 
     this.recorder.ondataavailable = (event) => {
       if (event.data && event.data.size) this.chunks.push(event.data);
