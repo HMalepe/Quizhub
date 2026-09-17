@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <title>Trivia Reel</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@500;700;900&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+</head>
+<body>
+  <div class="canvas-wrap">
+    <canvas id="stage" width="1080" height="1920"></canvas>
+    <div class="rec-dot" id="recDot">REC</div>
+    <div class="permission-overlay" id="permOverlay">
+      <h2>Point, ask, react</h2>
+      <p>Needs camera access to build the shot. Everything stays on your device — recording is local and downloads straight to you.</p>
+      <button class="primary wide" id="enableCamBtn">Enable camera</button>
+    </div>
+  </div>
+
+  <div class="panel">
+    <div class="row">
+      <button class="primary" id="startBtn" disabled>Start</button>
+      <button id="shuffleBtn" disabled>Shuffle</button>
+      <button id="flipBtn" disabled>Flip cam</button>
+    </div>
+
+    <div class="row">
+      <button class="record" id="recordBtn" disabled>● Record</button>
+    </div>
+
+    <div class="row">
+      <button class="right" id="rightBtn" disabled>✓ Right</button>
+      <button class="wrong" id="wrongBtn" disabled>✕ Wrong</button>
+    </div>
+
+    <a class="download-link" id="downloadLink" download>Download video</a>
+
+    <div class="row">
+      <button class="ghost" id="settingsBtn">Settings</button>
+    </div>
+
+    <div class="settings" id="settings">
+      <div class="field">
+        <label for="countdownLen">Countdown length (seconds)</label>
+        <input type="number" id="countdownLen" min="1" max="10" value="3" />
+      </div>
+      <div class="field">
+        <label for="questionBank">Questions — one per line: Question | Answer</label>
+        <textarea id="questionBank"></textarea>
+      </div>
+      <button id="saveQuestionsBtn">Save questions</button>
+      <button class="ghost" id="resetQuestionsBtn">Reset to defaults</button>
+    </div>
+
+    <p class="note">
+      Silent video by design — add ticks, buzzer and stings in CapCut.
+      Chrome or Safari, over HTTPS or localhost.
+    </p>
+  </div>
+
+  <script type="module" src="/src/main.js"></script>
+</body>
+</html>
