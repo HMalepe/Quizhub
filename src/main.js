@@ -9,6 +9,7 @@ import {
   stringifyQuestions,
   shuffled
 } from './core/questions.js';
+import { SECTIONS, CATEGORY_BANK } from './core/categoryBank.js';
 import { QuizMachine } from './core/quizMachine.js';
 import { Camera, describeCameraError } from './core/camera.js';
 import { CanvasRecorder, isRecordingSupported } from './core/recorder.js';
@@ -83,6 +84,13 @@ const controls = new Controls({
 
   onStart: () => machine.start(),
 
+  onCategoryChange: (value) => {
+    if (!value) return;
+    questions = value === '__custom' ? loadQuestions() : shuffled(CATEGORY_BANK[value]);
+    machine.setQuestions(questions);
+    controls.setQuestionBankText(stringifyQuestions(questions));
+  },
+
   onShuffle: () => {
     questions = shuffled(questions);
     machine.setQuestions(questions);
@@ -139,6 +147,7 @@ const controls = new Controls({
     questions = parsed;
     saveQuestions(questions);
     machine.setQuestions(questions);
+    controls.setCategorySelectValue('__custom');
     controls.closeSettings();
   },
 
@@ -147,6 +156,7 @@ const controls = new Controls({
     saveQuestions(questions);
     machine.setQuestions(questions);
     controls.setQuestionBankText(stringifyQuestions(questions));
+    controls.setCategorySelectValue('__custom');
   },
 
   onVoiceToggle: async (on) => {
@@ -192,6 +202,7 @@ if (storedCountdown) {
   controls.setCountdownValue(TIMING.countdownSeconds);
 }
 
+controls.populateCategories(SECTIONS);
 controls.setQuestionBankText(stringifyQuestions(questions));
 latestState = machine.snapshot();
 controls.syncPhase(latestState);
