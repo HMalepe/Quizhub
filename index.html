@@ -14,8 +14,8 @@
     <div class="rec-dot" id="recDot">REC</div>
     <div class="permission-overlay" id="permOverlay">
       <h2>Point, ask, react</h2>
-      <p>Needs camera access to build the shot. Everything stays on your device — recording is local and downloads straight to you.</p>
-      <button class="primary wide" id="enableCamBtn">Enable camera</button>
+      <p>Needs camera and mic access — your voice is recorded with the video. Everything stays on your device — recording is local and downloads straight to you.</p>
+      <button class="primary wide" id="enableCamBtn">Enable camera &amp; mic</button>
     </div>
   </div>
 
@@ -53,38 +53,6 @@
         <input type="number" id="countdownLen" min="1" max="10" value="3" />
       </div>
 
-      <div class="toggle-row">
-        <label for="voiceToggle">Read questions aloud</label>
-        <input type="checkbox" id="voiceToggle" />
-      </div>
-
-      <div class="field" id="voiceFields" hidden>
-        <label for="voiceSelect">Voice</label>
-        <select id="voiceSelect"></select>
-        <label for="voiceRate">Speed — <span id="voiceRateLabel">1.0</span>×</label>
-        <input type="range" id="voiceRate" min="0.6" max="1.6" step="0.1" value="1" />
-        <p class="hint">
-          Plays through your speakers as a cue so you react to a voice, not text.
-          Browser speech can't be captured by the recorder, so it won't be in the
-          downloaded file — add the final voiceover in CapCut.
-        </p>
-      </div>
-
-      <div class="toggle-row">
-        <label for="listenToggle">Listen for your answer</label>
-        <input type="checkbox" id="listenToggle" />
-      </div>
-
-      <div class="field" id="listenFields" hidden>
-        <p class="hint">
-          Listens while the question is up and auto-marks Right or Wrong at
-          reveal, based on what it heard. It's a fast guess, not a verdict —
-          the Right/Wrong buttons stay live so a misheard answer is a one-tap
-          fix. Needs a separate microphone permission from the camera.
-        </p>
-        <p class="hint" id="heardLine"></p>
-      </div>
-
       <div class="field">
         <label for="questionBank">Questions — one per line: Question | Answer</label>
         <textarea id="questionBank"></textarea>
@@ -94,7 +62,7 @@
     </div>
 
     <p class="note">
-      Silent video by design — add ticks, buzzer and stings in CapCut.
+      Records your voice only — add ticks, buzzer and stings in CapCut.
       Chrome or Safari, over HTTPS or localhost.
     </p>
   </div>

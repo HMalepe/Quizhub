@@ -11,29 +11,29 @@ The screen is one 1080×1920 canvas:
 - **Bottom 58%** — live camera feed of the person reacting
 
 Both halves are drawn to the *same* canvas every frame, and `MediaRecorder`
-captures that canvas. So the downloaded file is already composited — no
-split-screen editing needed afterwards.
+captures that canvas plus the mic. So the downloaded file is already
+composited, with your voice on it — no split-screen editing needed afterwards.
 
 ## Deliberate design decisions — do not "fix" these
 
 These look like omissions but are intentional. Check here before changing them.
 
-1. **The recording has no audio track by default.** Not a bug. The user adds
-   countdown ticks, buzzer, and right/wrong stings in CapCut, so baking audio
-   in would lock the timing. `camera.js` requests `audio: false`;
-   `recorder.audioTrack` is null unless deliberately assigned.
+1. **The recording carries exactly one audio track: the mic.** Your answering
+   voice is the content and has to stay in sync with the footage, so it's baked
+   in — `camera.js` requests mic audio, and `main.js` assigns
+   `recorder.audioTrack` from `camera.audioTrack` at record time. Everything
+   *app-generated* (countdown ticks, buzzer, right/wrong stings) still goes on
+   in CapCut, so that timing stays free. Don't add app sound to the recording.
 
-2. **`LiveVoice` (speechSynthesis) is deliberately NOT in the recording.**
-   This is a platform constraint, not an oversight — `speechSynthesis` has no
-   `MediaStream` output in any browser, so `MediaRecorder` cannot capture it.
-   Do not attempt to "fix" this by routing it through Web Audio; it is not
-   possible. If voice-in-file is wanted, that's what `ClipVoice` exists for
-   (pre-generated audio files → Web Audio → recordable).
+2. **The mic track is read at record time, and Flip is disabled while
+   recording.** Both fall out of the same fact: `camera.flip()` tears down the
+   stream and builds a new one. So a track reference grabbed at camera-enable
+   time would be a stopped one (see `onToggleRecord` in `main.js`), and
+   flipping mid-take would kill the mic track the recorder is holding, leaving
+   the rest of the take silent (see `setRecording` in `controls.js`).
 
-3. **`holdForVoice` suspends the question auto-advance timer.** When a voice is
-   reading aloud, `showQuestion()` deliberately sets no timer; `main.js` calls
-   `startCountdown()` from the utterance's end callback instead. A fixed timer
-   would cut the question off mid-sentence.
+3. **`camera.video` stays `muted` even though the stream carries audio.**
+   An unmuted element plays your own mic back through the speakers and howls.
 
 4. **The `reveal` phase does not auto-advance.** Every other phase has a timer.
    Reveal waits indefinitely because the user needs an open beat to tap
@@ -49,30 +49,18 @@ These look like omissions but are intentional. Check here before changing them.
    for display. Never set canvas width/height from `clientWidth` — output
    resolution must stay constant for consistent recordings.
 
-8. **`voice.unlock()` is called inside the camera-enable click handler.**
-   iOS Safari gates speech synthesis on a user gesture and silently no-ops
-   otherwise. Do not move this call out of a gesture handler.
+8. **`startBtn` is gated on camera AND a chosen category, not camera alone.**
+   `Controls._updateStartEnabled()` tracks both `_cameraEnabled` and
+   `_categoryChosen` and only enables Start when both are true. The category
+   `<select>` starts on a disabled, unselected placeholder — picking a
+   built-in category (or "My Questions") is what calls `machine.setQuestions()`
+   with the right bank in the first place, so Start being enabled without a
+   real bank behind it isn't a state worth allowing.
 
-9. **Answer-listening never bypasses the manual Right/Wrong buttons.** It's an
-   assist, not an authority — `matchAnswer()` is a heuristic and will be wrong
-   sometimes (see `matching.js` header). `AnswerListener.enabled` being true
-   auto-calls `machine.mark()`, but the buttons stay enabled during `reveal`
-   exactly as they do without it, so a bad guess is a one-tap correction, not
-   a re-shoot. Do not remove the buttons or hide them when listening is on.
-
-10. **When both `voice` and `listener` are enabled, listening is deliberately
-    delayed until TTS finishes speaking.** See the `onQuestionShown` handler
-    in `main.js`. Starting the mic while the app's own voice is reading the
-    question causes the mic to hear itself and corrupt the transcript. If you
-    change the ordering here, re-test with both features on together.
-
-11. **`startBtn` is gated on camera AND a chosen category, not camera alone.**
-    `Controls._updateStartEnabled()` tracks both `_cameraEnabled` and
-    `_categoryChosen` and only enables Start when both are true. The category
-    `<select>` starts on a disabled, unselected placeholder — picking a
-    built-in category (or "My Questions") is what calls `machine.setQuestions()`
-    with the right bank in the first place, so Start being enabled without a
-    real bank behind it isn't a state worth allowing.
+9. **There is no text-to-speech and no speech recognition.** Both existed once
+   (`speech.js`, `answerListener.js`, `matching.js`) and were deliberately
+   removed: the app should make no sound of its own, and marking Right/Wrong
+   is a manual tap. Don't reintroduce either without asking.
 
 ## Architecture
 
@@ -84,12 +72,9 @@ src/
 │   ├── config.js         Colors, fonts, timings, layout ratios. Change look here.
 │   ├── questions.js      Default bank, parse/stringify, shuffle, localStorage.
 │   ├── quizMachine.js    Phase state machine. No DOM, no canvas — pure logic.
-│   ├── camera.js         getUserMedia wrapper + human-readable error messages.
-│   ├── speech.js         LiveVoice (cue, not recordable) + ClipVoice (recordable).
-│   ├── answerListener.js SpeechRecognition wrapper — hears your spoken answer.
-│   ├── matching.js        Fuzzy comparison of what was heard against the answer.
-│   ├── categoryBank.js    "Can You Pass As..." — 50 built-in categories (8
-│   │                      sections × ~6 categories, 8 Qs each, 400 total).
+│   ├── camera.js         getUserMedia wrapper (video + mic) + error messages.
+│   ├── categoryBank.js   "Can You Pass As..." — 50 built-in categories (8
+│   │                     sections × ~6 categories, 8 Qs each, 400 total).
 │   └── recorder.js       MediaRecorder wrapper + codec probing.
 ├── render/
 │   ├── text.js          Canvas text wrapping and auto-fit helpers.

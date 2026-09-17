@@ -29,15 +29,7 @@ export class Controls {
       countdownLen: $('countdownLen'),
       questionBank: $('questionBank'),
       saveQuestions: $('saveQuestionsBtn'),
-      resetQuestions: $('resetQuestionsBtn'),
-      voiceToggle: $('voiceToggle'),
-      voiceFields: $('voiceFields'),
-      voiceSelect: $('voiceSelect'),
-      voiceRate: $('voiceRate'),
-      voiceRateLabel: $('voiceRateLabel'),
-      listenToggle: $('listenToggle'),
-      listenFields: $('listenFields'),
-      heardLine: $('heardLine')
+      resetQuestions: $('resetQuestionsBtn')
     };
 
     this._bind();
@@ -73,28 +65,6 @@ export class Controls {
     });
 
     this.el.resetQuestions.addEventListener('click', () => h.onResetQuestions());
-
-    this.el.voiceToggle.addEventListener('change', (e) => {
-      const on = e.target.checked;
-      this.el.voiceFields.hidden = !on;
-      h.onVoiceToggle(on);
-    });
-
-    this.el.voiceSelect.addEventListener('change', (e) => {
-      h.onVoiceChange(e.target.value);
-    });
-
-    this.el.voiceRate.addEventListener('input', (e) => {
-      const rate = Number.parseFloat(e.target.value);
-      this.el.voiceRateLabel.textContent = rate.toFixed(1);
-      h.onVoiceRateChange(rate);
-    });
-
-    this.el.listenToggle.addEventListener('change', (e) => {
-      const on = e.target.checked;
-      this.el.listenFields.hidden = !on;
-      h.onListenToggle(on);
-    });
 
     // Keyboard shortcuts — much easier than tapping when you're mid-take
     // and the phone is on a tripod across the room with a bluetooth keyboard.
@@ -180,6 +150,10 @@ export class Controls {
   setRecording(isRecording) {
     this.el.record.textContent = isRecording ? '■ Stop' : '● Record';
     this.el.recDot.classList.toggle('on', isRecording);
+    // Flipping rebuilds the camera stream, which kills the mic track the
+    // recorder is holding — the rest of the take would come out silent.
+    this.el.flip.disabled = isRecording;
+    this.el.flip.title = isRecording ? 'Stop recording first — flipping would cut the audio' : '';
     if (isRecording) this.el.download.classList.remove('show');
   }
 
@@ -199,47 +173,5 @@ export class Controls {
 
   setCountdownValue(seconds) {
     this.el.countdownLen.value = String(seconds);
-  }
-
-  populateVoices(voices, selectedName) {
-    const select = this.el.voiceSelect;
-    select.innerHTML = '';
-
-    if (!voices.length) {
-      const opt = document.createElement('option');
-      opt.textContent = 'No voices available';
-      select.appendChild(opt);
-      select.disabled = true;
-      return;
-    }
-
-    select.disabled = false;
-    voices.forEach((v) => {
-      const opt = document.createElement('option');
-      opt.value = v.name;
-      opt.textContent = `${v.name} (${v.lang})`;
-      if (v.name === selectedName) opt.selected = true;
-      select.appendChild(opt);
-    });
-  }
-
-  disableVoiceUI(reason) {
-    this.el.voiceToggle.disabled = true;
-    this.el.voiceToggle.checked = false;
-    this.el.voiceFields.hidden = true;
-    const label = this.el.voiceToggle.closest('.toggle-row');
-    if (label) label.title = reason;
-  }
-
-  disableListenUI(reason) {
-    this.el.listenToggle.disabled = true;
-    this.el.listenToggle.checked = false;
-    this.el.listenFields.hidden = true;
-    const label = this.el.listenToggle.closest('.toggle-row');
-    if (label) label.title = reason;
-  }
-
-  showHeardTranscript(text) {
-    this.el.heardLine.textContent = text ? `Heard: "${text}"` : 'Heard nothing that time.';
   }
 }
