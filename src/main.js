@@ -41,10 +41,7 @@ const machine = new QuizMachine({
 const renderer = new Renderer({
   canvas,
   camera,
-  getState: () => latestState || machine.snapshot(),
-  // Hand each painted frame to the recorder so capture is paced by the draw
-  // loop rather than by an independent sampling clock. No-ops when idle.
-  onFrameDrawn: () => recorder.captureFrame()
+  getState: () => latestState || machine.snapshot()
 });
 
 const controls = new Controls({

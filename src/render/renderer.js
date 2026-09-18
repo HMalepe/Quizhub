@@ -17,10 +17,8 @@ import { drawWrapped, drawFitted } from './text.js';
 const STALL_MS = 400;
 
 export class Renderer {
-  constructor({ canvas, camera, getState, onFrameDrawn }) {
+  constructor({ canvas, camera, getState }) {
     this.canvas = canvas;
-    /** Fired after each painted frame so the recorder can capture it. */
-    this.onFrameDrawn = onFrameDrawn || (() => {});
     // alpha:false — every frame paints the full canvas opaquely, so there's no
     // transparency to composite. Cheaper per frame on mobile GPUs.
     this.ctx = canvas.getContext('2d', { alpha: false });
@@ -102,11 +100,6 @@ export class Renderer {
     this.drawCameraZone();
     this.drawOverlayZone(state);
     this.drawFlash(state);
-
-    // Emitted here rather than in _tick() so the watchdog's direct paints
-    // reach the recorder too — those are exactly the frames a stalled rAF
-    // would otherwise cost the take.
-    this.onFrameDrawn();
   }
 
   /** Bottom zone: camera feed, cover-cropped so it always fills without stretch. */

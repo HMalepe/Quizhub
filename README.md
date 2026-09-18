@@ -90,8 +90,7 @@ resolution, rather than the browser default — which lands near 1.4 Mbps at
 1080×1920 and visibly smears on motion. Expect files several times larger than
 before; that's the point, since the file is a master you'll re-encode on upload.
 
-Frame rate follows whatever your device can actually draw, so an older phone
-records a lower but *steady* rate instead of juddering. Quality knobs live in
+Recording runs at 30fps, which is what a phone shoots. Quality knobs live in
 `src/core/config.js` under `ENCODING` and `CAPTURE`.
 
 ## Keep the app in front while recording

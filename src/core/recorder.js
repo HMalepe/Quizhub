@@ -9,6 +9,14 @@ import { CAPTURE, ENCODING } from './config.js';
  *
  * Codec note: Safari historically only supports MP4 here while Chrome/Firefox
  * prefer WebM, so we probe in preference order rather than hardcoding.
+ *
+ * Frame delivery is left to `captureStream(fps)`, which samples the canvas on
+ * the browser's own clock. Driving it by hand with `captureStream(0)` plus
+ * `requestFrame()` paces frames more evenly and was tried — it stopped
+ * delivering video after ~10 seconds on iOS Safari while audio kept recording,
+ * which is a ruined take. Safari exposes `requestFrame` as a function, so no
+ * feature test can tell the working implementation from the broken one. Even
+ * pacing is not worth that. Don't reintroduce it.
  */
 
 const MIME_CANDIDATES = [
@@ -43,27 +51,8 @@ export class CanvasRecorder {
      * track here at record time. Left null, the recording comes out silent.
      */
     this.audioTrack = null;
-    this._videoTrack = null;
-    this._manualFrames = false;
-    this._lastFrameAt = 0;
-  }
-
-  /**
-   * Called by the renderer after each painted frame.
-   *
-   * When the browser supports it we drive capture by hand rather than letting
-   * `captureStream(fps)` sample the canvas on its own clock. Two independent
-   * clocks — our draw loop and the sampler — drift against each other, and the
-   * recorded gaps come out uneven (measured 16–95ms against a 33ms ideal) even
-   * though every frame was drawn on time. Handing the encoder exactly one
-   * frame per drawn frame, gated to the target rate, keeps the cadence even.
-   */
-  captureFrame() {
-    if (!this.recording || !this._manualFrames) return;
-    const now = performance.now();
-    if (now - this._lastFrameAt < 1000 / CAPTURE.maxFps - 1) return;
-    this._lastFrameAt = now;
-    this._videoTrack.requestFrame();
+    /** @see start() — retained so Safari can't collect the canvas capture. */
+    this._canvasStream = null;
   }
 
   start() {
@@ -80,25 +69,14 @@ export class CanvasRecorder {
       this.lastUrl = null;
     }
 
-    // frameRate 0 means "only capture when requestFrame() is called". Safari's
-    // support for that is shaky and a track that never emits would record a
-    // frozen video, so fall back to automatic sampling when it's missing.
-    const probe = this.canvas.captureStream(0);
-    const [probeTrack] = probe.getVideoTracks();
-    this._manualFrames = Boolean(probeTrack && typeof probeTrack.requestFrame === 'function');
-
-    let stream;
-    if (this._manualFrames) {
-      stream = probe;
-    } else {
-      probe.getTracks().forEach((t) => t.stop());
-      stream = this.canvas.captureStream(CAPTURE.fallbackFps);
-    }
-
-    [this._videoTrack] = stream.getVideoTracks();
-    this._lastFrameAt = 0;
-
-    const tracks = [...stream.getVideoTracks()];
+    // Held on the instance, not in a local. Only the video *track* ends up in
+    // the stream handed to MediaRecorder, so the MediaStream that owns the
+    // canvas capture would otherwise be unreachable the moment start() returns.
+    // Safari stops the underlying capture when that stream is collected: the
+    // video freezes on its last frame a few seconds in while the mic track —
+    // owned by `camera`, and therefore still referenced — records on happily.
+    this._canvasStream = this.canvas.captureStream(CAPTURE.fps);
+    const tracks = [...this._canvasStream.getVideoTracks()];
     if (this.audioTrack) tracks.push(this.audioTrack);
     const output = new MediaStream(tracks);
 
@@ -114,6 +92,10 @@ export class CanvasRecorder {
       if (event.data && event.data.size) this.chunks.push(event.data);
     };
 
+    // Deliberately no timeslice. Chunked recording is a common iOS workaround,
+    // but it yields a container with no duration written: the blob plays with
+    // `duration === Infinity`, which breaks seeking and made a 75s take report
+    // zero presented frames in testing. One blob at stop() keeps the metadata.
     this.recorder.start();
     this.recording = true;
   }
@@ -126,6 +108,14 @@ export class CanvasRecorder {
         return;
       }
 
+      // Only the canvas capture — the mic track belongs to `camera` and has to
+      // survive for the next take.
+      const releaseCanvasStream = () => {
+        if (!this._canvasStream) return;
+        this._canvasStream.getTracks().forEach((t) => t.stop());
+        this._canvasStream = null;
+      };
+
       this.recorder.onstop = () => {
         const mimeType = this.recorder.mimeType || 'video/webm';
         const blob = new Blob(this.chunks, { type: mimeType });
@@ -133,11 +123,13 @@ export class CanvasRecorder {
         const ext = mimeType.includes('mp4') ? 'mp4' : 'webm';
         this.lastUrl = url;
         this.recording = false;
+        releaseCanvasStream();
         resolve({ url, filename: `trivia-reel-${Date.now()}.${ext}` });
       };
 
       this.recorder.onerror = (event) => {
         this.recording = false;
+        releaseCanvasStream();
         reject(event.error || new Error('Recording failed.'));
       };
 

@@ -12,18 +12,11 @@ export const CANVAS = {
 
 export const CAPTURE = {
   /**
-   * Ceiling on frames handed to the encoder, not a target. The recorder feeds
-   * it one frame per painted frame, so the real rate is whatever the device
-   * can actually draw — it degrades to an even 30 or 40 on a slow phone rather
-   * than juddering. The cap only stops a 120Hz display encoding 120fps.
+   * Rate the browser samples the canvas at. 30 matches what a phone shoots,
+   * and keeping this modest leaves the encoder headroom — the failure mode
+   * that matters is the video track quitting mid-take, not slight judder.
    */
-  maxFps: 60,
-  /**
-   * Used only where `requestFrame()` is missing and the browser has to sample
-   * the canvas on its own clock. Deliberately lower: that path can't be paced,
-   * and Safari is where it lands.
-   */
-  fallbackFps: 30
+  fps: 30
 };
 
 /**
@@ -36,16 +29,15 @@ export const CAPTURE = {
  */
 export const ENCODING = {
   /**
-   * Deliberately at the top of the phone-camera range rather than a safe
-   * middle. Asking for more than the device can deliver is not a risk: the
-   * encoder simply clamps (a 12 Mbps ask measured out at 4.6 Mbps under
-   * software VP9, with frame delivery *improving*, not dropping). So the
-   * number should be set by what a good encoder should be allowed to spend,
-   * not by what a weak one can manage.
+   * Still ~6x MediaRecorder's ~1.4 Mbps default, which is what made takes look
+   * blocky, but deliberately backed off from the 16 Mbps this briefly used.
+   * That was set on the reasoning that encoders clamp a too-high ask
+   * harmlessly — true of desktop Chrome's software VP9, and unverified on the
+   * iPhone this is actually filmed on, where a take started dropping video
+   * ~10s in. Quality nobody can film is worth nothing.
    */
-  videoBitsPerSecond: 16_000_000,
-  /** Opus is transparent for speech well below this; headroom is free. */
-  audioBitsPerSecond: 192_000
+  videoBitsPerSecond: 8_000_000,
+  audioBitsPerSecond: 128_000
 };
 
 export const COLORS = {
