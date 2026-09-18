@@ -47,6 +47,20 @@ export class Camera {
     await this.video.play();
   }
 
+  /**
+   * Re-play the element after the page comes back from hidden. iOS pauses a
+   * backgrounded <video>, and a paused element hands `drawImage` the same
+   * stale frame forever — frozen video over live audio.
+   */
+  async resume() {
+    if (!this.stream || !this.video.paused) return;
+    try {
+      await this.video.play();
+    } catch {
+      /* nothing more to do — the next resume attempt will retry */
+    }
+  }
+
   stop() {
     if (this.stream) {
       this.stream.getTracks().forEach((track) => track.stop());

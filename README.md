@@ -79,6 +79,17 @@ stuck with whatever played during filming.
 your sync markers. Drop a tick on each numeral change, a buzzer on the reveal
 flash, and a success/fail sting when the answer turns green or red.
 
+## Keep the app in front while recording
+
+The video is captured from the canvas as it's drawn on screen, so the app has
+to stay visible for the picture to keep moving. While recording it holds a
+screen wake lock to stop the phone sleeping on you mid-take.
+
+What it can't survive is you switching to another app or locking the phone
+yourself — browsers stop handing out animation frames to a hidden page, so the
+video would freeze while your voice kept recording. Start the take, leave the
+app on screen, stop the take.
+
 ## Testing on your phone
 
 Camera and mic access need HTTPS, so a LAN IP won't work. Options:

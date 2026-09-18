@@ -28,11 +28,28 @@ These look like omissions but are intentional. Check here before changing them.
 2. **`camera.video` stays `muted` even though the stream carries audio.**
    An unmuted element plays your own mic back through the speakers and howls.
 
-3. **The `reveal` phase does not auto-advance.** Every other phase has a timer.
+3. **A stalled draw loop is a ruined take, so the renderer is defensive.**
+   `captureStream` samples whatever is on the canvas; if nothing repaints it
+   keeps emitting the last frame while the mic records on, giving you good
+   audio over frozen video. Three guards, all load-bearing — don't strip them
+   as redundant:
+   - `Renderer._tick()` queues the next frame in `finally`. A throw used to
+     kill the loop permanently, and since `running` stayed true, `start()`
+     refused to revive it.
+   - `Renderer._checkStall()` is a `setInterval` watchdog that paints directly
+     when rAF has gone quiet for `STALL_MS` on a *visible* page.
+   - `WakeLock` holds the screen awake while recording, because rAF does not
+     fire on a hidden page and no watchdog can fix that from inside. The
+     browser drops the lock when hidden, so `main.js` re-acquires it on
+     `visibilitychange` — and resumes `camera.video` there too, since iOS
+     pauses a backgrounded video element and a paused one hands `drawImage`
+     the same stale frame forever.
+
+4. **The `reveal` phase does not auto-advance.** Every other phase has a timer.
    Reveal waits indefinitely because the user needs an open beat to tap
    Right/Wrong before moving on.
 
-4. **Front camera only, and the feed is always mirrored.** This is a
+5. **Front camera only, and the feed is always mirrored.** This is a
    selfie-reaction tool — there is no rear camera, no `facingMode` toggle and
    no Flip button (all three existed once and were deliberately removed).
    `renderer.drawCameraZone()` mirrors unconditionally, because a selfie view
@@ -40,14 +57,14 @@ These look like omissions but are intentional. Check here before changing them.
    back without asking; it would also mean re-solving the mic track dying
    whenever the stream is rebuilt mid-take.
 
-5. **`answerResult` resets to `null` on every new question.** Unmarked answers
+6. **`answerResult` resets to `null` on every new question.** Unmarked answers
    render in neutral white; that's a valid state, not an error.
 
-6. **The canvas is a fixed 1080×1920 regardless of screen size.** CSS scales it
+7. **The canvas is a fixed 1080×1920 regardless of screen size.** CSS scales it
    for display. Never set canvas width/height from `clientWidth` — output
    resolution must stay constant for consistent recordings.
 
-7. **`startBtn` is gated on camera AND a chosen category, not camera alone.**
+8. **`startBtn` is gated on camera AND a chosen category, not camera alone.**
    `Controls._updateStartEnabled()` tracks both `_cameraEnabled` and
    `_categoryChosen` and only enables Start when both are true. The category
    `<select>` starts on a disabled, unselected placeholder — picking a
@@ -55,7 +72,7 @@ These look like omissions but are intentional. Check here before changing them.
    with the right bank in the first place, so Start being enabled without a
    real bank behind it isn't a state worth allowing.
 
-8. **There is no text-to-speech and no speech recognition.** Both existed once
+9. **There is no text-to-speech and no speech recognition.** Both existed once
    (`speech.js`, `answerListener.js`, `matching.js`) and were deliberately
    removed: the app should make no sound of its own, and marking Right/Wrong
    is a manual tap. Don't reintroduce either without asking.
@@ -73,10 +90,12 @@ src/
 │   ├── camera.js         getUserMedia wrapper (front cam + mic) + errors.
 │   ├── categoryBank.js   "Can You Pass As..." — 50 built-in categories (8
 │   │                     sections × ~6 categories, 8 Qs each, 400 total).
+│   ├── wakeLock.js      Holds the screen awake while recording.
 │   └── recorder.js       MediaRecorder wrapper + codec probing.
 ├── render/
 │   ├── text.js          Canvas text wrapping and auto-fit helpers.
-│   └── renderer.js      The rAF draw loop. Composites camera + overlay.
+│   └── renderer.js      The rAF draw loop + stall watchdog. Composites
+│                        camera + overlay.
 └── ui/
     ├── controls.js      DOM event wiring. Holds no quiz logic.
     └── styles.css       Panel/overlay styling (not canvas — canvas is drawn in JS).
