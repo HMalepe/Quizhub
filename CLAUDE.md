@@ -6,7 +6,8 @@ Context for Claude Code working in this repo.
 
 A single-purpose tool for filming split-screen trivia reaction videos for TikTok/Reels.
 
-The screen is one 1080×1920 canvas:
+The screen is one portrait canvas (drawn in 1080×1920 design space, recorded
+at `CANVAS.outputWidth/Height` — currently 720×1280):
 - **Top 42%** — quiz overlay (question, countdown numeral, answer)
 - **Bottom 58%** — live camera feed of the person reacting
 
@@ -128,9 +129,17 @@ These look like omissions but are intentional. Check here before changing them.
 12. **`answerResult` resets to `null` on every new question.** Unmarked answers
     render in neutral white; that's a valid state, not an error.
 
-13. **The canvas is a fixed 1080×1920 regardless of screen size.** CSS scales it
-    for display. Never set canvas width/height from `clientWidth` — output
-    resolution must stay constant for consistent recordings.
+13. **The canvas records at `CANVAS.outputWidth/Height` but every coordinate,
+    font size and offset in the render code is written in a fixed 1080×1920
+    design space.** `Renderer` sizes the element to the output and starts each
+    frame with `ctx.setTransform(scale, …)` to bridge the two, so the output
+    resolution can change without touching a single layout number. Output is
+    currently 720×1280, dropped from 1080×1920 to cut encoder load — see the
+    take-length entry above.
+
+    CSS scales the element for display. Never set canvas width/height from
+    `clientWidth`: output resolution must stay constant for consistent
+    recordings, and it must come from config, not layout.
 
 14. **`startBtn` is gated on camera AND a chosen category, not camera alone.**
     `Controls._updateStartEnabled()` tracks both `_cameraEnabled` and

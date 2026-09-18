@@ -4,8 +4,27 @@
  */
 
 export const CANVAS = {
+  /**
+   * Design space. Every coordinate, font size and offset in the render code is
+   * written against this, and the context is scaled to the real output size —
+   * so changing the output below needs no layout changes at all. Don't change
+   * these two.
+   */
   width: 1080,
   height: 1920,
+
+  /**
+   * What actually gets recorded. 1080×1920 is 2.07 MP a frame, 62 MP/s at
+   * 30fps, drawn *and* encoded through canvas capture rather than the phone's
+   * native camera path — and on iOS the video track kept quitting partway
+   * through a take under that load, at a length that varied with how hot and
+   * busy the phone was (40s, then 35s, then 20s). 720×1280 is 56% less pixel
+   * work. TikTok re-encodes everything on upload anyway, so a take that
+   * survives beats a sharper one that doesn't.
+   */
+  outputWidth: 720,
+  outputHeight: 1280,
+
   /** Fraction of frame height given to the quiz overlay. Camera gets the rest. */
   topZoneRatio: 0.42
 };
