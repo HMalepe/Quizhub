@@ -9,6 +9,14 @@ import { CAPTURE, ENCODING } from './config.js';
  *
  * Codec note: Safari historically only supports MP4 here while Chrome/Firefox
  * prefer WebM, so we probe in preference order rather than hardcoding.
+ *
+ * Frame delivery is left to `captureStream(fps)`, which samples the canvas on
+ * the browser's own clock. Driving it by hand with `captureStream(0)` plus
+ * `requestFrame()` paces frames more evenly and was tried — it stopped
+ * delivering video after ~10 seconds on iOS Safari while audio kept recording,
+ * which is a ruined take. Safari exposes `requestFrame` as a function, so no
+ * feature test can tell the working implementation from the broken one. Even
+ * pacing is not worth that. Don't reintroduce it.
  */
 
 const MIME_CANDIDATES = [
@@ -43,27 +51,6 @@ export class CanvasRecorder {
      * track here at record time. Left null, the recording comes out silent.
      */
     this.audioTrack = null;
-    this._videoTrack = null;
-    this._manualFrames = false;
-    this._lastFrameAt = 0;
-  }
-
-  /**
-   * Called by the renderer after each painted frame.
-   *
-   * When the browser supports it we drive capture by hand rather than letting
-   * `captureStream(fps)` sample the canvas on its own clock. Two independent
-   * clocks — our draw loop and the sampler — drift against each other, and the
-   * recorded gaps come out uneven (measured 16–95ms against a 33ms ideal) even
-   * though every frame was drawn on time. Handing the encoder exactly one
-   * frame per drawn frame, gated to the target rate, keeps the cadence even.
-   */
-  captureFrame() {
-    if (!this.recording || !this._manualFrames) return;
-    const now = performance.now();
-    if (now - this._lastFrameAt < 1000 / CAPTURE.maxFps - 1) return;
-    this._lastFrameAt = now;
-    this._videoTrack.requestFrame();
   }
 
   start() {
@@ -80,24 +67,7 @@ export class CanvasRecorder {
       this.lastUrl = null;
     }
 
-    // frameRate 0 means "only capture when requestFrame() is called". Safari's
-    // support for that is shaky and a track that never emits would record a
-    // frozen video, so fall back to automatic sampling when it's missing.
-    const probe = this.canvas.captureStream(0);
-    const [probeTrack] = probe.getVideoTracks();
-    this._manualFrames = Boolean(probeTrack && typeof probeTrack.requestFrame === 'function');
-
-    let stream;
-    if (this._manualFrames) {
-      stream = probe;
-    } else {
-      probe.getTracks().forEach((t) => t.stop());
-      stream = this.canvas.captureStream(CAPTURE.fallbackFps);
-    }
-
-    [this._videoTrack] = stream.getVideoTracks();
-    this._lastFrameAt = 0;
-
+    const stream = this.canvas.captureStream(CAPTURE.fps);
     const tracks = [...stream.getVideoTracks()];
     if (this.audioTrack) tracks.push(this.audioTrack);
     const output = new MediaStream(tracks);

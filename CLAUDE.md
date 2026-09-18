@@ -45,27 +45,26 @@ These look like omissions but are intentional. Check here before changing them.
      pauses a backgrounded video element and a paused one hands `drawImage`
      the same stale frame forever.
 
-4. **The recorder is fed one frame per painted frame, not sampled on a
-   timer.** `captureStream(fps)` lets the browser sample the canvas on its own
-   clock, which drifts against the draw loop and lands frames unevenly — 16 to
-   95ms apart against a 33ms ideal, with nothing actually wrong with the
-   drawing. So `recorder.start()` asks for `captureStream(0)` and the renderer
-   calls `recorder.captureFrame()` after each paint, capped at
-   `CAPTURE.maxFps`. Measured effect: ~25 → ~30fps delivered, median gap
-   39 → 29ms.
-   - `CAPTURE.maxFps` is a **ceiling, not a target**. The real rate is whatever
-     the device can draw, so a slow phone degrades to an even lower rate
-     instead of juddering. It only exists to stop a 120Hz display encoding
-     120fps.
-   - Safari's `requestFrame()` support is unreliable, and a manual track that
-     never emits records a *frozen* video. `start()` feature-detects and falls
-     back to timer sampling at `CAPTURE.fallbackFps`. Don't remove that branch;
-     there is a test for it.
+4. **Frame delivery is left to `captureStream(CAPTURE.fps)` — do not drive it
+   by hand.** Sampling on the browser's clock paces frames unevenly (16–95ms
+   apart against a 33ms ideal) and `captureStream(0)` + `requestFrame()` after
+   each paint measurably fixes that: ~25 → ~30fps, median gap 39 → 29ms in
+   desktop Chrome. It also **stopped delivering video roughly 10 seconds into a
+   take on iOS Safari, while audio kept recording** — a ruined take, on the one
+   platform this is actually filmed on. Safari exposes `requestFrame` as a
+   function, so no feature test distinguishes the working implementation from
+   the broken one. Even pacing is not worth that trade.
 
-5. **`ENCODING.videoBitsPerSecond` is set explicitly.** MediaRecorder's default
-   lands near 1.4 Mbps at 1080×1920, which blocks and smears on motion — the
-   single biggest reason a take doesn't look like phone video. Devices clamp to
-   what their encoder can manage, so this is a request, not a promise.
+5. **`ENCODING.videoBitsPerSecond` is set explicitly, but conservatively.**
+   MediaRecorder's default lands near 1.4 Mbps at 1080×1920, which blocks and
+   smears on motion. 8 Mbps is ~6x that and still comfortable. This was briefly
+   16 Mbps, on the reasoning that a too-high ask clamps harmlessly — which held
+   for desktop Chrome's software VP9 and was never verified on an iPhone. Treat
+   encoder settings as unproven until they have survived a long take on a real
+   device.
+
+   **Verify any recording change with a take over a minute long.** The 10s
+   failure above was invisible to every 5–6 second test that shipped it.
 
 6. **Text layout is cached, and the cache is cleared on `document.fonts.ready`.**
    `drawFitted()` measures per word per candidate size; re-running that 60x a
@@ -128,8 +127,7 @@ src/
 │   ├── categoryBank.js   "Can You Pass As..." — 50 built-in categories (8
 │   │                     sections × ~6 categories, 8 Qs each, 400 total).
 │   ├── wakeLock.js      Holds the screen awake while recording.
-│   └── recorder.js       MediaRecorder wrapper, codec probing, and the
-│                         per-painted-frame capture pacing.
+│   └── recorder.js       MediaRecorder wrapper + codec probing.
 ├── render/
 │   ├── text.js          Canvas text wrapping and auto-fit, with a layout
 │   │                    cache (invalidated once web fonts load).
