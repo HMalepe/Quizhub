@@ -185,6 +185,16 @@ All canvas drawing lives in `render/renderer.js`. Rules:
   generally gives mp4, Chrome gives WebM. Don't hardcode a mime type.
 - **iOS Safari is the fragile target.** If recording misbehaves, that's the
   first place to check. Chrome on Android/desktop is reliable.
+- **The camera's own frame rate caps the bottom half of the frame.** `camera.js`
+  requests no `frameRate`, so the device picks — typically 30fps, which is what
+  phone video is anyway. Drawing or capturing faster than that doesn't make the
+  *person* move more smoothly, only the overlay. Adding
+  `frameRate: { ideal: 60 }` to the video constraints is the lever, but it is
+  untested: with width/height also `ideal`, a phone that can't do 1080p60 on
+  the front camera may satisfy the frame rate by dropping resolution, which
+  would be a bad trade for TikTok. Test on real hardware before adopting it —
+  the fake device used in the automated tests is pinned at 20fps and ignores
+  the constraint entirely.
 
 ## Commands
 

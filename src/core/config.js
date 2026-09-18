@@ -35,8 +35,17 @@ export const CAPTURE = {
  * re-encode on upload.
  */
 export const ENCODING = {
-  videoBitsPerSecond: 12_000_000,
-  audioBitsPerSecond: 128_000
+  /**
+   * Deliberately at the top of the phone-camera range rather than a safe
+   * middle. Asking for more than the device can deliver is not a risk: the
+   * encoder simply clamps (a 12 Mbps ask measured out at 4.6 Mbps under
+   * software VP9, with frame delivery *improving*, not dropping). So the
+   * number should be set by what a good encoder should be allowed to spend,
+   * not by what a weak one can manage.
+   */
+  videoBitsPerSecond: 16_000_000,
+  /** Opus is transparent for speech well below this; headroom is free. */
+  audioBitsPerSecond: 192_000
 };
 
 export const COLORS = {
