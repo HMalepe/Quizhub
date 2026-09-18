@@ -290,6 +290,63 @@ textarea:focus {
   display: block;
 }
 
+.review {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  border: 1px solid var(--line);
+  background: var(--surface);
+  border-radius: 10px;
+  padding: 12px;
+}
+
+.review[hidden] {
+  display: none;
+}
+
+.review-title {
+  margin: 0;
+  font-family: 'Unbounded', sans-serif;
+  font-size: 15px;
+  font-weight: 700;
+}
+
+.review-hint {
+  margin: 0;
+  font-size: 12px;
+  color: var(--ink-dim);
+  line-height: 1.45;
+}
+
+#reviewList {
+  max-height: 42vh;
+  overflow-y: auto;
+}
+
+.review-item {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  padding: 10px 0;
+  border-top: 1px solid var(--line);
+}
+
+.review-item:first-child {
+  border-top: none;
+  padding-top: 2px;
+}
+
+.review-q,
+.review-a {
+  margin: 0;
+  font-size: 13px;
+  line-height: 1.4;
+}
+
+.review-a {
+  color: var(--ink-dim);
+}
+
 .note {
   font-size: 11px;
   color: var(--ink-dim);

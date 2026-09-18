@@ -8,7 +8,7 @@ A single-purpose tool for filming split-screen trivia reaction videos for TikTok
 
 The screen is one portrait canvas (drawn in 1080×1920 design space, recorded
 at `CANVAS.outputWidth/Height` — currently 720×1280):
-- **Top 42%** — quiz overlay (question, countdown numeral, answer)
+- **Top 42%** — quiz overlay (question, then answer underneath on reveal)
 - **Bottom 58%** — live camera feed of the person reacting
 
 Both halves are drawn to the *same* canvas every frame. WebCodecs encodes
@@ -23,9 +23,13 @@ These look like omissions but are intentional. Check here before changing them.
 1. **The recording carries exactly one audio track: the mic.** Your answering
    voice is the content and has to stay in sync with the footage, so it's baked
    in — `camera.js` requests mic audio, and `main.js` assigns
-   `recorder.audioTrack` from `camera.audioTrack` at record time. Everything
-   *app-generated* (countdown ticks, buzzer, right/wrong stings) still goes on
-   in CapCut, so that timing stays free. Don't add app sound to the recording.
+   `recorder.audioTrack` from `camera.audioTrack` at record time. The mic is
+   recorded with a sidecar MediaRecorder (native, off-thread) and muxed into
+   the MP4 after the take. Don't encode the mic on the main thread next to
+   canvas WebCodecs — that starves the capture and comes out as crackle.
+   Don't add app sound, and don't wire an AudioContext node to `destination`.
+   AEC/NS/AGC stay off — they gate the voice in a recording. Everything
+   *app-generated* (buzzer, right/wrong stings) still goes on in CapCut.
 
 2. **`camera.video` stays `muted` even though the stream carries audio.**
    An unmuted element plays your own mic back through the speakers and howls.
@@ -61,10 +65,14 @@ These look like omissions but are intentional. Check here before changing them.
    That pairing froze video on one frame around 30–40s while audio continued,
    on both iOS Safari and desktop Chrome. Bitrate, timeslice, and manual
    `requestFrame` all failed to fix it. The working path encodes canvas
-   snapshots with WebCodecs (Mediabunny `CanvasSource` +
-   `MediaStreamAudioTrackSource`), forces a keyframe every
-   `ENCODING.keyFrameInterval` seconds, and muxes a real MP4 with duration
-   metadata. `MediaRecorder` remains only when `VideoEncoder` is missing.
+   snapshots with WebCodecs (Mediabunny `CanvasSource`), a sidecar
+   `MediaRecorder` on the mic (off the main thread so encode cannot starve
+   it), `latencyMode: 'quality'` so the video encoder cannot drop frames, a
+   keyframe every `ENCODING.keyFrameInterval` seconds, and a real MP4 with
+   duration metadata. If a 30fps slot is missed, the current canvas is
+   written with a duration that covers the gap — a held frame, not a hole.
+   Snapshots are taken from `Renderer.onAfterDraw` so a paint cannot tear.
+   `MediaRecorder` for *video* remains only when `VideoEncoder` is missing.
 
    **Verify any recording change with a take over a minute long.** A failure at
    30s is invisible to every 5–6 second test.
@@ -93,17 +101,15 @@ These look like omissions but are intentional. Check here before changing them.
    anything measured before Unbounded/Inter load was measured in the fallback
    face and would be wrong for the rest of the session.
 
-10. **Only the countdown is on a clock — `question` and `reveal` wait for a
-    tap, indefinitely.** Reveal needs an open beat to tap Right/Wrong before
-    moving on. Question needs however long it takes to read aloud, which is not
-    a number this code can guess: it used to auto-advance after 1.6s
-    (`TIMING.questionHoldMs`, now gone) and the result was that a tap meant to
-    *start* the countdown instead landed on an already-running one and revealed
-    the answer, eating the question. Don't put a timer back on either phase.
+10. **Nothing is on a clock — `question` and `reveal` wait for a tap,
+    indefinitely.** After the last reveal, the machine goes to `review`.
+    Right/Wrong is not a live canvas tap: you mark the recap list, then
+    `colorizeTake()` re-encodes the overlay so those marks land as green/red
+    in the download. Don't put live marking or a timer back on the take.
 
     `advance()` also debounces taps within `TAP_DEBOUNCE_MS`. With taps as the
-    only driver, one ghost click would run question → countdown → reveal in a
-    single gesture.
+    only driver, one ghost click would run question → reveal → next in a
+    single gesture. Review does not advance on tap.
 
 11. **Front camera only, and the feed is always mirrored.** This is a
     selfie-reaction tool — there is no rear camera, no `facingMode` toggle and
@@ -113,8 +119,9 @@ These look like omissions but are intentional. Check here before changing them.
     back without asking; it would also mean re-solving the mic track dying
     whenever the stream is rebuilt mid-take.
 
-12. **`answerResult` resets to `null` on every new question.** Unmarked answers
-    render in neutral white; that's a valid state, not an error.
+12. **Live `answerResult` is always `null`.** Green/red is applied at generate
+    time from `machine.marks`, not during filming. Unmarked recap rows stay
+    unmarked until you tap Right or Wrong on the list.
 
 13. **The canvas records at `CANVAS.outputWidth/Height` but every coordinate,
     font size and offset in the render code is written in a fixed 1080×1920
@@ -159,6 +166,7 @@ src/
 │   ├── wakeLock.js      Holds the screen awake while recording.
 │   ├── recordingDiagnostics.js  Polls every layer during a take; names the
 │   │                     first one that stops. Read it before theorising.
+│   ├── colorizeTake.js   Re-encodes a take with recap marks as green/red.
 │   └── recorder.js       WebCodecs/Mediabunny recorder + MediaRecorder fallback.
 ├── render/
 │   ├── text.js          Canvas text wrapping and auto-fit, with a layout
@@ -181,18 +189,17 @@ Keep it that way — it's what makes the machine testable in isolation.
 ## Phase state machine
 
 ```
-idle ──tap──> question ──tap──> countdown
-                                    │
-                             (hits 0, or tap)
-                                    ▼
-                        reveal ──tap──> question (next index)
-                           │
-                    Right/Wrong buttons
-                    recolor the answer
+idle ──tap──> question ──tap──> reveal ──tap──> question (next index)
+                                  │
+                           (last answer)
+                                  ▼
+                               review ──mark recap──> generate video
 ```
 
-The countdown is the only phase on a clock. `question` and `reveal` both wait
-for a tap, indefinitely.
+`question` and `reveal` both wait for a tap, indefinitely. On reveal the
+answer is drawn under the original question on the same overlay — the
+question does not leave the frame. After the last answer the recap list
+is where Right/Wrong happens; the download is colored from those marks.
 
 `machine.advance()` is the single entry for a tap — it dispatches on
 current phase. Canvas click and the spacebar both call it, and it debounces
@@ -247,8 +254,6 @@ npm run preview   # serve the production build locally
 ## Keyboard shortcuts (in controls.js)
 
 - `Space` — advance phase
-- `→` or `C` — mark Correct
-- `←` or `X` — mark Wrong
 - `R` — toggle recording
 
 Useful when the phone/laptop is on a tripod and the user has a bluetooth remote.
@@ -256,8 +261,8 @@ Useful when the phone/laptop is on a tripod and the user has a bluetooth remote.
 ## Things likely to be asked for next
 
 If asked to add these, here's where they'd go:
-- **Score tracking across a session** → new state on `QuizMachine`, rendered in
-  `drawOverlayZone`
+- **Score tracking across a session** → `machine.marks` already holds the
+  recap; render a score in `drawOverlayZone` if you want it on the canvas
 - **Custom overlay themes** → additional exported theme objects in `config.js`,
   swap which one `renderer.js` imports
 - **Importing questions from a CSV/JSON file** → new module in `core/`, feed

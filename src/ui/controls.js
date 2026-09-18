@@ -28,12 +28,12 @@ export class Controls {
       shuffle: $('shuffleBtn'),
       record: $('recordBtn'),
       recDot: $('recDot'),
-      right: $('rightBtn'),
-      wrong: $('wrongBtn'),
+      review: $('review'),
+      reviewList: $('reviewList'),
+      generate: $('generateBtn'),
       download: $('downloadLink'),
       settingsBtn: $('settingsBtn'),
       settings: $('settings'),
-      countdownLen: $('countdownLen'),
       questionBank: $('questionBank'),
       saveQuestions: $('saveQuestionsBtn'),
       resetQuestions: $('resetQuestionsBtn')
@@ -55,15 +55,10 @@ export class Controls {
     });
     this.el.shuffle.addEventListener('click', () => h.onShuffle());
     this.el.record.addEventListener('click', () => h.onToggleRecord());
-    this.el.right.addEventListener('click', () => h.onMark('right'));
-    this.el.wrong.addEventListener('click', () => h.onMark('wrong'));
+    this.el.generate.addEventListener('click', () => h.onGenerate());
 
     this.el.settingsBtn.addEventListener('click', () => {
       this.el.settings.classList.toggle('open');
-    });
-
-    this.el.countdownLen.addEventListener('change', (e) => {
-      h.onCountdownChange(e.target.value);
     });
 
     this.el.saveQuestions.addEventListener('click', () => {
@@ -79,10 +74,6 @@ export class Controls {
       if (e.code === 'Space') {
         e.preventDefault();
         h.onAdvance();
-      } else if (e.key === 'ArrowRight' || e.key.toLowerCase() === 'c') {
-        h.onMark('right');
-      } else if (e.key === 'ArrowLeft' || e.key.toLowerCase() === 'x') {
-        h.onMark('wrong');
       } else if (e.key.toLowerCase() === 'r') {
         h.onToggleRecord();
       }
@@ -144,13 +135,65 @@ export class Controls {
     this._updateStartEnabled();
   }
 
-  /** Right/Wrong are only meaningful during the reveal phase. */
+  /** Review list is shown after the last answer; live Right/Wrong is gone. */
   syncPhase(state) {
-    const canMark = state.phase === 'reveal';
-    this.el.right.disabled = !canMark;
-    this.el.wrong.disabled = !canMark;
-    this.el.right.classList.toggle('active', state.answerResult === 'right');
-    this.el.wrong.classList.toggle('active', state.answerResult === 'wrong');
+    if (state.phase === 'review') this.showReview(state);
+    else this.hideReview();
+  }
+
+  showReview(state) {
+    this.el.review.hidden = false;
+    this.el.reviewList.innerHTML = '';
+
+    state.questions.forEach(([question, answer], index) => {
+      const item = document.createElement('div');
+      item.className = 'review-item';
+
+      const q = document.createElement('p');
+      q.className = 'review-q';
+      q.textContent = `${index + 1}. ${question}`;
+
+      const a = document.createElement('p');
+      a.className = 'review-a';
+      a.textContent = answer;
+
+      const row = document.createElement('div');
+      row.className = 'row';
+
+      const right = document.createElement('button');
+      right.type = 'button';
+      right.className = 'right';
+      right.textContent = '✓ Right';
+      right.classList.toggle('active', state.marks[index] === 'right');
+      right.addEventListener('click', () => this.handlers.onMarkAt(index, 'right'));
+
+      const wrong = document.createElement('button');
+      wrong.type = 'button';
+      wrong.className = 'wrong';
+      wrong.textContent = '✕ Wrong';
+      wrong.classList.toggle('active', state.marks[index] === 'wrong');
+      wrong.addEventListener('click', () => this.handlers.onMarkAt(index, 'wrong'));
+
+      row.append(right, wrong);
+      item.append(q, a, row);
+      this.el.reviewList.appendChild(item);
+    });
+
+    this.el.generate.disabled = !state.marks.every((m) => m === 'right' || m === 'wrong');
+  }
+
+  hideReview() {
+    this.el.review.hidden = true;
+  }
+
+  setGenerating(progress) {
+    if (progress == null) {
+      this.el.generate.disabled = false;
+      this.el.generate.textContent = 'Generate video';
+      return;
+    }
+    this.el.generate.disabled = true;
+    this.el.generate.textContent = `Generating ${Math.round(progress * 100)}%…`;
   }
 
   setRecording(isRecording) {
@@ -191,10 +234,6 @@ export class Controls {
 
   closeSettings() {
     this.el.settings.classList.remove('open');
-  }
-
-  setCountdownValue(seconds) {
-    this.el.countdownLen.value = String(seconds);
   }
 
   /**
