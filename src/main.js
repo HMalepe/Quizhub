@@ -1,6 +1,6 @@
 import './ui/styles.css';
 
-import { TIMING, STORAGE_KEYS } from './core/config.js';
+import { CANVAS, TIMING, STORAGE_KEYS } from './core/config.js';
 import {
   DEFAULT_QUESTIONS,
   loadQuestions,
@@ -11,7 +11,7 @@ import {
 } from './core/questions.js';
 import { SECTIONS, CATEGORY_BANK } from './core/categoryBank.js';
 import { QuizMachine } from './core/quizMachine.js';
-import { Camera, describeCameraError } from './core/camera.js';
+import { Camera, describeCameraError, describeCameraQuality } from './core/camera.js';
 import { CanvasRecorder, isRecordingSupported } from './core/recorder.js';
 import { WakeLock } from './core/wakeLock.js';
 import { Renderer } from './render/renderer.js';
@@ -22,6 +22,10 @@ const canvas = document.getElementById('stage');
 const camera = new Camera();
 const recorder = new CanvasRecorder(canvas);
 const wakeLock = new WakeLock();
+
+// The camera fills everything below the overlay zone — that's the region the
+// negotiated resolution has to cover without being upscaled.
+const cameraZoneHeight = CANVAS.height - Math.round(CANVAS.height * CANVAS.topZoneRatio);
 
 let questions = loadQuestions();
 let latestState = null;
@@ -48,6 +52,9 @@ const controls = new Controls({
     try {
       await camera.start();
       controls.enableCameraDependentControls();
+      controls.showCameraInfo(
+        describeCameraQuality(camera.videoSettings, CANVAS.width, cameraZoneHeight)
+      );
       renderer.start();
       if (!isRecordingSupported()) {
         console.warn('MediaRecorder unavailable — you can still film the screen externally.');

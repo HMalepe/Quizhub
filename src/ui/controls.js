@@ -15,6 +15,7 @@ export class Controls {
     this.el = {
       enableCam: $('enableCamBtn'),
       permOverlay: $('permOverlay'),
+      camInfo: $('camInfo'),
       categorySelect: $('categorySelect'),
       start: $('startBtn'),
       shuffle: $('shuffleBtn'),
@@ -167,5 +168,12 @@ export class Controls {
 
   setCountdownValue(seconds) {
     this.el.countdownLen.value = String(seconds);
+  }
+
+  /** @param {{text: string, warn: boolean}} info */
+  showCameraInfo({ text, warn }) {
+    this.el.camInfo.textContent = text;
+    this.el.camInfo.classList.toggle('warn', warn);
+    this.el.camInfo.hidden = false;
   }
 }

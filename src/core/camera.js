@@ -16,6 +16,17 @@ export class Camera {
     this.video.autoplay = true;
   }
 
+  /**
+   * What the device actually gave us, which is not necessarily what was asked
+   * for — the video constraints are all `ideal`, so a browser is free to hand
+   * back 640×480 and say nothing. Returns null before the stream starts.
+   */
+  get videoSettings() {
+    if (!this.stream) return null;
+    const [track] = this.stream.getVideoTracks();
+    return track ? track.getSettings() : null;
+  }
+
   /** Mic track for the recorder to mix in, or null before the stream starts. */
   get audioTrack() {
     if (!this.stream) return null;
@@ -67,6 +78,44 @@ export class Camera {
       this.stream = null;
     }
   }
+}
+
+/**
+ * Compares what the camera actually handed over against the canvas region it
+ * has to fill, so a silent downgrade is visible before you film with it rather
+ * than after, in CapCut.
+ *
+ * The video constraints are all `ideal`, which a browser may ignore — Safari
+ * can fall back to 640×480, and filling a 1080-wide zone from that is a 132%
+ * upscale. Nothing in the app fails when that happens; the footage is just
+ * soft, which is exactly the kind of thing worth saying out loud.
+ *
+ * @param settings result of `camera.videoSettings`
+ * @param targetW  width of the canvas region the feed fills
+ * @param targetH  height of that region
+ */
+export function describeCameraQuality(settings, targetW, targetH) {
+  if (!settings || !settings.width || !settings.height) {
+    return { text: 'Camera resolution unavailable', warn: true };
+  }
+
+  const { width: vw, height: vh, frameRate } = settings;
+  const scale = Math.max(targetW / vw, targetH / vh);
+  const fps = frameRate ? ` @ ${Math.round(frameRate)}fps` : '';
+  const head = `Camera ${vw}×${vh}${fps}`;
+
+  if (scale > 1.05) {
+    return {
+      text: `${head} · upscaled ${Math.round((scale - 1) * 100)}% to fill the frame — footage will look soft`,
+      warn: true
+    };
+  }
+
+  // Landscape still fills the zone sharply, but only by cropping the sides
+  // away, so the framing is tighter than the preview might suggest.
+  const cropped = vw > vh ? `, sides cropped to fit portrait` : '';
+  const fit = scale > 1 ? `${Math.round((scale - 1) * 100)}% upscale` : 'no upscaling';
+  return { text: `${head} · ${fit}${cropped}`, warn: false };
 }
 
 /**

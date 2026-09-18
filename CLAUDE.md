@@ -185,6 +185,13 @@ All canvas drawing lives in `render/renderer.js`. Rules:
   generally gives mp4, Chrome gives WebM. Don't hardcode a mime type.
 - **iOS Safari is the fragile target.** If recording misbehaves, that's the
   first place to check. Chrome on Android/desktop is reliable.
+- **The panel reports what the camera actually negotiated.** Video constraints
+  are all `ideal`, so a browser may quietly hand back something far smaller —
+  Safari can give 640×480, which is a 132% upscale to fill the 1080×1114 camera
+  zone and looks soft. `describeCameraQuality()` compares the negotiated
+  settings against that zone and `#camInfo` shows the verdict, amber when it's
+  a downgrade. Nothing breaks when it happens, which is exactly why it needs
+  saying out loud.
 - **The camera's own frame rate caps the bottom half of the frame.** `camera.js`
   requests no `frameRate`, so the device picks — typically 30fps, which is what
   phone video is anyway. Drawing or capturing faster than that doesn't make the

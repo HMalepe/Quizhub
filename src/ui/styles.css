@@ -290,6 +290,26 @@ textarea:focus {
   margin: 2px 0 0;
 }
 
+/* What the camera actually negotiated. Lives in the panel, never on the
+   canvas — anything drawn there lands in the recording. */
+.cam-info {
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--ink-dim);
+  text-align: center;
+  line-height: 1.45;
+  margin: 0 0 2px;
+  padding: 7px 10px;
+  border-radius: 8px;
+  background: var(--surface);
+  border: 1px solid var(--line);
+}
+
+.cam-info.warn {
+  color: var(--amber);
+  border-color: var(--amber);
+}
+
 @media (prefers-reduced-motion: reduce) {
   .rec-dot::before {
     animation: none;
