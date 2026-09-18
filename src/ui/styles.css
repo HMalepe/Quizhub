@@ -318,6 +318,26 @@ textarea:focus {
   border-color: var(--amber);
 }
 
+/* Live recording diagnostics. Monospace because it's read as data, not prose. */
+.diag {
+  font-family: ui-monospace, 'SF Mono', Menlo, monospace;
+  font-size: 10px;
+  line-height: 1.5;
+  color: var(--ink-dim);
+  margin: 0 0 2px;
+  padding: 7px 9px;
+  border-radius: 8px;
+  background: var(--surface);
+  border: 1px solid var(--line);
+  white-space: pre-wrap;
+  word-break: break-word;
+}
+
+.diag.fault {
+  color: var(--wrong);
+  border-color: var(--wrong);
+}
+
 @media (prefers-reduced-motion: reduce) {
   .rec-dot::before {
     animation: none;

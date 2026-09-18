@@ -23,6 +23,7 @@ export class Controls {
       enableCam: $('enableCamBtn'),
       permOverlay: $('permOverlay'),
       camInfo: $('camInfo'),
+      diag: $('diag'),
       categorySelect: $('categorySelect'),
       start: $('startBtn'),
       shuffle: $('shuffleBtn'),
@@ -196,6 +197,19 @@ export class Controls {
 
   setCountdownValue(seconds) {
     this.el.countdownLen.value = String(seconds);
+  }
+
+  /**
+   * Live recording diagnostics. Faults stay on screen after the take ends —
+   * the whole point is to still be readable once something has gone wrong.
+   * @param {{line: string, faults: string[], ok: boolean}} report
+   */
+  showDiagnostics({ line, faults, ok }) {
+    this.el.diag.hidden = false;
+    this.el.diag.classList.toggle('fault', !ok);
+    this.el.diag.textContent = ok
+      ? line
+      : `${line}\n\nFIRST FAULT:\n${faults.map((f) => `  ${f}`).join('\n')}`;
   }
 
   /** @param {{text: string, warn: boolean}} info */

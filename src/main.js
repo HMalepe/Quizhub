@@ -14,6 +14,7 @@ import { QuizMachine } from './core/quizMachine.js';
 import { Camera, describeCameraError, describeCameraQuality } from './core/camera.js';
 import { CanvasRecorder, isRecordingSupported } from './core/recorder.js';
 import { WakeLock } from './core/wakeLock.js';
+import { RecordingDiagnostics } from './core/recordingDiagnostics.js';
 import { Renderer } from './render/renderer.js';
 import { clearTextLayoutCache } from './render/text.js';
 import { Controls } from './ui/controls.js';
@@ -43,6 +44,9 @@ const renderer = new Renderer({
   camera,
   getState: () => latestState || machine.snapshot()
 });
+
+const diagnostics = new RecordingDiagnostics({ recorder, camera, renderer });
+diagnostics.onUpdate = (report) => controls.showDiagnostics(report);
 
 const controls = new Controls({
   onEnableCamera: async () => {
@@ -85,6 +89,7 @@ const controls = new Controls({
       try {
         recorder.audioTrack = camera.audioTrack;
         recorder.start();
+        diagnostics.start();
         controls.setRecording(true);
         // A sleeping screen stops requestAnimationFrame, which freezes the
         // canvas mid-take while the mic keeps going. Hold the screen awake.
@@ -94,10 +99,13 @@ const controls = new Controls({
       }
     } else {
       try {
+        // Before stop(), so the last poll still sees the live track state.
+        diagnostics.stop();
         const result = await recorder.stop();
         controls.setRecording(false);
         controls.showDownload(result);
       } catch (err) {
+        diagnostics.stop();
         controls.setRecording(false);
         alert(`Could not finish the recording: ${err.message}`);
       } finally {

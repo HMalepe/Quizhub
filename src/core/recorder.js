@@ -53,6 +53,18 @@ export class CanvasRecorder {
     this.audioTrack = null;
     /** @see start() — retained so Safari can't collect the canvas capture. */
     this._canvasStream = null;
+    this.byteCount = 0;
+  }
+
+  /** Live capture track, or null. Read by RecordingDiagnostics. */
+  get videoTrack() {
+    if (!this._canvasStream) return null;
+    const [track] = this._canvasStream.getVideoTracks();
+    return track || null;
+  }
+
+  get chunkCount() {
+    return this.chunks.length;
   }
 
   start() {
@@ -88,8 +100,12 @@ export class CanvasRecorder {
     if (mimeType) options.mimeType = mimeType;
     this.recorder = new MediaRecorder(output, options);
 
+    this.byteCount = 0;
     this.recorder.ondataavailable = (event) => {
-      if (event.data && event.data.size) this.chunks.push(event.data);
+      if (event.data && event.data.size) {
+        this.chunks.push(event.data);
+        this.byteCount += event.data.size;
+      }
     };
 
     // Deliberately no timeslice. Chunked recording is a common iOS workaround,
