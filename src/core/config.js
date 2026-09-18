@@ -29,14 +29,18 @@ export const CAPTURE = {
  */
 export const ENCODING = {
   /**
-   * Still ~6x MediaRecorder's ~1.4 Mbps default, which is what made takes look
-   * blocky, but deliberately backed off from the 16 Mbps this briefly used.
-   * That was set on the reasoning that encoders clamp a too-high ask
-   * harmlessly — true of desktop Chrome's software VP9, and unverified on the
-   * iPhone this is actually filmed on, where a take started dropping video
-   * ~10s in. Quality nobody can film is worth nothing.
+   * Bitrate is effectively the take-length dial, because nothing streams to
+   * disk: `MediaRecorder` buffers the whole recording in memory and iOS Safari
+   * stops the video encoder when that grows too large — audio, being tiny,
+   * carries on. Measured on device: 8 Mbps died at ~40s, which is ~40MB.
+   *
+   *   bitrate × seconds ≈ memory, and ~40MB looks like the ceiling
+   *
+   * So 4 Mbps buys roughly 80s, 3 Mbps roughly 107s. Still ~3x the ~1.4 Mbps
+   * default that made takes look blocky. Raising this back up shortens takes;
+   * that is the trade, and it is not a subtle one.
    */
-  videoBitsPerSecond: 8_000_000,
+  videoBitsPerSecond: 4_000_000,
   audioBitsPerSecond: 128_000
 };
 

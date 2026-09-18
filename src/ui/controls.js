@@ -6,6 +6,13 @@
 
 const $ = (id) => document.getElementById(id);
 
+/**
+ * When the REC badge starts warning. Sits below the length a take is expected
+ * to survive at the configured bitrate, so there's time to wrap up rather than
+ * lose the end of one.
+ */
+const RECORDING_WARN_SECONDS = 70;
+
 export class Controls {
   constructor(handlers) {
     this.handlers = handlers;
@@ -150,6 +157,27 @@ export class Controls {
     this.el.record.textContent = isRecording ? '■ Stop' : '● Record';
     this.el.recDot.classList.toggle('on', isRecording);
     if (isRecording) this.el.download.classList.remove('show');
+
+    clearInterval(this._recTimer);
+    if (!isRecording) {
+      this.el.recDot.textContent = 'REC';
+      this.el.recDot.classList.remove('near-limit');
+      return;
+    }
+
+    // Elapsed time matters here in a way it wouldn't in a normal camera app:
+    // takes have a length ceiling (see ENCODING in config.js), so it's worth
+    // seeing where you are against it rather than finding out at playback.
+    const startedAt = Date.now();
+    const tick = () => {
+      const secs = Math.floor((Date.now() - startedAt) / 1000);
+      const mm = String(Math.floor(secs / 60)).padStart(2, '0');
+      const ss = String(secs % 60).padStart(2, '0');
+      this.el.recDot.textContent = `REC ${mm}:${ss}`;
+      this.el.recDot.classList.toggle('near-limit', secs >= RECORDING_WARN_SECONDS);
+    };
+    tick();
+    this._recTimer = setInterval(tick, 1000);
   }
 
   showDownload({ url, filename }) {
