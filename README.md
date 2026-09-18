@@ -83,6 +83,17 @@ stuck with whatever played during filming.
 your sync markers. Drop a tick on each numeral change, a buzzer on the reveal
 flash, and a success/fail sting when the answer turns green or red.
 
+## Video quality
+
+The recording asks the encoder for roughly what a phone camera uses at this
+resolution, rather than the browser default — which lands near 1.4 Mbps at
+1080×1920 and visibly smears on motion. Expect files several times larger than
+before; that's the point, since the file is a master you'll re-encode on upload.
+
+Frame rate follows whatever your device can actually draw, so an older phone
+records a lower but *steady* rate instead of juddering. Quality knobs live in
+`src/core/config.js` under `ENCODING` and `CAPTURE`.
+
 ## Keep the app in front while recording
 
 The video is captured from the canvas as it's drawn on screen, so the app has

@@ -7,8 +7,36 @@ export const CANVAS = {
   width: 1080,
   height: 1920,
   /** Fraction of frame height given to the quiz overlay. Camera gets the rest. */
-  topZoneRatio: 0.42,
-  fps: 30
+  topZoneRatio: 0.42
+};
+
+export const CAPTURE = {
+  /**
+   * Ceiling on frames handed to the encoder, not a target. The recorder feeds
+   * it one frame per painted frame, so the real rate is whatever the device
+   * can actually draw — it degrades to an even 30 or 40 on a slow phone rather
+   * than juddering. The cap only stops a 120Hz display encoding 120fps.
+   */
+  maxFps: 60,
+  /**
+   * Used only where `requestFrame()` is missing and the browser has to sample
+   * the canvas on its own clock. Deliberately lower: that path can't be paced,
+   * and Safari is where it lands.
+   */
+  fallbackFps: 30
+};
+
+/**
+ * Encoder targets. MediaRecorder's default lands around 1.4 Mbps at
+ * 1080×1920, which smears and blocks on any real motion — nothing like what
+ * the phone's own camera app produces. Phones shoot 1080p at roughly
+ * 10–20 Mbps, so ask for the same ballpark; the file is a CapCut master, not
+ * something being streamed, so size matters far less than holding up to a
+ * re-encode on upload.
+ */
+export const ENCODING = {
+  videoBitsPerSecond: 12_000_000,
+  audioBitsPerSecond: 128_000
 };
 
 export const COLORS = {

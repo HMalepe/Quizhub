@@ -15,6 +15,7 @@ import { Camera, describeCameraError } from './core/camera.js';
 import { CanvasRecorder, isRecordingSupported } from './core/recorder.js';
 import { WakeLock } from './core/wakeLock.js';
 import { Renderer } from './render/renderer.js';
+import { clearTextLayoutCache } from './render/text.js';
 import { Controls } from './ui/controls.js';
 
 const canvas = document.getElementById('stage');
@@ -36,7 +37,10 @@ const machine = new QuizMachine({
 const renderer = new Renderer({
   canvas,
   camera,
-  getState: () => latestState || machine.snapshot()
+  getState: () => latestState || machine.snapshot(),
+  // Hand each painted frame to the recorder so capture is paced by the draw
+  // loop rather than by an independent sampling clock. No-ops when idle.
+  onFrameDrawn: () => recorder.captureFrame()
 });
 
 const controls = new Controls({
@@ -160,6 +164,13 @@ controls.populateCategories(SECTIONS);
 controls.setQuestionBankText(stringifyQuestions(questions));
 latestState = machine.snapshot();
 controls.syncPhase(latestState);
+
+// Text layout is cached by measured width, and Unbounded/Inter load async —
+// anything measured before they arrive was measured in the fallback face.
+// Drop those entries once the real fonts are in.
+if (document.fonts && document.fonts.ready) {
+  document.fonts.ready.then(clearTextLayoutCache);
+}
 
 // Draw the idle frame before camera permission is granted, so the canvas
 // isn't just black behind the permission overlay.
