@@ -29,6 +29,8 @@ export class Renderer {
     this._frame = null;
     this._watchdog = null;
     this._lastDrawAt = 0;
+    /** Total painted frames. Read by RecordingDiagnostics to spot a dead loop. */
+    this.frameCount = 0;
     this._tick = this._tick.bind(this);
 
     this.W = CANVAS.width;
@@ -100,6 +102,7 @@ export class Renderer {
     this.drawCameraZone();
     this.drawOverlayZone(state);
     this.drawFlash(state);
+    this.frameCount++;
   }
 
   /** Bottom zone: camera feed, cover-cropped so it always fills without stretch. */

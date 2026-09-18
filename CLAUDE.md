@@ -55,17 +55,22 @@ These look like omissions but are intentional. Check here before changing them.
    function, so no feature test distinguishes the working implementation from
    the broken one. Even pacing is not worth that trade.
 
-5. **Bitrate is the take-length dial, not just a quality one.** Nothing streams
-   to disk — `MediaRecorder` buffers the whole take in memory — and iOS Safari
-   stops the *video* encoder when that gets too big, while audio carries on.
-   Measured on device: 8 Mbps died at ~40s (~40MB), so `bitrate × seconds ≈
-   memory` with a ceiling somewhere near 40MB. 4 Mbps is set to buy ~80s.
-   Raising it back up shortens takes proportionally. Before changing it, know
-   which you are trading.
+5. **Takes stop partway through on iOS Safari, cause still unknown, and the
+   length is NOT bitrate-bound.** Measured on device: 8 Mbps stopped at ~40s,
+   halving to 4 Mbps stopped at ~35s. If it were the memory ceiling it looked
+   like, halving the bitrate would have doubled the time. It didn't, so the
+   limit is time-based, not size-based, and `bitrate × seconds ≈ memory` is
+   dead as a theory. Don't resurrect it.
 
-   If takes need to get materially longer than a couple of minutes, the bitrate
-   dial runs out and the real answer is chunked recording — which needs the
-   duration metadata problem in the next entry solved first.
+   Three explanations have now been wrong — screen sleep, manual frame capture,
+   and that memory ceiling — because every layer fails with the same symptom
+   (frozen video, audio continues) and none of it reproduces in desktop Chrome.
+   `core/recordingDiagnostics.js` exists to end that: it polls the draw loop,
+   camera feed, capture track, recorder and encoder during a take and reports
+   the first one that stops, by name and timestamp, in the panel. **Read it
+   before theorising.** Its fault detection is tested by deliberately killing
+   each layer — see the sabotage tests in the scratchpad approach described in
+   that file's header.
 
 6. **The bitrate is set explicitly at all, because the default is terrible.**
    MediaRecorder lands near 1.4 Mbps at 1080×1920, which blocks and smears on
@@ -155,6 +160,8 @@ src/
 │   ├── categoryBank.js   "Can You Pass As..." — 50 built-in categories (8
 │   │                     sections × ~6 categories, 8 Qs each, 400 total).
 │   ├── wakeLock.js      Holds the screen awake while recording.
+│   ├── recordingDiagnostics.js  Polls every layer during a take; names the
+│   │                     first one that stops. Read it before theorising.
 │   └── recorder.js       MediaRecorder wrapper + codec probing.
 ├── render/
 │   ├── text.js          Canvas text wrapping and auto-fit, with a layout
