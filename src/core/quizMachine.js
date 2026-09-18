@@ -1,16 +1,17 @@
-import { TIMING } from './config.js';
+import { TIMING, TAP_DEBOUNCE_MS } from './config.js';
 
 /**
  * Quiz phase state machine.
  *
- *   idle ──tap──> question ──(auto 1.6s or tap)──> countdown
- *                                                     │
- *                                              (hits 0 or tap)
- *                                                     ▼
- *                                                  reveal ──tap──> question (next)
+ *   idle ──tap──> question ──tap──> countdown
+ *                                       │
+ *                                (hits 0 or tap)
+ *                                       ▼
+ *                                    reveal ──tap──> question (next)
  *
- * Deliberately does NOT auto-advance out of `reveal`: you need an open-ended
- * beat there to tap Right/Wrong before moving on.
+ * The countdown is the only phase on a clock. `question` and `reveal` both
+ * wait for you: a question needs however long it takes to read aloud, and
+ * reveal needs an open beat to tap Right/Wrong before moving on.
  *
  * Emits changes via onChange so the renderer and UI stay dumb — they read
  * state, they don't own it.
@@ -26,6 +27,7 @@ export class QuizMachine {
     this.answerResult = null; // null | 'right' | 'wrong'
     this.flashUntil = 0;
     this._timer = null;
+    this._lastAdvanceAt = 0;
   }
 
   setQuestions(questions) {
@@ -74,13 +76,18 @@ export class QuizMachine {
     this.showQuestion();
   }
 
+  /**
+   * No timer here on purpose — the question holds until you tap. It used to
+   * auto-advance after 1.6s, which meant a tap intended to start the countdown
+   * often landed on an already-running countdown and revealed the answer
+   * instead, eating the question.
+   */
   showQuestion() {
     this._clearTimer();
     if (!this.questions.length) return;
     this.phase = 'question';
     this.answerResult = null;
     this._emit();
-    this._timer = setTimeout(() => this.startCountdown(), TIMING.questionHoldMs);
   }
 
   startCountdown() {
@@ -126,8 +133,20 @@ export class QuizMachine {
     this.showQuestion();
   }
 
-  /** Single entry point for a screen tap — advances whatever phase we're in. */
+  /**
+   * Single entry point for a screen tap — advances whatever phase we're in.
+   *
+   * Taps are now the only thing driving question → countdown → next, so a
+   * stray double-fire (a mobile ghost click, a fumbled double-tap) costs a
+   * whole question: it would run question → countdown → reveal in one gesture.
+   * Anything inside TAP_DEBOUNCE_MS of the last advance is treated as that
+   * same gesture and ignored.
+   */
   advance() {
+    const now = performance.now();
+    if (now - this._lastAdvanceAt < TAP_DEBOUNCE_MS) return;
+    this._lastAdvanceAt = now;
+
     switch (this.phase) {
       case 'idle':
         this.showQuestion();

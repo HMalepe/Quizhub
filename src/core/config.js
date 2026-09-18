@@ -39,13 +39,17 @@ export const TYPE = {
 };
 
 export const TIMING = {
-  /** How long the question sits on screen before the countdown auto-starts (ms). */
-  questionHoldMs: 1600,
   /** Default countdown length in seconds; user-overridable in Settings. */
   countdownSeconds: 3,
   /** Duration of the flash overlay (ms). */
   flashMs: 400
 };
+
+/**
+ * Taps closer together than this count as one gesture. Guards against a
+ * double-fire skipping a whole question now that nothing auto-advances.
+ */
+export const TAP_DEBOUNCE_MS = 300;
 
 export const STORAGE_KEYS = {
   questions: 'trivia-reel:questions',

@@ -24,14 +24,18 @@ prompted — your voice is recorded along with the video.
 1. **Enable camera & mic** — grants permission, starts the preview
 2. **Pick a category** — Start stays disabled until you choose one
 3. **Record** — starts capturing (red REC dot appears)
-4. **Start** — first question appears
-5. Question holds ~1.6s, then the countdown runs, then the answer reveals
+4. **Start** — first question appears, and **waits for you**
+5. **Tap the video** — starts the countdown, which runs down and reveals the answer
 6. **Tap ✓ Right or ✕ Wrong** — the answer text on the canvas recolors green or red
-7. **Tap the canvas** to move to the next question
+7. **Tap the video** again to move to the next question
 8. **Stop**, then **Download video**
 
-Tap the canvas at any point to skip ahead — skip the question hold, cut the
-countdown short, whatever the take needs.
+**Tapping anywhere on the canvas advances**, but the camera half is the easy
+thumb reach when the phone's on a tripod, so that's the one to use.
+
+Nothing rushes you: the question sits there until you tap, and so does the
+answer. The countdown is the only thing on a clock — and a tap during it cuts
+it short if you already know the answer.
 
 ### Keyboard shortcuts
 
