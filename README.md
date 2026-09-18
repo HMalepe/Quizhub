@@ -83,15 +83,22 @@ stuck with whatever played during filming.
 your sync markers. Drop a tick on each numeral change, a buzzer on the reveal
 flash, and a success/fail sting when the answer turns green or red.
 
-## Video quality
+## Video quality and how long a take can run
 
-The recording asks the encoder for roughly what a phone camera uses at this
-resolution, rather than the browser default — which lands near 1.4 Mbps at
-1080×1920 and visibly smears on motion. Expect files several times larger than
-before; that's the point, since the file is a master you'll re-encode on upload.
+The recording asks the encoder for well above the browser default, which lands
+near 1.4 Mbps at 1080×1920 and visibly smears on motion. Recording runs at
+30fps, which is what a phone shoots.
 
-Recording runs at 30fps, which is what a phone shoots. Quality knobs live in
-`src/core/config.js` under `ENCODING` and `CAPTURE`.
+**Quality and take length are the same dial.** Nothing streams to disk — the
+whole take is held in memory until you stop — and iOS Safari cuts the video off
+when that gets too large, leaving audio running over a frozen frame. Measured on
+an iPhone: 8 Mbps stopped around 40 seconds. The current 4 Mbps is set to roughly
+double that.
+
+The REC badge counts up while recording and turns amber as you approach the
+limit, so you can wrap a take rather than lose the end of it. If you want longer
+takes, lower `ENCODING.videoBitsPerSecond` in `src/core/config.js` — the time you
+get scales inversely with it.
 
 ## Keep the app in front while recording
 

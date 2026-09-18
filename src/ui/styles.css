@@ -71,6 +71,14 @@ canvas {
 
 .rec-dot.on {
   display: flex;
+  /* Tabular figures so the seconds don't jiggle the badge width each tick. */
+  font-variant-numeric: tabular-nums;
+}
+
+/* Getting close to the length a take survives at this bitrate. */
+.rec-dot.near-limit {
+  background: var(--amber);
+  color: #1a1400;
 }
 
 .rec-dot::before {

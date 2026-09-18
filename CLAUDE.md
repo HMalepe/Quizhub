@@ -55,18 +55,31 @@ These look like omissions but are intentional. Check here before changing them.
    function, so no feature test distinguishes the working implementation from
    the broken one. Even pacing is not worth that trade.
 
-5. **`ENCODING.videoBitsPerSecond` is set explicitly, but conservatively.**
-   MediaRecorder's default lands near 1.4 Mbps at 1080×1920, which blocks and
-   smears on motion. 8 Mbps is ~6x that and still comfortable. This was briefly
-   16 Mbps, on the reasoning that a too-high ask clamps harmlessly — which held
-   for desktop Chrome's software VP9 and was never verified on an iPhone. Treat
-   encoder settings as unproven until they have survived a long take on a real
-   device.
+5. **Bitrate is the take-length dial, not just a quality one.** Nothing streams
+   to disk — `MediaRecorder` buffers the whole take in memory — and iOS Safari
+   stops the *video* encoder when that gets too big, while audio carries on.
+   Measured on device: 8 Mbps died at ~40s (~40MB), so `bitrate × seconds ≈
+   memory` with a ceiling somewhere near 40MB. 4 Mbps is set to buy ~80s.
+   Raising it back up shortens takes proportionally. Before changing it, know
+   which you are trading.
 
-   **Verify any recording change with a take over a minute long.** The 10s
-   failure above was invisible to every 5–6 second test that shipped it.
+   If takes need to get materially longer than a couple of minutes, the bitrate
+   dial runs out and the real answer is chunked recording — which needs the
+   duration metadata problem in the next entry solved first.
 
-6. **`recorder._canvasStream` is held on the instance on purpose — do not
+6. **The bitrate is set explicitly at all, because the default is terrible.**
+   MediaRecorder lands near 1.4 Mbps at 1080×1920, which blocks and smears on
+   motion. It briefly ran at 16 Mbps on the reasoning that a too-high ask
+   clamps harmlessly — true of desktop Chrome's software VP9, never verified on
+   an iPhone, and it is exactly the assumption the length ceiling above
+   punctured. Treat encoder settings as unproven until they have survived a
+   long take on a real device.
+
+   **Verify any recording change with a take over a minute long.** A failure at
+   10s was invisible to every 5–6 second test that shipped it, and the 40s one
+   would have slipped past a 30s test just as easily.
+
+7. **`recorder._canvasStream` is held on the instance on purpose — do not
    inline it back into a local.** Only the video *track* goes into the stream
    handed to `MediaRecorder`, so the `MediaStream` returned by
    `captureStream()` becomes unreachable the moment `start()` returns. Safari
@@ -76,30 +89,30 @@ These look like omissions but are intentional. Check here before changing them.
    stalled draw loop and is not one. `stop()` releases it, and only it; the mic
    track has to survive for the next take.
 
-7. **`recorder.start()` takes no timeslice.** Chunked recording is a common iOS
+8. **`recorder.start()` takes no timeslice.** Chunked recording is a common iOS
    workaround, but it produces a container with no duration written: the blob
    reports `duration === Infinity`, seeking breaks, and a 75s take measured
    zero presented frames. One blob at `stop()` keeps the metadata intact.
 
-8. **Text layout is cached, and the cache is cleared on `document.fonts.ready`.**
+9. **Text layout is cached, and the cache is cleared on `document.fonts.ready`.**
    `drawFitted()` measures per word per candidate size; re-running that 60x a
    second on unchanged text is pure waste. The invalidation is not optional:
    anything measured before Unbounded/Inter load was measured in the fallback
    face and would be wrong for the rest of the session.
 
-9. **Only the countdown is on a clock — `question` and `reveal` wait for a
-   tap, indefinitely.** Reveal needs an open beat to tap Right/Wrong before
-   moving on. Question needs however long it takes to read aloud, which is not
-   a number this code can guess: it used to auto-advance after 1.6s
-   (`TIMING.questionHoldMs`, now gone) and the result was that a tap meant to
-   *start* the countdown instead landed on an already-running one and revealed
-   the answer, eating the question. Don't put a timer back on either phase.
+10. **Only the countdown is on a clock — `question` and `reveal` wait for a
+    tap, indefinitely.** Reveal needs an open beat to tap Right/Wrong before
+    moving on. Question needs however long it takes to read aloud, which is not
+    a number this code can guess: it used to auto-advance after 1.6s
+    (`TIMING.questionHoldMs`, now gone) and the result was that a tap meant to
+    *start* the countdown instead landed on an already-running one and revealed
+    the answer, eating the question. Don't put a timer back on either phase.
 
-   `advance()` also debounces taps within `TAP_DEBOUNCE_MS`. With taps as the
-   only driver, one ghost click would run question → countdown → reveal in a
-   single gesture.
+    `advance()` also debounces taps within `TAP_DEBOUNCE_MS`. With taps as the
+    only driver, one ghost click would run question → countdown → reveal in a
+    single gesture.
 
-10. **Front camera only, and the feed is always mirrored.** This is a
+11. **Front camera only, and the feed is always mirrored.** This is a
     selfie-reaction tool — there is no rear camera, no `facingMode` toggle and
     no Flip button (all three existed once and were deliberately removed).
     `renderer.drawCameraZone()` mirrors unconditionally, because a selfie view
@@ -107,14 +120,14 @@ These look like omissions but are intentional. Check here before changing them.
     back without asking; it would also mean re-solving the mic track dying
     whenever the stream is rebuilt mid-take.
 
-11. **`answerResult` resets to `null` on every new question.** Unmarked answers
+12. **`answerResult` resets to `null` on every new question.** Unmarked answers
     render in neutral white; that's a valid state, not an error.
 
-12. **The canvas is a fixed 1080×1920 regardless of screen size.** CSS scales it
+13. **The canvas is a fixed 1080×1920 regardless of screen size.** CSS scales it
     for display. Never set canvas width/height from `clientWidth` — output
     resolution must stay constant for consistent recordings.
 
-13. **`startBtn` is gated on camera AND a chosen category, not camera alone.**
+14. **`startBtn` is gated on camera AND a chosen category, not camera alone.**
     `Controls._updateStartEnabled()` tracks both `_cameraEnabled` and
     `_categoryChosen` and only enables Start when both are true. The category
     `<select>` starts on a disabled, unselected placeholder — picking a
@@ -122,7 +135,7 @@ These look like omissions but are intentional. Check here before changing them.
     with the right bank in the first place, so Start being enabled without a
     real bank behind it isn't a state worth allowing.
 
-14. **There is no text-to-speech and no speech recognition.** Both existed once
+15. **There is no text-to-speech and no speech recognition.** Both existed once
     (`speech.js`, `answerListener.js`, `matching.js`) and were deliberately
     removed: the app should make no sound of its own, and marking Right/Wrong
     is a manual tap. Don't reintroduce either without asking.
