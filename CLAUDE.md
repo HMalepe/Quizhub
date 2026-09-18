@@ -45,7 +45,35 @@ These look like omissions but are intentional. Check here before changing them.
      pauses a backgrounded video element and a paused one hands `drawImage`
      the same stale frame forever.
 
-4. **Only the countdown is on a clock — `question` and `reveal` wait for a
+4. **The recorder is fed one frame per painted frame, not sampled on a
+   timer.** `captureStream(fps)` lets the browser sample the canvas on its own
+   clock, which drifts against the draw loop and lands frames unevenly — 16 to
+   95ms apart against a 33ms ideal, with nothing actually wrong with the
+   drawing. So `recorder.start()` asks for `captureStream(0)` and the renderer
+   calls `recorder.captureFrame()` after each paint, capped at
+   `CAPTURE.maxFps`. Measured effect: ~25 → ~30fps delivered, median gap
+   39 → 29ms.
+   - `CAPTURE.maxFps` is a **ceiling, not a target**. The real rate is whatever
+     the device can draw, so a slow phone degrades to an even lower rate
+     instead of juddering. It only exists to stop a 120Hz display encoding
+     120fps.
+   - Safari's `requestFrame()` support is unreliable, and a manual track that
+     never emits records a *frozen* video. `start()` feature-detects and falls
+     back to timer sampling at `CAPTURE.fallbackFps`. Don't remove that branch;
+     there is a test for it.
+
+5. **`ENCODING.videoBitsPerSecond` is set explicitly.** MediaRecorder's default
+   lands near 1.4 Mbps at 1080×1920, which blocks and smears on motion — the
+   single biggest reason a take doesn't look like phone video. Devices clamp to
+   what their encoder can manage, so this is a request, not a promise.
+
+6. **Text layout is cached, and the cache is cleared on `document.fonts.ready`.**
+   `drawFitted()` measures per word per candidate size; re-running that 60x a
+   second on unchanged text is pure waste. The invalidation is not optional:
+   anything measured before Unbounded/Inter load was measured in the fallback
+   face and would be wrong for the rest of the session.
+
+7. **Only the countdown is on a clock — `question` and `reveal` wait for a
    tap, indefinitely.** Reveal needs an open beat to tap Right/Wrong before
    moving on. Question needs however long it takes to read aloud, which is not
    a number this code can guess: it used to auto-advance after 1.6s
@@ -57,7 +85,7 @@ These look like omissions but are intentional. Check here before changing them.
    only driver, one ghost click would run question → countdown → reveal in a
    single gesture.
 
-5. **Front camera only, and the feed is always mirrored.** This is a
+8. **Front camera only, and the feed is always mirrored.** This is a
    selfie-reaction tool — there is no rear camera, no `facingMode` toggle and
    no Flip button (all three existed once and were deliberately removed).
    `renderer.drawCameraZone()` mirrors unconditionally, because a selfie view
@@ -65,25 +93,25 @@ These look like omissions but are intentional. Check here before changing them.
    back without asking; it would also mean re-solving the mic track dying
    whenever the stream is rebuilt mid-take.
 
-6. **`answerResult` resets to `null` on every new question.** Unmarked answers
+9. **`answerResult` resets to `null` on every new question.** Unmarked answers
    render in neutral white; that's a valid state, not an error.
 
-7. **The canvas is a fixed 1080×1920 regardless of screen size.** CSS scales it
-   for display. Never set canvas width/height from `clientWidth` — output
-   resolution must stay constant for consistent recordings.
+10. **The canvas is a fixed 1080×1920 regardless of screen size.** CSS scales it
+    for display. Never set canvas width/height from `clientWidth` — output
+    resolution must stay constant for consistent recordings.
 
-8. **`startBtn` is gated on camera AND a chosen category, not camera alone.**
-   `Controls._updateStartEnabled()` tracks both `_cameraEnabled` and
-   `_categoryChosen` and only enables Start when both are true. The category
-   `<select>` starts on a disabled, unselected placeholder — picking a
-   built-in category (or "My Questions") is what calls `machine.setQuestions()`
-   with the right bank in the first place, so Start being enabled without a
-   real bank behind it isn't a state worth allowing.
+11. **`startBtn` is gated on camera AND a chosen category, not camera alone.**
+    `Controls._updateStartEnabled()` tracks both `_cameraEnabled` and
+    `_categoryChosen` and only enables Start when both are true. The category
+    `<select>` starts on a disabled, unselected placeholder — picking a
+    built-in category (or "My Questions") is what calls `machine.setQuestions()`
+    with the right bank in the first place, so Start being enabled without a
+    real bank behind it isn't a state worth allowing.
 
-9. **There is no text-to-speech and no speech recognition.** Both existed once
-   (`speech.js`, `answerListener.js`, `matching.js`) and were deliberately
-   removed: the app should make no sound of its own, and marking Right/Wrong
-   is a manual tap. Don't reintroduce either without asking.
+12. **There is no text-to-speech and no speech recognition.** Both existed once
+    (`speech.js`, `answerListener.js`, `matching.js`) and were deliberately
+    removed: the app should make no sound of its own, and marking Right/Wrong
+    is a manual tap. Don't reintroduce either without asking.
 
 ## Architecture
 
@@ -92,16 +120,19 @@ src/
 ├── main.js              Entry point. Wires modules together. The only file
 │                        that knows about all the others.
 ├── core/
-│   ├── config.js         Colors, fonts, timings, layout ratios. Change look here.
+│   ├── config.js         Colors, fonts, timings, layout, capture rate and
+│   │                     encoder bitrate. Change look and quality here.
 │   ├── questions.js      Default bank, parse/stringify, shuffle, localStorage.
 │   ├── quizMachine.js    Phase state machine. No DOM, no canvas — pure logic.
 │   ├── camera.js         getUserMedia wrapper (front cam + mic) + errors.
 │   ├── categoryBank.js   "Can You Pass As..." — 50 built-in categories (8
 │   │                     sections × ~6 categories, 8 Qs each, 400 total).
 │   ├── wakeLock.js      Holds the screen awake while recording.
-│   └── recorder.js       MediaRecorder wrapper + codec probing.
+│   └── recorder.js       MediaRecorder wrapper, codec probing, and the
+│                         per-painted-frame capture pacing.
 ├── render/
-│   ├── text.js          Canvas text wrapping and auto-fit helpers.
+│   ├── text.js          Canvas text wrapping and auto-fit, with a layout
+│   │                    cache (invalidated once web fonts load).
 │   └── renderer.js      The rAF draw loop + stall watchdog. Composites
 │                        camera + overlay.
 └── ui/
@@ -154,6 +185,23 @@ All canvas drawing lives in `render/renderer.js`. Rules:
   generally gives mp4, Chrome gives WebM. Don't hardcode a mime type.
 - **iOS Safari is the fragile target.** If recording misbehaves, that's the
   first place to check. Chrome on Android/desktop is reliable.
+- **The panel reports what the camera actually negotiated.** Video constraints
+  are all `ideal`, so a browser may quietly hand back something far smaller —
+  Safari can give 640×480, which is a 132% upscale to fill the 1080×1114 camera
+  zone and looks soft. `describeCameraQuality()` compares the negotiated
+  settings against that zone and `#camInfo` shows the verdict, amber when it's
+  a downgrade. Nothing breaks when it happens, which is exactly why it needs
+  saying out loud.
+- **The camera's own frame rate caps the bottom half of the frame.** `camera.js`
+  requests no `frameRate`, so the device picks — typically 30fps, which is what
+  phone video is anyway. Drawing or capturing faster than that doesn't make the
+  *person* move more smoothly, only the overlay. Adding
+  `frameRate: { ideal: 60 }` to the video constraints is the lever, but it is
+  untested: with width/height also `ideal`, a phone that can't do 1080p60 on
+  the front camera may satisfy the frame rate by dropping resolution, which
+  would be a bad trade for TikTok. Test on real hardware before adopting it —
+  the fake device used in the automated tests is pinned at 20fps and ignores
+  the constraint entirely.
 
 ## Commands
 

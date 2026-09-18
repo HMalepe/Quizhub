@@ -1,6 +1,6 @@
 import './ui/styles.css';
 
-import { TIMING, STORAGE_KEYS } from './core/config.js';
+import { CANVAS, TIMING, STORAGE_KEYS } from './core/config.js';
 import {
   DEFAULT_QUESTIONS,
   loadQuestions,
@@ -11,16 +11,21 @@ import {
 } from './core/questions.js';
 import { SECTIONS, CATEGORY_BANK } from './core/categoryBank.js';
 import { QuizMachine } from './core/quizMachine.js';
-import { Camera, describeCameraError } from './core/camera.js';
+import { Camera, describeCameraError, describeCameraQuality } from './core/camera.js';
 import { CanvasRecorder, isRecordingSupported } from './core/recorder.js';
 import { WakeLock } from './core/wakeLock.js';
 import { Renderer } from './render/renderer.js';
+import { clearTextLayoutCache } from './render/text.js';
 import { Controls } from './ui/controls.js';
 
 const canvas = document.getElementById('stage');
 const camera = new Camera();
 const recorder = new CanvasRecorder(canvas);
 const wakeLock = new WakeLock();
+
+// The camera fills everything below the overlay zone — that's the region the
+// negotiated resolution has to cover without being upscaled.
+const cameraZoneHeight = CANVAS.height - Math.round(CANVAS.height * CANVAS.topZoneRatio);
 
 let questions = loadQuestions();
 let latestState = null;
@@ -36,7 +41,10 @@ const machine = new QuizMachine({
 const renderer = new Renderer({
   canvas,
   camera,
-  getState: () => latestState || machine.snapshot()
+  getState: () => latestState || machine.snapshot(),
+  // Hand each painted frame to the recorder so capture is paced by the draw
+  // loop rather than by an independent sampling clock. No-ops when idle.
+  onFrameDrawn: () => recorder.captureFrame()
 });
 
 const controls = new Controls({
@@ -44,6 +52,9 @@ const controls = new Controls({
     try {
       await camera.start();
       controls.enableCameraDependentControls();
+      controls.showCameraInfo(
+        describeCameraQuality(camera.videoSettings, CANVAS.width, cameraZoneHeight)
+      );
       renderer.start();
       if (!isRecordingSupported()) {
         console.warn('MediaRecorder unavailable — you can still film the screen externally.');
@@ -160,6 +171,13 @@ controls.populateCategories(SECTIONS);
 controls.setQuestionBankText(stringifyQuestions(questions));
 latestState = machine.snapshot();
 controls.syncPhase(latestState);
+
+// Text layout is cached by measured width, and Unbounded/Inter load async —
+// anything measured before they arrive was measured in the fallback face.
+// Drop those entries once the real fonts are in.
+if (document.fonts && document.fonts.ready) {
+  document.fonts.ready.then(clearTextLayoutCache);
+}
 
 // Draw the idle frame before camera permission is granted, so the canvas
 // isn't just black behind the permission overlay.

@@ -17,9 +17,14 @@ import { drawWrapped, drawFitted } from './text.js';
 const STALL_MS = 400;
 
 export class Renderer {
-  constructor({ canvas, camera, getState }) {
+  constructor({ canvas, camera, getState, onFrameDrawn }) {
     this.canvas = canvas;
-    this.ctx = canvas.getContext('2d');
+    /** Fired after each painted frame so the recorder can capture it. */
+    this.onFrameDrawn = onFrameDrawn || (() => {});
+    // alpha:false — every frame paints the full canvas opaquely, so there's no
+    // transparency to composite. Cheaper per frame on mobile GPUs.
+    this.ctx = canvas.getContext('2d', { alpha: false });
+    this._overlayGradient = null;
     this.camera = camera;
     this.getState = getState;
     this.running = false;
@@ -87,12 +92,21 @@ export class Renderer {
     const { ctx, W, H } = this;
     const state = this.getState();
 
-    ctx.fillStyle = '#000';
-    ctx.fillRect(0, 0, W, H);
+    // The overlay gradient and the cover-fitted camera between them repaint
+    // every pixel, so clearing first is only needed before the camera is live.
+    if (!this.camera.ready) {
+      ctx.fillStyle = '#000';
+      ctx.fillRect(0, 0, W, H);
+    }
 
     this.drawCameraZone();
     this.drawOverlayZone(state);
     this.drawFlash(state);
+
+    // Emitted here rather than in _tick() so the watchdog's direct paints
+    // reach the recorder too — those are exactly the frames a stalled rAF
+    // would otherwise cost the take.
+    this.onFrameDrawn();
   }
 
   /** Bottom zone: camera feed, cover-cropped so it always fills without stretch. */
@@ -123,10 +137,14 @@ export class Renderer {
   drawOverlayZone(state) {
     const { ctx, W, topH } = this;
 
-    const grad = ctx.createLinearGradient(0, 0, 0, topH);
-    grad.addColorStop(0, COLORS.bgTop);
-    grad.addColorStop(1, COLORS.bg);
-    ctx.fillStyle = grad;
+    // Fixed coords and colors, so build it once rather than every frame.
+    if (!this._overlayGradient) {
+      const grad = ctx.createLinearGradient(0, 0, 0, topH);
+      grad.addColorStop(0, COLORS.bgTop);
+      grad.addColorStop(1, COLORS.bg);
+      this._overlayGradient = grad;
+    }
+    ctx.fillStyle = this._overlayGradient;
     ctx.fillRect(0, 0, W, topH);
 
     ctx.textAlign = 'center';
