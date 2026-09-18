@@ -85,20 +85,15 @@ flash, and a success/fail sting when the answer turns green or red.
 
 ## Video quality and how long a take can run
 
-The recording asks the encoder for well above the browser default, which lands
-near 1.4 Mbps at 1080×1920 and visibly smears on motion. Recording runs at
-30fps, which is what a phone shoots.
+Recording is 720×1280 at 30fps, encoded with WebCodecs (H.264 + AAC into MP4
+when the browser can do it). Canvas frames are encoded directly — not via
+`MediaRecorder` + `canvas.captureStream()`, which used to freeze the picture
+on one frame around 30 seconds while the mic kept going.
 
-**Quality and take length are the same dial.** Nothing streams to disk — the
-whole take is held in memory until you stop — and iOS Safari cuts the video off
-when that gets too large, leaving audio running over a frozen frame. Measured on
-an iPhone: 8 Mbps stopped around 40 seconds. The current 4 Mbps is set to roughly
-double that.
-
-The REC badge counts up while recording and turns amber as you approach the
-limit, so you can wrap a take rather than lose the end of it. If you want longer
-takes, lower `ENCODING.videoBitsPerSecond` in `src/core/config.js` — the time you
-get scales inversely with it.
+Takes of a minute and more should play back with both picture and voice moving.
+The file is still held in memory until you hit Stop, so the REC badge turns
+amber on very long takes as a RAM reminder, not because the encoder is about
+to die. Keep the app on screen while you film.
 
 ## Keep the app in front while recording
 
@@ -147,9 +142,9 @@ to your repo name (`base: '/trivia-reel/'`) or assets will 404.
 
 | Browser | Status |
 |---|---|
-| Chrome (desktop/Android) | Fully supported |
+| Chrome (desktop/Android) | Fully supported; records mp4 |
 | Safari (macOS/iOS 15+) | Supported; records mp4 |
-| Firefox | Supported; records WebM |
+| Firefox | Supported; may record WebM if H.264 isn't available |
 | Older iOS Safari | `MediaRecorder` may be missing — the quiz still runs, so you can screen-record externally |
 
 If the download won't play, try Chrome first — that isolates whether it's a

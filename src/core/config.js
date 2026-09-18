@@ -14,13 +14,9 @@ export const CANVAS = {
   height: 1920,
 
   /**
-   * What actually gets recorded. 1080×1920 is 2.07 MP a frame, 62 MP/s at
-   * 30fps, drawn *and* encoded through canvas capture rather than the phone's
-   * native camera path — and on iOS the video track kept quitting partway
-   * through a take under that load, at a length that varied with how hot and
-   * busy the phone was (40s, then 35s, then 20s). 720×1280 is 56% less pixel
-   * work. TikTok re-encodes everything on upload anyway, so a take that
-   * survives beats a sharper one that doesn't.
+   * What actually gets recorded. 720×1280 is 56% fewer pixels than 1080×1920,
+   * which is the difference between a phone encoding in realtime and dropping
+   * frames. TikTok re-encodes on upload anyway.
    */
   outputWidth: 720,
   outputHeight: 1280,
@@ -31,36 +27,25 @@ export const CANVAS = {
 
 export const CAPTURE = {
   /**
-   * Rate the browser samples the canvas at. 30 matches what a phone shoots,
-   * and keeping this modest leaves the encoder headroom — the failure mode
-   * that matters is the video track quitting mid-take, not slight judder.
+   * Rate canvas snapshots are encoded at. 30 matches what a phone shoots.
+   * Going higher only makes the overlay smoother — the camera half is still
+   * capped by the device's own preview frame rate.
    */
   fps: 30
 };
 
 /**
- * Encoder targets. MediaRecorder's default lands around 1.4 Mbps at
- * 1080×1920, which smears and blocks on any real motion — nothing like what
- * the phone's own camera app produces. Phones shoot 1080p at roughly
- * 10–20 Mbps, so ask for the same ballpark; the file is a CapCut master, not
- * something being streamed, so size matters far less than holding up to a
- * re-encode on upload.
+ * Encoder targets for the WebCodecs recorder. 4 Mbps at 720×1280 is enough
+ * motion detail for a CapCut master without drowning a phone GPU. The old
+ * MediaRecorder path tied bitrate to take length because its encoder died
+ * around 30–40s; that coupling is gone. Keyframes still matter: without a
+ * regular IDR, players freeze on one frame while audio continues.
  */
 export const ENCODING = {
-  /**
-   * Bitrate is effectively the take-length dial, because nothing streams to
-   * disk: `MediaRecorder` buffers the whole recording in memory and iOS Safari
-   * stops the video encoder when that grows too large — audio, being tiny,
-   * carries on. Measured on device: 8 Mbps died at ~40s, which is ~40MB.
-   *
-   *   bitrate × seconds ≈ memory, and ~40MB looks like the ceiling
-   *
-   * So 4 Mbps buys roughly 80s, 3 Mbps roughly 107s. Still ~3x the ~1.4 Mbps
-   * default that made takes look blocky. Raising this back up shortens takes;
-   * that is the trade, and it is not a subtle one.
-   */
   videoBitsPerSecond: 4_000_000,
-  audioBitsPerSecond: 128_000
+  audioBitsPerSecond: 128_000,
+  /** Seconds between forced video keyframes. 1s keeps downloaded files seekable. */
+  keyFrameInterval: 1
 };
 
 export const COLORS = {

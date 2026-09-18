@@ -12,7 +12,7 @@ import {
 import { SECTIONS, CATEGORY_BANK } from './core/categoryBank.js';
 import { QuizMachine } from './core/quizMachine.js';
 import { Camera, describeCameraError, describeCameraQuality } from './core/camera.js';
-import { CanvasRecorder, isRecordingSupported } from './core/recorder.js';
+import { CanvasRecorder, isRecordingSupported, prefetchEncoders } from './core/recorder.js';
 import { WakeLock } from './core/wakeLock.js';
 import { RecordingDiagnostics } from './core/recordingDiagnostics.js';
 import { Renderer } from './render/renderer.js';
@@ -60,8 +60,9 @@ const controls = new Controls({
         describeCameraQuality(camera.videoSettings, CANVAS.outputWidth, cameraZoneHeight)
       );
       renderer.start();
+      prefetchEncoders();
       if (!isRecordingSupported()) {
-        console.warn('MediaRecorder unavailable — you can still film the screen externally.');
+        console.warn('Recording unavailable — you can still film the screen externally.');
       }
     } catch (err) {
       alert(describeCameraError(err));
@@ -91,7 +92,7 @@ const controls = new Controls({
     if (!recorder.recording) {
       try {
         recorder.audioTrack = camera.audioTrack;
-        recorder.start();
+        await recorder.start();
         diagnostics.start();
         controls.setRecording(true);
         // A sleeping screen stops requestAnimationFrame, which freezes the

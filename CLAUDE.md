@@ -11,9 +11,10 @@ at `CANVAS.outputWidth/Height` — currently 720×1280):
 - **Top 42%** — quiz overlay (question, countdown numeral, answer)
 - **Bottom 58%** — live camera feed of the person reacting
 
-Both halves are drawn to the *same* canvas every frame, and `MediaRecorder`
-captures that canvas plus the mic. So the downloaded file is already
-composited, with your voice on it — no split-screen editing needed afterwards.
+Both halves are drawn to the *same* canvas every frame. WebCodecs encodes
+those canvas snapshots plus the mic into one MP4. So the downloaded file is
+already composited, with your voice on it — no split-screen editing needed
+afterwards.
 
 ## Deliberate design decisions — do not "fix" these
 
@@ -30,10 +31,10 @@ These look like omissions but are intentional. Check here before changing them.
    An unmuted element plays your own mic back through the speakers and howls.
 
 3. **A stalled draw loop is a ruined take, so the renderer is defensive.**
-   `captureStream` samples whatever is on the canvas; if nothing repaints it
-   keeps emitting the last frame while the mic records on, giving you good
-   audio over frozen video. Three guards, all load-bearing — don't strip them
-   as redundant:
+   `captureStream` / WebCodecs samples whatever is on the canvas; if nothing
+   repaints it keeps encoding the last frame while the mic records on, giving
+   you good audio over frozen video. Three guards, all load-bearing — don't
+   strip them as redundant:
    - `Renderer._tick()` queues the next frame in `finally`. A throw used to
      kill the loop permanently, and since `running` stayed true, `start()`
      refused to revive it.
@@ -46,59 +47,45 @@ These look like omissions but are intentional. Check here before changing them.
      pauses a backgrounded video element and a paused one hands `drawImage`
      the same stale frame forever.
 
-4. **Frame delivery is left to `captureStream(CAPTURE.fps)` — do not drive it
-   by hand.** Sampling on the browser's clock paces frames unevenly (16–95ms
-   apart against a 33ms ideal) and `captureStream(0)` + `requestFrame()` after
-   each paint measurably fixes that: ~25 → ~30fps, median gap 39 → 29ms in
-   desktop Chrome. It also **stopped delivering video roughly 10 seconds into a
-   take on iOS Safari, while audio kept recording** — a ruined take, on the one
-   platform this is actually filmed on. Safari exposes `requestFrame` as a
-   function, so no feature test distinguishes the working implementation from
-   the broken one. Even pacing is not worth that trade.
+4. **Frame delivery for the MediaRecorder fallback is left to
+   `captureStream(CAPTURE.fps)` — do not drive it by hand.** The primary
+   recorder is WebCodecs (`CanvasSource.add()` from the canvas itself). The
+   fallback still uses `captureStream`. Sampling on the browser's clock paces
+   frames unevenly, and `captureStream(0)` + `requestFrame()` after each paint
+   **stopped delivering video roughly 10 seconds into a take on iOS Safari,
+   while audio kept recording**. Safari exposes `requestFrame` as a function,
+   so no feature test distinguishes the working implementation from the broken
+   one. Do not put `requestFrame` on the fallback.
 
-5. **Takes stop partway through on iOS Safari, cause still unknown, and the
-   length is NOT bitrate-bound.** Measured on device: 8 Mbps stopped at ~40s,
-   halving to 4 Mbps stopped at ~35s. If it were the memory ceiling it looked
-   like, halving the bitrate would have doubled the time. It didn't, so the
-   limit is time-based, not size-based, and `bitrate × seconds ≈ memory` is
-   dead as a theory. Don't resurrect it.
-
-   Three explanations have now been wrong — screen sleep, manual frame capture,
-   and that memory ceiling — because every layer fails with the same symptom
-   (frozen video, audio continues) and none of it reproduces in desktop Chrome.
-   `core/recordingDiagnostics.js` exists to end that: it polls the draw loop,
-   camera feed, capture track, recorder and encoder during a take and reports
-   the first one that stops, by name and timestamp, in the panel. **Read it
-   before theorising.** Its fault detection is tested by deliberately killing
-   each layer — see the sabotage tests in the scratchpad approach described in
-   that file's header.
-
-6. **The bitrate is set explicitly at all, because the default is terrible.**
-   MediaRecorder lands near 1.4 Mbps at 1080×1920, which blocks and smears on
-   motion. It briefly ran at 16 Mbps on the reasoning that a too-high ask
-   clamps harmlessly — true of desktop Chrome's software VP9, never verified on
-   an iPhone, and it is exactly the assumption the length ceiling above
-   punctured. Treat encoder settings as unproven until they have survived a
-   long take on a real device.
+5. **Do not put recording back on `MediaRecorder` + `canvas.captureStream()`.**
+   That pairing froze video on one frame around 30–40s while audio continued,
+   on both iOS Safari and desktop Chrome. Bitrate, timeslice, and manual
+   `requestFrame` all failed to fix it. The working path encodes canvas
+   snapshots with WebCodecs (Mediabunny `CanvasSource` +
+   `MediaStreamAudioTrackSource`), forces a keyframe every
+   `ENCODING.keyFrameInterval` seconds, and muxes a real MP4 with duration
+   metadata. `MediaRecorder` remains only when `VideoEncoder` is missing.
 
    **Verify any recording change with a take over a minute long.** A failure at
-   10s was invisible to every 5–6 second test that shipped it, and the 40s one
-   would have slipped past a 30s test just as easily.
+   30s is invisible to every 5–6 second test.
 
-7. **`recorder._canvasStream` is held on the instance on purpose — do not
-   inline it back into a local.** Only the video *track* goes into the stream
-   handed to `MediaRecorder`, so the `MediaStream` returned by
-   `captureStream()` becomes unreachable the moment `start()` returns. Safari
-   stops the underlying canvas capture once that stream is collected, and the
-   result is video frozen on its last frame seconds into a take while the mic
-   — owned by `camera`, still referenced — records on. It looks exactly like a
-   stalled draw loop and is not one. `stop()` releases it, and only it; the mic
-   track has to survive for the next take.
+6. **Bitrate is a quality knob, not a take-length dial.** The old
+   `bitrate × seconds ≈ memory` theory was wrong for the freeze (halving
+   bitrate did not double the time) and does not apply to the WebCodecs path.
+   4 Mbps at 720×1280 is the current quality target. Raising it costs GPU/CPU
+   and file size, not a hard 40s ceiling.
 
-8. **`recorder.start()` takes no timeslice.** Chunked recording is a common iOS
-   workaround, but it produces a container with no duration written: the blob
-   reports `duration === Infinity`, seeking breaks, and a 75s take measured
-   zero presented frames. One blob at `stop()` keeps the metadata intact.
+7. **`recorder._canvasStream` is held on the instance on the MediaRecorder
+   fallback — do not inline it back into a local.** Only the video *track*
+   goes into the stream handed to `MediaRecorder`, so the `MediaStream`
+   returned by `captureStream()` becomes unreachable the moment `start()`
+   returns. Safari stops the underlying canvas capture once that stream is
+   collected. The WebCodecs path does not use this stream.
+
+8. **`MediaRecorder.start()` (fallback only) takes no timeslice.** Chunked
+   Safari MP4 often has no duration written. The WebCodecs path writes one
+   finalized MP4 with Fast Start (`fastStart: 'in-memory'`). Don't "fix"
+   duration by adding a timeslice to the fallback.
 
 9. **Text layout is cached, and the cache is cleared on `document.fonts.ready`.**
    `drawFitted()` measures per word per candidate size; re-running that 60x a
@@ -162,7 +149,8 @@ src/
 │                        that knows about all the others.
 ├── core/
 │   ├── config.js         Colors, fonts, timings, layout, capture rate and
-│   │                     encoder bitrate. Change look and quality here.
+│   │                     encoder bitrate / keyframe interval. Change look
+│   │                     and quality here.
 │   ├── questions.js      Default bank, parse/stringify, shuffle, localStorage.
 │   ├── quizMachine.js    Phase state machine. No DOM, no canvas — pure logic.
 │   ├── camera.js         getUserMedia wrapper (front cam + mic) + errors.
@@ -171,7 +159,7 @@ src/
 │   ├── wakeLock.js      Holds the screen awake while recording.
 │   ├── recordingDiagnostics.js  Polls every layer during a take; names the
 │   │                     first one that stops. Read it before theorising.
-│   └── recorder.js       MediaRecorder wrapper + codec probing.
+│   └── recorder.js       WebCodecs/Mediabunny recorder + MediaRecorder fallback.
 ├── render/
 │   ├── text.js          Canvas text wrapping and auto-fit, with a layout
 │   │                    cache (invalidated once web fonts load).
@@ -223,8 +211,10 @@ All canvas drawing lives in `render/renderer.js`. Rules:
 
 - **`getUserMedia` requires a secure context.** Works on `localhost` and HTTPS.
   A bare LAN IP (`192.168.x.x`) will fail — use a tunnel to test on a phone.
-- **Codec support varies.** `recorder.js` probes a preference list; Safari
-  generally gives mp4, Chrome gives WebM. Don't hardcode a mime type.
+- **Codec support varies.** The WebCodecs path prefers H.264 + AAC in MP4
+  (CapCut-friendly). Chrome/Safari usually get that; Firefox may land on WebM.
+  `MediaRecorder` is only the fallback when `VideoEncoder` is missing. Don't
+  hardcode a mime type.
 - **iOS Safari is the fragile target.** If recording misbehaves, that's the
   first place to check. Chrome on Android/desktop is reliable.
 - **The panel reports what the camera actually negotiated.** Video constraints
