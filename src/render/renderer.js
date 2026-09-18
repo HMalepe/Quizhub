@@ -5,12 +5,13 @@ import { drawWrapped, drawFitted } from './text.js';
  * Composites every frame: camera into the bottom zone, quiz overlay into the
  * top zone, optional flash across the whole frame.
  *
- * Runs on requestAnimationFrame. Everything it draws is what MediaRecorder
+ * Runs on requestAnimationFrame. Everything it draws is what the recorder
  * captures — there is no separate "export" path, so what you see is exactly
  * what lands in the file. That also means **a stalled draw loop is a ruined
- * take**: `captureStream` keeps emitting the last painted frame while the mic
- * track records on, so the video freezes and the audio doesn't. Hence the
- * paranoia below.
+ * take**: the encoder snapshots whatever is on the canvas, so a dead loop
+ * freezes the picture while the mic keeps going. Hence the paranoia below.
+ * Don't set `{ desynchronized: true }` on this context — WebCodecs reads the
+ * canvas for each encoded frame and a desynced buffer can hand it stale pixels.
  */
 
 /** How long without a paint before the watchdog steps in (ms). */

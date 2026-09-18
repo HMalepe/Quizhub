@@ -1,19 +1,16 @@
 /**
  * Watches a recording in flight and reports which layer fails first.
  *
- * Takes stop partway through on iOS Safari with video frozen and audio still
- * running. Three theories have been wrong about why — screen sleep, manual
- * frame capture, and a memory ceiling — because the symptom is identical no
- * matter which layer breaks, and none of it reproduces in desktop Chrome. That
- * ambiguity is the actual problem, so this resolves it: it polls every layer
- * that could stop and records the FIRST one that does, with a timestamp.
+ * If a take comes out with frozen video over live audio, this names which
+ * layer died first. The WebCodecs recorder encodes canvas snapshots directly;
+ * the MediaRecorder fallback still uses captureStream. Both are polled:
  *
- * The layers, outermost to innermost:
  *   - the draw loop    — is the canvas still being painted?
  *   - the camera feed  — is the <video> still advancing?
- *   - the capture track— is canvas.captureStream() still live and unmuted?
- *   - the recorder     — is MediaRecorder still 'recording'?
- *   - the encoder      — are new bytes still arriving?
+ *   - the capture track— is the encoder still being fed (live stand-in, or
+ *                        canvas.captureStream() on the fallback)?
+ *   - the recorder     — is it still in a recording state?
+ *   - the encoder      — are new video bytes still arriving?
  *
  * Whichever fires first names the culprit. Cheap enough to leave running:
  * a handful of property reads twice a second.
@@ -120,9 +117,8 @@ export class RecordingDiagnostics {
       if (this._framesStuckSince && performance.now() - this._framesStuckSince > STUCK_MS) {
         this._fault('draw loop not painting');
       }
-      // Only meaningful once chunks actually flow. With no timeslice set,
-      // ondataavailable fires once at stop, so bytes legitimately sit at zero
-      // for the whole take and a stall check here would cry wolf immediately.
+      // WebCodecs emits packets during the take. MediaRecorder fallback only
+      // lands bytes at stop(), so ignore a zero count until the first packet.
       if (now.chunks > 0 && performance.now() - this._lastBytesAt > BYTES_STALL_MS) {
         this._fault(`no encoded bytes for ${Math.round((performance.now() - this._lastBytesAt) / 1000)}s`);
       }
@@ -138,9 +134,7 @@ export class RecordingDiagnostics {
     const s = this.last;
     if (!s) return { line: '', faults: [], ok: true };
 
-    // Bytes only land at stop() unless a timeslice is set, so show them as
-    // pending rather than a misleading 0.0MB mid-take.
-    const size = s.bytes ? `${(s.bytes / 1e6).toFixed(1)}MB` : 'size at stop';
+    const size = s.bytes ? `${(s.bytes / 1e6).toFixed(1)}MB` : 'encoding…';
     // Rate as well as total: a loop kept alive by the stall watchdog is still
     // painting, just far slower, and that shows up here and nowhere else.
     const fps = s.t > 0 ? (s.frames / s.t).toFixed(0) : '–';

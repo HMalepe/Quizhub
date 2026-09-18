@@ -7,11 +7,10 @@
 const $ = (id) => document.getElementById(id);
 
 /**
- * When the REC badge starts warning. Sits below the length a take is expected
- * to survive at the configured bitrate, so there's time to wrap up rather than
- * lose the end of one.
+ * Soft memory reminder, not an encoder ceiling. The take still lives in RAM
+ * until you hit Stop, so wrap a very long one rather than filling the tab.
  */
-const RECORDING_WARN_SECONDS = 70;
+const RECORDING_WARN_SECONDS = 180;
 
 export class Controls {
   constructor(handlers) {
@@ -166,9 +165,8 @@ export class Controls {
       return;
     }
 
-    // Elapsed time matters here in a way it wouldn't in a normal camera app:
-    // takes have a length ceiling (see ENCODING in config.js), so it's worth
-    // seeing where you are against it rather than finding out at playback.
+    // Elapsed time on the badge so you can wrap a long take before the tab's
+    // memory fills — the file is still held in RAM until Stop.
     const startedAt = Date.now();
     const tick = () => {
       const secs = Math.floor((Date.now() - startedAt) / 1000);
