@@ -43,6 +43,9 @@ body {
   cursor: pointer;
   user-select: none;
   -webkit-tap-highlight-color: transparent;
+  /* Taps drive the whole take, so skip the browser's double-tap-zoom wait —
+     it makes every advance feel late and can swallow the second of two taps. */
+  touch-action: manipulation;
 }
 
 canvas {

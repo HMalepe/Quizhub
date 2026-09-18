@@ -45,9 +45,17 @@ These look like omissions but are intentional. Check here before changing them.
      pauses a backgrounded video element and a paused one hands `drawImage`
      the same stale frame forever.
 
-4. **The `reveal` phase does not auto-advance.** Every other phase has a timer.
-   Reveal waits indefinitely because the user needs an open beat to tap
-   Right/Wrong before moving on.
+4. **Only the countdown is on a clock — `question` and `reveal` wait for a
+   tap, indefinitely.** Reveal needs an open beat to tap Right/Wrong before
+   moving on. Question needs however long it takes to read aloud, which is not
+   a number this code can guess: it used to auto-advance after 1.6s
+   (`TIMING.questionHoldMs`, now gone) and the result was that a tap meant to
+   *start* the countdown instead landed on an already-running one and revealed
+   the answer, eating the question. Don't put a timer back on either phase.
+
+   `advance()` also debounces taps within `TAP_DEBOUNCE_MS`. With taps as the
+   only driver, one ghost click would run question → countdown → reveal in a
+   single gesture.
 
 5. **Front camera only, and the feed is always mirrored.** This is a
    selfie-reaction tool — there is no rear camera, no `facingMode` toggle and
@@ -112,18 +120,22 @@ Keep it that way — it's what makes the machine testable in isolation.
 ## Phase state machine
 
 ```
-idle ──tap──> question ──(1.6s auto, or tap)──> countdown
-                                                     │
-                                            (hits 0, or tap)
-                                                     ▼
-                                        reveal ──tap──> question (next index)
-                                           │
-                                    Right/Wrong buttons
-                                    recolor the answer
+idle ──tap──> question ──tap──> countdown
+                                    │
+                             (hits 0, or tap)
+                                    ▼
+                        reveal ──tap──> question (next index)
+                           │
+                    Right/Wrong buttons
+                    recolor the answer
 ```
 
+The countdown is the only phase on a clock. `question` and `reveal` both wait
+for a tap, indefinitely.
+
 `machine.advance()` is the single entry for a tap — it dispatches on
-current phase. Canvas click and the spacebar both call it.
+current phase. Canvas click and the spacebar both call it, and it debounces
+anything within `TAP_DEBOUNCE_MS` of the previous advance.
 
 ## Adding to the canvas
 
