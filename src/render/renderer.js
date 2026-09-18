@@ -33,9 +33,15 @@ export class Renderer {
     this.frameCount = 0;
     this._tick = this._tick.bind(this);
 
+    // Drawing happens in design space; the canvas is the real output size and
+    // every frame starts by scaling the context to bridge the two.
     this.W = CANVAS.width;
     this.H = CANVAS.height;
     this.topH = Math.round(this.H * CANVAS.topZoneRatio);
+
+    canvas.width = CANVAS.outputWidth;
+    canvas.height = CANVAS.outputHeight;
+    this.scale = CANVAS.outputWidth / CANVAS.width;
   }
 
   start() {
@@ -91,6 +97,11 @@ export class Renderer {
   drawFrame() {
     const { ctx, W, H } = this;
     const state = this.getState();
+
+    // Reset every frame rather than once: the zone drawers use save/restore
+    // around their own transforms, and a stray imbalance would otherwise
+    // compound silently across frames.
+    ctx.setTransform(this.scale, 0, 0, this.scale, 0, 0);
 
     // The overlay gradient and the cover-fitted camera between them repaint
     // every pixel, so clearing first is only needed before the camera is live.

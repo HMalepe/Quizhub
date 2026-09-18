@@ -25,8 +25,11 @@ const recorder = new CanvasRecorder(canvas);
 const wakeLock = new WakeLock();
 
 // The camera fills everything below the overlay zone — that's the region the
-// negotiated resolution has to cover without being upscaled.
-const cameraZoneHeight = CANVAS.height - Math.round(CANVAS.height * CANVAS.topZoneRatio);
+// negotiated resolution has to cover without being upscaled. Measured against
+// the real output size, not the design space, since that's the pixel count the
+// feed actually has to supply.
+const cameraZoneHeight =
+  CANVAS.outputHeight - Math.round(CANVAS.outputHeight * CANVAS.topZoneRatio);
 
 let questions = loadQuestions();
 let latestState = null;
@@ -54,7 +57,7 @@ const controls = new Controls({
       await camera.start();
       controls.enableCameraDependentControls();
       controls.showCameraInfo(
-        describeCameraQuality(camera.videoSettings, CANVAS.width, cameraZoneHeight)
+        describeCameraQuality(camera.videoSettings, CANVAS.outputWidth, cameraZoneHeight)
       );
       renderer.start();
       if (!isRecordingSupported()) {
