@@ -51,6 +51,8 @@ export class CanvasRecorder {
      * track here at record time. Left null, the recording comes out silent.
      */
     this.audioTrack = null;
+    /** @see start() — retained so Safari can't collect the canvas capture. */
+    this._canvasStream = null;
   }
 
   start() {
@@ -67,8 +69,14 @@ export class CanvasRecorder {
       this.lastUrl = null;
     }
 
-    const stream = this.canvas.captureStream(CAPTURE.fps);
-    const tracks = [...stream.getVideoTracks()];
+    // Held on the instance, not in a local. Only the video *track* ends up in
+    // the stream handed to MediaRecorder, so the MediaStream that owns the
+    // canvas capture would otherwise be unreachable the moment start() returns.
+    // Safari stops the underlying capture when that stream is collected: the
+    // video freezes on its last frame a few seconds in while the mic track —
+    // owned by `camera`, and therefore still referenced — records on happily.
+    this._canvasStream = this.canvas.captureStream(CAPTURE.fps);
+    const tracks = [...this._canvasStream.getVideoTracks()];
     if (this.audioTrack) tracks.push(this.audioTrack);
     const output = new MediaStream(tracks);
 
@@ -84,6 +92,10 @@ export class CanvasRecorder {
       if (event.data && event.data.size) this.chunks.push(event.data);
     };
 
+    // Deliberately no timeslice. Chunked recording is a common iOS workaround,
+    // but it yields a container with no duration written: the blob plays with
+    // `duration === Infinity`, which breaks seeking and made a 75s take report
+    // zero presented frames in testing. One blob at stop() keeps the metadata.
     this.recorder.start();
     this.recording = true;
   }
@@ -96,6 +108,14 @@ export class CanvasRecorder {
         return;
       }
 
+      // Only the canvas capture — the mic track belongs to `camera` and has to
+      // survive for the next take.
+      const releaseCanvasStream = () => {
+        if (!this._canvasStream) return;
+        this._canvasStream.getTracks().forEach((t) => t.stop());
+        this._canvasStream = null;
+      };
+
       this.recorder.onstop = () => {
         const mimeType = this.recorder.mimeType || 'video/webm';
         const blob = new Blob(this.chunks, { type: mimeType });
@@ -103,11 +123,13 @@ export class CanvasRecorder {
         const ext = mimeType.includes('mp4') ? 'mp4' : 'webm';
         this.lastUrl = url;
         this.recording = false;
+        releaseCanvasStream();
         resolve({ url, filename: `trivia-reel-${Date.now()}.${ext}` });
       };
 
       this.recorder.onerror = (event) => {
         this.recording = false;
+        releaseCanvasStream();
         reject(event.error || new Error('Recording failed.'));
       };
 

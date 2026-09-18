@@ -66,13 +66,28 @@ These look like omissions but are intentional. Check here before changing them.
    **Verify any recording change with a take over a minute long.** The 10s
    failure above was invisible to every 5–6 second test that shipped it.
 
-6. **Text layout is cached, and the cache is cleared on `document.fonts.ready`.**
+6. **`recorder._canvasStream` is held on the instance on purpose — do not
+   inline it back into a local.** Only the video *track* goes into the stream
+   handed to `MediaRecorder`, so the `MediaStream` returned by
+   `captureStream()` becomes unreachable the moment `start()` returns. Safari
+   stops the underlying canvas capture once that stream is collected, and the
+   result is video frozen on its last frame seconds into a take while the mic
+   — owned by `camera`, still referenced — records on. It looks exactly like a
+   stalled draw loop and is not one. `stop()` releases it, and only it; the mic
+   track has to survive for the next take.
+
+7. **`recorder.start()` takes no timeslice.** Chunked recording is a common iOS
+   workaround, but it produces a container with no duration written: the blob
+   reports `duration === Infinity`, seeking breaks, and a 75s take measured
+   zero presented frames. One blob at `stop()` keeps the metadata intact.
+
+8. **Text layout is cached, and the cache is cleared on `document.fonts.ready`.**
    `drawFitted()` measures per word per candidate size; re-running that 60x a
    second on unchanged text is pure waste. The invalidation is not optional:
    anything measured before Unbounded/Inter load was measured in the fallback
    face and would be wrong for the rest of the session.
 
-7. **Only the countdown is on a clock — `question` and `reveal` wait for a
+9. **Only the countdown is on a clock — `question` and `reveal` wait for a
    tap, indefinitely.** Reveal needs an open beat to tap Right/Wrong before
    moving on. Question needs however long it takes to read aloud, which is not
    a number this code can guess: it used to auto-advance after 1.6s
@@ -84,22 +99,22 @@ These look like omissions but are intentional. Check here before changing them.
    only driver, one ghost click would run question → countdown → reveal in a
    single gesture.
 
-8. **Front camera only, and the feed is always mirrored.** This is a
-   selfie-reaction tool — there is no rear camera, no `facingMode` toggle and
-   no Flip button (all three existed once and were deliberately removed).
-   `renderer.drawCameraZone()` mirrors unconditionally, because a selfie view
-   is what people expect to see of themselves. Don't add a rear-camera path
-   back without asking; it would also mean re-solving the mic track dying
-   whenever the stream is rebuilt mid-take.
+10. **Front camera only, and the feed is always mirrored.** This is a
+    selfie-reaction tool — there is no rear camera, no `facingMode` toggle and
+    no Flip button (all three existed once and were deliberately removed).
+    `renderer.drawCameraZone()` mirrors unconditionally, because a selfie view
+    is what people expect to see of themselves. Don't add a rear-camera path
+    back without asking; it would also mean re-solving the mic track dying
+    whenever the stream is rebuilt mid-take.
 
-9. **`answerResult` resets to `null` on every new question.** Unmarked answers
-   render in neutral white; that's a valid state, not an error.
+11. **`answerResult` resets to `null` on every new question.** Unmarked answers
+    render in neutral white; that's a valid state, not an error.
 
-10. **The canvas is a fixed 1080×1920 regardless of screen size.** CSS scales it
+12. **The canvas is a fixed 1080×1920 regardless of screen size.** CSS scales it
     for display. Never set canvas width/height from `clientWidth` — output
     resolution must stay constant for consistent recordings.
 
-11. **`startBtn` is gated on camera AND a chosen category, not camera alone.**
+13. **`startBtn` is gated on camera AND a chosen category, not camera alone.**
     `Controls._updateStartEnabled()` tracks both `_cameraEnabled` and
     `_categoryChosen` and only enables Start when both are true. The category
     `<select>` starts on a disabled, unselected placeholder — picking a
@@ -107,7 +122,7 @@ These look like omissions but are intentional. Check here before changing them.
     with the right bank in the first place, so Start being enabled without a
     real bank behind it isn't a state worth allowing.
 
-12. **There is no text-to-speech and no speech recognition.** Both existed once
+14. **There is no text-to-speech and no speech recognition.** Both existed once
     (`speech.js`, `answerListener.js`, `matching.js`) and were deliberately
     removed: the app should make no sound of its own, and marking Right/Wrong
     is a manual tap. Don't reintroduce either without asking.
