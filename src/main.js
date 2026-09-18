@@ -1,6 +1,6 @@
 import './ui/styles.css';
 
-import { CANVAS, TIMING, STORAGE_KEYS } from './core/config.js';
+import { CANVAS, STORAGE_KEYS } from './core/config.js';
 import {
   DEFAULT_QUESTIONS,
   loadQuestions,
@@ -33,12 +33,45 @@ const cameraZoneHeight =
 
 let questions = loadQuestions();
 let latestState = null;
+let timeline = [];
+let rawTake = null;
+let generating = false;
+
+function logTimeline(state) {
+  if (!recorder.recording) return;
+  if (state.phase !== 'question' && state.phase !== 'reveal') return;
+  const last = timeline[timeline.length - 1];
+  if (last && last.phase === state.phase && last.index === state.index) return;
+  timeline.push({
+    t: recorder.elapsedSeconds,
+    phase: state.phase,
+    index: state.index
+  });
+}
+
+async function stopRecordingQuietly() {
+  if (!recorder.recording) return;
+  diagnostics.stop();
+  try {
+    rawTake = await recorder.stop();
+  } catch (err) {
+    alert(`Could not finish the recording: ${err.message}`);
+    rawTake = null;
+  } finally {
+    controls.setRecording(false);
+    wakeLock.release();
+  }
+}
 
 const machine = new QuizMachine({
   questions,
   onChange: (state) => {
     latestState = state;
     controls.syncPhase(state);
+    logTimeline(state);
+    if (state.phase === 'review' && recorder.recording) {
+      void stopRecordingQuietly();
+    }
   }
 });
 
@@ -47,6 +80,7 @@ const renderer = new Renderer({
   camera,
   getState: () => latestState || machine.snapshot()
 });
+renderer.onAfterDraw = () => recorder.captureFrame();
 
 const diagnostics = new RecordingDiagnostics({ recorder, camera, renderer });
 diagnostics.onUpdate = (report) => controls.showDiagnostics(report);
@@ -86,13 +120,55 @@ const controls = new Controls({
 
   onAdvance: () => machine.advance(),
 
-  onMark: (result) => machine.mark(result),
+  onMarkAt: (index, result) => machine.markAt(index, result),
+
+  onGenerate: async () => {
+    if (generating) return;
+    if (!rawTake) {
+      alert('Record a take first, then mark your answers to generate the video.');
+      return;
+    }
+    if (!machine.allMarked) {
+      alert('Mark every question right or wrong before generating.');
+      return;
+    }
+
+    generating = true;
+    controls.setGenerating(0);
+    try {
+      const { colorizeTake } = await import('./core/colorizeTake.js');
+      const blob = rawTake.blob || (await fetch(rawTake.url).then((r) => r.blob()));
+      const result = await colorizeTake({
+        blob,
+        questions: machine.questions,
+        timeline,
+        marks: machine.marks,
+        onProgress: (progress) => controls.setGenerating(progress)
+      });
+      controls.showDownload(result);
+    } catch (err) {
+      console.error(err);
+      alert(`Could not generate the video: ${err.message}`);
+      if (rawTake) controls.showDownload(rawTake);
+    } finally {
+      generating = false;
+      controls.setGenerating(null);
+      if (latestState && latestState.phase === 'review') controls.showReview(latestState);
+    }
+  },
 
   onToggleRecord: async () => {
     if (!recorder.recording) {
       try {
+        if (rawTake?.url) URL.revokeObjectURL(rawTake.url);
+        rawTake = null;
+        timeline = [];
         recorder.audioTrack = camera.audioTrack;
         await recorder.start();
+        const state = machine.snapshot();
+        if (state.phase === 'question' || state.phase === 'reveal') {
+          timeline.push({ t: 0, phase: state.phase, index: state.index });
+        }
         diagnostics.start();
         controls.setRecording(true);
         // A sleeping screen stops requestAnimationFrame, which freezes the
@@ -102,28 +178,7 @@ const controls = new Controls({
         alert(err.message);
       }
     } else {
-      try {
-        // Before stop(), so the last poll still sees the live track state.
-        diagnostics.stop();
-        const result = await recorder.stop();
-        controls.setRecording(false);
-        controls.showDownload(result);
-      } catch (err) {
-        diagnostics.stop();
-        controls.setRecording(false);
-        alert(`Could not finish the recording: ${err.message}`);
-      } finally {
-        wakeLock.release();
-      }
-    }
-  },
-
-  onCountdownChange: (value) => {
-    machine.setCountdownSeconds(value);
-    try {
-      localStorage.setItem(STORAGE_KEYS.countdown, String(machine.countdownSeconds));
-    } catch {
-      /* non-fatal */
+      await stopRecordingQuietly();
     }
   },
 
@@ -157,24 +212,9 @@ canvas.addEventListener('click', () => machine.advance());
 document.addEventListener('visibilitychange', () => {
   if (document.hidden) return;
   camera.resume();
+  void recorder.resumeCapture();
   wakeLock.reacquire();
 });
-
-// ---- restore persisted settings ----
-const storedCountdown = (() => {
-  try {
-    return localStorage.getItem(STORAGE_KEYS.countdown);
-  } catch {
-    return null;
-  }
-})();
-
-if (storedCountdown) {
-  machine.setCountdownSeconds(storedCountdown);
-  controls.setCountdownValue(machine.countdownSeconds);
-} else {
-  controls.setCountdownValue(TIMING.countdownSeconds);
-}
 
 controls.populateCategories(SECTIONS);
 controls.setQuestionBankText(stringifyQuestions(questions));

@@ -3,15 +3,15 @@ import { TIMING, TAP_DEBOUNCE_MS } from './config.js';
 /**
  * Quiz phase state machine.
  *
- *   idle ──tap──> question ──tap──> countdown
- *                                       │
- *                                (hits 0 or tap)
- *                                       ▼
- *                                    reveal ──tap──> question (next)
+ *   idle ──tap──> question ──tap──> reveal ──tap──> question (next)
+ *                                                    │
+ *                                             (last answer)
+ *                                                    ▼
+ *                                                 review
  *
- * The countdown is the only phase on a clock. `question` and `reveal` both
- * wait for you: a question needs however long it takes to read aloud, and
- * reveal needs an open beat to tap Right/Wrong before moving on.
+ * Nothing is on a clock. Right/Wrong is not a live tap — you mark the
+ * recap after the last question, then the download is colored from those
+ * marks. `answerResult` on the live snapshot stays null on purpose.
  *
  * Emits changes via onChange so the renderer and UI stay dumb — they read
  * state, they don't own it.
@@ -21,37 +21,31 @@ export class QuizMachine {
     this.questions = questions;
     this.onChange = onChange || (() => {});
     this.index = 0;
-    this.phase = 'idle'; // 'idle' | 'question' | 'countdown' | 'reveal'
-    this.countdownValue = 0;
-    this.countdownSeconds = TIMING.countdownSeconds;
-    this.answerResult = null; // null | 'right' | 'wrong'
+    this.phase = 'idle'; // 'idle' | 'question' | 'reveal' | 'review'
+    this.marks = [];
     this.flashUntil = 0;
-    this._timer = null;
     this._lastAdvanceAt = 0;
+    this._resetMarks();
+  }
+
+  _resetMarks() {
+    this.marks = this.questions.map(() => null);
   }
 
   setQuestions(questions) {
     this.questions = questions;
     this.index = 0;
+    this._resetMarks();
     if (this.phase !== 'idle') this.showQuestion();
     else this._emit();
-  }
-
-  setCountdownSeconds(seconds) {
-    const n = Number.parseInt(seconds, 10);
-    this.countdownSeconds = Number.isFinite(n) && n > 0 ? n : TIMING.countdownSeconds;
-    this._emit();
   }
 
   get current() {
     return this.questions[this.index] || ['', ''];
   }
 
-  _clearTimer() {
-    if (this._timer) {
-      clearTimeout(this._timer);
-      this._timer = null;
-    }
+  get allMarked() {
+    return this.marks.length > 0 && this.marks.every((m) => m === 'right' || m === 'wrong');
   }
 
   _emit() {
@@ -65,84 +59,63 @@ export class QuizMachine {
       total: this.questions.length,
       question: this.current[0],
       answer: this.current[1],
-      countdownValue: this.countdownValue,
-      answerResult: this.answerResult,
+      answerResult: null,
+      marks: this.marks.slice(),
+      questions: this.questions,
       flashUntil: this.flashUntil
     };
   }
 
   start() {
     this.index = 0;
+    this._resetMarks();
     this.showQuestion();
   }
 
   /**
-   * No timer here on purpose — the question holds until you tap. It used to
-   * auto-advance after 1.6s, which meant a tap intended to start the countdown
-   * often landed on an already-running countdown and revealed the answer
-   * instead, eating the question.
+   * No timer here on purpose — the question holds until you tap. Auto-advance
+   * used to eat the question: a tap meant to reveal the answer landed after
+   * the machine had already moved on.
    */
   showQuestion() {
-    this._clearTimer();
     if (!this.questions.length) return;
     this.phase = 'question';
-    this.answerResult = null;
     this._emit();
-  }
-
-  startCountdown() {
-    this._clearTimer();
-    this.phase = 'countdown';
-    this.countdownValue = this.countdownSeconds;
-    this._emit();
-
-    const step = () => {
-      if (this.countdownValue <= 0) {
-        this.reveal();
-        return;
-      }
-      this._timer = setTimeout(() => {
-        this.countdownValue -= 1;
-        this._emit();
-        step();
-      }, 1000);
-    };
-    step();
   }
 
   reveal() {
-    this._clearTimer();
     this.phase = 'reveal';
-    this.answerResult = null;
     this.flashUntil = performance.now() + TIMING.flashMs;
     this._emit();
-    // No timer here on purpose — waits for you to mark and tap on.
   }
 
-  /** @param {'right'|'wrong'} result */
-  mark(result) {
-    if (this.phase !== 'reveal') return;
-    this.answerResult = result;
-    this.flashUntil = performance.now() + TIMING.flashMs;
+  /** Recap marking — not used during the live take. */
+  markAt(index, result) {
+    if (index < 0 || index >= this.marks.length) return;
+    this.marks[index] = result;
     this._emit();
   }
 
   next() {
-    this._clearTimer();
-    this.index = (this.index + 1) % this.questions.length;
+    if (this.index >= this.questions.length - 1) {
+      this.phase = 'review';
+      this._emit();
+      return;
+    }
+    this.index += 1;
     this.showQuestion();
   }
 
   /**
    * Single entry point for a screen tap — advances whatever phase we're in.
+   * Review does not advance; marking happens in the panel.
    *
-   * Taps are now the only thing driving question → countdown → next, so a
-   * stray double-fire (a mobile ghost click, a fumbled double-tap) costs a
-   * whole question: it would run question → countdown → reveal in one gesture.
-   * Anything inside TAP_DEBOUNCE_MS of the last advance is treated as that
-   * same gesture and ignored.
+   * Taps are the only driver, so a stray double-fire (a mobile ghost click)
+   * would run question → reveal → next in one gesture and skip the answer.
+   * Anything inside TAP_DEBOUNCE_MS of the last advance is the same gesture.
    */
   advance() {
+    if (this.phase === 'review') return;
     const now = performance.now();
     if (now - this._lastAdvanceAt < TAP_DEBOUNCE_MS) return;
     this._lastAdvanceAt = now;
@@ -152,9 +125,6 @@ export class QuizMachine {
         this.showQuestion();
         break;
       case 'question':
-        this.startCountdown();
-        break;
-      case 'countdown':
         this.reveal();
         break;
       case 'reveal':
@@ -164,6 +134,6 @@ export class QuizMachine {
   }
 
   destroy() {
-    this._clearTimer();
+    /* no timers to clear */
   }
 }

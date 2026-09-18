@@ -50,8 +50,13 @@ export class Camera {
       // it's the content, and it has to stay in sync with the footage.
       // Everything else (ticks, buzzer, stings) still gets added in CapCut.
       audio: {
-        echoCancellation: true,
-        noiseSuppression: true
+        // This is a recording, not a call. AEC/NS/AGC run in chunks and
+        // pump/gate the voice — that's the crackle. The <video> stays muted
+        // so there is no speaker loopback for echo cancellation to chase.
+        echoCancellation: false,
+        noiseSuppression: false,
+        autoGainControl: false,
+        channelCount: 1
       }
     });
     this.video.srcObject = this.stream;

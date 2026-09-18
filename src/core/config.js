@@ -71,13 +71,10 @@ export const TYPE = {
   kicker: '700 24px Inter, sans-serif',
   question: '600 46px Inter, sans-serif',
   answer: '700 54px Unbounded, sans-serif',
-  numeral: '900 220px Unbounded, sans-serif',
   idle: '700 44px Unbounded, sans-serif'
 };
 
 export const TIMING = {
-  /** Default countdown length in seconds; user-overridable in Settings. */
-  countdownSeconds: 3,
   /** Duration of the flash overlay (ms). */
   flashMs: 400
 };
@@ -89,6 +86,5 @@ export const TIMING = {
 export const TAP_DEBOUNCE_MS = 300;
 
 export const STORAGE_KEYS = {
-  questions: 'trivia-reel:questions',
-  countdown: 'trivia-reel:countdown'
+  questions: 'trivia-reel:questions'
 };

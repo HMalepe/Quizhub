@@ -38,9 +38,11 @@
       <button class="record" id="recordBtn" disabled>● Record</button>
     </div>
 
-    <div class="row">
-      <button class="right" id="rightBtn" disabled>✓ Right</button>
-      <button class="wrong" id="wrongBtn" disabled>✕ Wrong</button>
+    <div class="review" id="review" hidden>
+      <p class="review-title">How did you do?</p>
+      <p class="review-hint">Mark each one, then generate the video. Right answers turn green, wrong ones red.</p>
+      <div id="reviewList"></div>
+      <button class="primary" id="generateBtn" disabled>Generate video</button>
     </div>
 
     <a class="download-link" id="downloadLink" download>Download video</a>
@@ -50,11 +52,6 @@
     </div>
 
     <div class="settings" id="settings">
-      <div class="field">
-        <label for="countdownLen">Countdown length (seconds)</label>
-        <input type="number" id="countdownLen" min="1" max="10" value="3" />
-      </div>
-
       <div class="field">
         <label for="questionBank">Questions — one per line: Question | Answer</label>
         <textarea id="questionBank"></textarea>

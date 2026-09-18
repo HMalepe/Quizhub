@@ -32,6 +32,11 @@ export class Renderer {
     this._lastDrawAt = 0;
     /** Total painted frames. Read by RecordingDiagnostics to spot a dead loop. */
     this.frameCount = 0;
+    /**
+     * Called after a completed paint. The recorder snapshots from here so it
+     * never encodes a half-drawn frame (tearing looks like a hitch).
+     */
+    this.onAfterDraw = null;
     this._tick = this._tick.bind(this);
 
     // Drawing happens in design space; the canvas is the real output size and
@@ -115,6 +120,7 @@ export class Renderer {
     this.drawOverlayZone(state);
     this.drawFlash(state);
     this.frameCount++;
+    if (this.onAfterDraw) this.onAfterDraw();
   }
 
   /** Bottom zone: camera feed, cover-cropped so it always fills without stretch. */
@@ -166,25 +172,25 @@ export class Renderer {
 
     switch (state.phase) {
       case 'idle':
-        this.drawIdle();
+        this.drawIdle('Tap to start');
         break;
       case 'question':
         this.drawQuestion(state);
         break;
-      case 'countdown':
-        this.drawCountdown(state);
-        break;
       case 'reveal':
         this.drawReveal(state);
+        break;
+      case 'review':
+        this.drawIdle('Mark your answers');
         break;
     }
   }
 
-  drawIdle() {
+  drawIdle(message) {
     const { ctx, W, topH } = this;
     ctx.fillStyle = COLORS.ink;
     ctx.font = TYPE.idle;
-    drawWrapped(ctx, 'Tap to start', W / 2, topH / 2, W * 0.8, 54);
+    drawWrapped(ctx, message, W / 2, topH / 2, W * 0.8, 54);
   }
 
   drawKicker(label, color) {
@@ -195,36 +201,29 @@ export class Renderer {
   }
 
   drawQuestion(state) {
-    const { ctx, W, topH } = this;
     this.drawKicker('QUESTION', COLORS.amber);
+    this.drawQuestionText(state.question);
+  }
+
+  /**
+   * Same slot in both phases so the question doesn't jump when the answer
+   * appears under it. Upper half of the overlay; the lower half is reserved
+   * for the answer. Live takes always draw the answer in white; green/red
+   * is applied later from the recap marks when the download is generated.
+   */
+  drawQuestionText(question) {
+    const { ctx, W, topH } = this;
     ctx.fillStyle = COLORS.ink;
     drawFitted(
       ctx,
-      state.question,
+      question,
       W / 2,
-      topH * 0.56,
+      topH * 0.38,
       W * 0.82,
-      topH * 0.5,
+      topH * 0.28,
       '600 {size}px Inter, sans-serif',
       46
     );
-  }
-
-  drawCountdown(state) {
-    const { ctx, W, topH } = this;
-    this.drawKicker('GET READY', COLORS.amber);
-
-    // Pulse on the leading edge of each second.
-    const intoSecond = performance.now() % 1000;
-    const pulse = intoSecond < 140 ? 1.12 : 1;
-
-    ctx.save();
-    ctx.translate(W / 2, topH * 0.6);
-    ctx.scale(pulse, pulse);
-    ctx.fillStyle = COLORS.amber;
-    ctx.font = TYPE.numeral;
-    ctx.fillText(String(state.countdownValue), 0, 0);
-    ctx.restore();
   }
 
   drawReveal(state) {
@@ -241,6 +240,7 @@ export class Renderer {
       : 'ANSWER';
 
     this.drawKicker(kickerLabel, kickerColor);
+    this.drawQuestionText(state.question);
 
     ctx.fillStyle =
       state.answerResult === 'right' ? COLORS.right
@@ -251,11 +251,11 @@ export class Renderer {
       ctx,
       state.answer,
       W / 2,
-      topH * 0.58,
+      topH * 0.74,
       W * 0.85,
-      topH * 0.46,
+      topH * 0.28,
       '700 {size}px Unbounded, sans-serif',
-      54
+      44
     );
   }
 

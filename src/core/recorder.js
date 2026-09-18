@@ -1,7 +1,11 @@
 import {
+  ALL_FORMATS,
+  AudioBufferSink,
+  AudioBufferSource,
+  BlobSource,
   BufferTarget,
   CanvasSource,
-  MediaStreamAudioTrackSource,
+  Input,
   Mp4OutputFormat,
   Output,
   Quality,
@@ -11,6 +15,7 @@ import {
   getFirstEncodableVideoCodec
 } from 'mediabunny';
 import { CANVAS, CAPTURE, ENCODING } from './config.js';
+import { MicCapture } from './micCapture.js';
 
 /**
  * Records the composited canvas to a file, with the mic mixed in.
@@ -28,11 +33,28 @@ import { CANVAS, CAPTURE, ENCODING } from './config.js';
  * forces a keyframe every `ENCODING.keyFrameInterval` seconds and timestamps
  * video against wall-clock so it stays aligned with the mic.
  *
+ * Audio is recorded with a sidecar MediaRecorder on the mic track — that
+ * encoder runs off the main thread, so canvas encode cannot starve it (the
+ * crackle). After the take, those samples are muxed into the MP4. MicCapture
+ * remains only when the browser cannot MediaRecorder the mic.
+ *
+ * Video uses `latencyMode: 'quality'` so the encoder is not allowed to drop
+ * frames to keep a realtime budget. If we cannot encode a 30fps slot in time,
+ * the current canvas is written with a duration that covers the gap — a held
+ * frame, not a hole in the timeline (holes play as a hitch or a freeze).
+ * Snapshots are taken after each completed paint so a frame cannot tear.
+ *
  * Frame delivery for the fallback is still left to `captureStream(fps)`.
  * Driving it by hand with `captureStream(0)` plus `requestFrame()` stopped
  * delivering video after ~10 seconds on iOS Safari. Don't reintroduce that
  * on the fallback.
  */
+
+const AUDIO_MIME_CANDIDATES = [
+  'audio/webm;codecs=opus',
+  'audio/webm',
+  'audio/mp4'
+];
 
 const MIME_CANDIDATES = [
   'video/mp4;codecs=avc1',
@@ -62,6 +84,16 @@ async function ensureAacEncoder() {
   return aacPolyfill;
 }
 
+export { ensureAacEncoder };
+
+function pickAudioMimeType() {
+  if (typeof MediaRecorder === 'undefined') return null;
+  for (const type of AUDIO_MIME_CANDIDATES) {
+    if (MediaRecorder.isTypeSupported(type)) return type;
+  }
+  return '';
+}
+
 function pickMimeType() {
   if (typeof MediaRecorder === 'undefined') return null;
   for (const type of MIME_CANDIDATES) {
@@ -82,8 +114,8 @@ function videoEncodeOptions() {
     width: CANVAS.outputWidth,
     height: CANVAS.outputHeight,
     frameRate: CAPTURE.fps,
-    quality: new Quality({ bitrate: ENCODING.videoBitsPerSecond }),
-    latencyMode: 'realtime'
+    quality: new Quality({ bitrate: ENCODING.videoBitsPerSecond, bitrateMode: 'variable' }),
+    latencyMode: 'quality'
   };
 }
 
@@ -110,6 +142,7 @@ export class CanvasRecorder {
     this._engine = null;
     this._starting = false;
     this._encodedVideoFrames = 0;
+    this._mediaStartedAt = 0;
     this._resetWebCodecs();
   }
 
@@ -118,11 +151,16 @@ export class CanvasRecorder {
     this._target = null;
     this._videoSource = null;
     this._audioSource = null;
+    this._micCapture = null;
+    this._sidecar = null;
+    this._sidecarChunks = [];
+    this._audioChain = Promise.resolve();
     this._captureTimer = null;
-    this._captureRaf = 0;
     this._readyForMoreFrames = true;
     this._lastFrameNumber = -1;
+    this._owedFrame = -1;
     this._startTime = 0;
+    this._stopping = false;
   }
 
   /** Live capture track, or a stand-in the diagnostics can poll. */
@@ -137,6 +175,15 @@ export class CanvasRecorder {
     if (!this._canvasStream) return null;
     const [track] = this._canvasStream.getVideoTracks();
     return track || null;
+  }
+
+  get elapsedSeconds() {
+    if (!this.recording) return 0;
+    if (this._engine === 'webcodecs' && this._startTime) {
+      return (nowMs() - this._startTime) / 1000;
+    }
+    if (this._mediaStartedAt) return (nowMs() - this._mediaStartedAt) / 1000;
+    return 0;
   }
 
   get chunkCount() {
@@ -194,9 +241,39 @@ export class CanvasRecorder {
     const preferredAudio = format instanceof Mp4OutputFormat
       ? ['aac', ...format.getSupportedAudioCodecs().filter((c) => c !== 'aac')]
       : ['opus', ...format.getSupportedAudioCodecs().filter((c) => c !== 'opus')];
-    const audioCodec = await getFirstEncodableAudioCodec(preferredAudio, {
-      quality: new Quality({ bitrate: ENCODING.audioBitsPerSecond })
-    });
+
+    const sidecarMime = this.audioTrack ? pickAudioMimeType() : null;
+    const useSidecar = Boolean(this.audioTrack && sidecarMime !== null);
+
+    let audioSampleRate = 48000;
+    if (this.audioTrack && this.audioTrack.getSettings) {
+      audioSampleRate = this.audioTrack.getSettings().sampleRate || audioSampleRate;
+    }
+
+    if (!useSidecar && this.audioTrack) {
+      const micCapture = new MicCapture();
+      try {
+        await micCapture.start(this.audioTrack);
+        if (micCapture.active) {
+          this._micCapture = micCapture;
+          audioSampleRate = micCapture.sampleRate;
+        } else {
+          await micCapture.stop();
+        }
+      } catch (err) {
+        console.warn('Mic capture failed; recording video only.', err);
+        await micCapture.stop();
+      }
+    }
+
+    const wantAudio = useSidecar || Boolean(this._micCapture);
+    const audioCodec = wantAudio
+      ? await getFirstEncodableAudioCodec(preferredAudio, {
+          quality: new Quality({ bitrate: ENCODING.audioBitsPerSecond, bitrateMode: 'constant' }),
+          numberOfChannels: 1,
+          sampleRate: audioSampleRate
+        })
+      : null;
 
     const target = new BufferTarget();
     const output = new Output({ format, target });
@@ -205,7 +282,7 @@ export class CanvasRecorder {
       codec: videoCodec,
       quality: new Quality({ bitrate: ENCODING.videoBitsPerSecond, bitrateMode: 'variable' }),
       keyFrameInterval: ENCODING.keyFrameInterval,
-      latencyMode: 'realtime',
+      latencyMode: 'quality',
       hardwareAcceleration: 'prefer-hardware',
       contentHint: 'motion',
       onEncodedPacket: (packet) => {
@@ -215,62 +292,170 @@ export class CanvasRecorder {
     });
     output.addVideoTrack(videoSource, { frameRate: CAPTURE.fps });
 
-    if (this.audioTrack && audioCodec) {
-      const audioSource = new MediaStreamAudioTrackSource(this.audioTrack, {
+    if (wantAudio && audioCodec) {
+      const audioSource = new AudioBufferSource({
         codec: audioCodec,
-        quality: new Quality({ bitrate: ENCODING.audioBitsPerSecond })
-      });
-      audioSource.errorPromise.catch((err) => {
-        console.error('Audio encode failed:', err);
-      });
+        quality: new Quality({ bitrate: ENCODING.audioBitsPerSecond, bitrateMode: 'constant' }),
+        transform: { numberOfChannels: 1, sampleRate: audioSampleRate }
+      }, { startTimestamp: 0 });
       output.addAudioTrack(audioSource);
       this._audioSource = audioSource;
-    } else if (this.audioTrack && !audioCodec) {
-      console.warn('Mic is live but this browser cannot encode audio; recording video only.');
+    } else {
+      if (this._micCapture) {
+        await this._micCapture.stop();
+        this._micCapture = null;
+      }
+      if (this.audioTrack && wantAudio && !audioCodec) {
+        console.warn('Mic is live but this browser cannot encode audio; recording video only.');
+      }
     }
 
     this._engine = 'webcodecs';
     this._output = output;
     this._target = target;
     this._videoSource = videoSource;
-    this._startTime = nowMs();
     await output.start();
+    // Clock starts after the encoder is actually open. Starting it earlier
+    // made video cover the init delay while the mic was still discarded, so
+    // the file had a frozen first second and short audio.
+    this._startTime = nowMs();
+    if (useSidecar && this._audioSource) this._startSidecarAudio();
+    if (this._micCapture) {
+      this._micCapture.onBuffer = (buffer) => this._enqueueAudio(buffer);
+      this._micCapture.enable();
+    }
+
     this.recorder = { state: 'recording' };
     return true;
+  }
+
+  _enqueueAudio(buffer) {
+    if (!this._audioSource) return;
+    this._audioChain = this._audioChain
+      .then(() => {
+        if (!this._audioSource) return;
+        return this._audioSource.add(buffer);
+      })
+      .catch((err) => {
+        console.error('Audio encode failed:', err);
+      });
+  }
+
+  _startSidecarAudio() {
+    const mimeType = pickAudioMimeType();
+    if (mimeType === null || !this.audioTrack) return;
+    this._sidecarChunks = [];
+    const options = { audioBitsPerSecond: ENCODING.audioBitsPerSecond };
+    if (mimeType) options.mimeType = mimeType;
+    this._sidecar = new MediaRecorder(new MediaStream([this.audioTrack]), options);
+    this._sidecar.ondataavailable = (event) => {
+      if (event.data && event.data.size) this._sidecarChunks.push(event.data);
+    };
+    this._sidecar.start();
+  }
+
+  _stopSidecarAudio() {
+    return new Promise((resolve) => {
+      if (!this._sidecar) {
+        resolve(null);
+        return;
+      }
+      const recorder = this._sidecar;
+      const finish = () => {
+        const mimeType = recorder.mimeType || 'audio/webm';
+        const blob = new Blob(this._sidecarChunks, { type: mimeType });
+        this._sidecar = null;
+        this._sidecarChunks = [];
+        resolve(blob.size ? blob : null);
+      };
+      recorder.onstop = finish;
+      recorder.onerror = finish;
+      try {
+        if (typeof recorder.requestData === 'function') recorder.requestData();
+        recorder.stop();
+      } catch {
+        finish();
+      }
+    });
+  }
+
+  async _ingestSidecarAudio(blob) {
+    if (!blob || !this._audioSource) return;
+    const input = new Input({
+      source: new BlobSource(blob),
+      formats: ALL_FORMATS
+    });
+    const track = await input.getPrimaryAudioTrack();
+    if (!track) return;
+    const sink = new AudioBufferSink(track);
+    for await (const wrapped of sink.buffers()) {
+      await this._audioSource.add(wrapped.buffer);
+    }
   }
 
   _beginCapture() {
     this._readyForMoreFrames = true;
     this._lastFrameNumber = -1;
-    void this._addVideoFrame();
+    this._owedFrame = -1;
+    this.captureFrame();
+    // Safety net if the draw loop stalls: keep writing the last canvas so the
+    // file has a continuous video track instead of a hole that players freeze on.
     this._captureTimer = setInterval(() => {
-      void this._addVideoFrame();
-    }, 1000 / CAPTURE.fps);
-    const tick = () => {
       if (!this.recording || this._engine !== 'webcodecs') return;
-      void this._addVideoFrame();
-      this._captureRaf = requestAnimationFrame(tick);
-    };
-    this._captureRaf = requestAnimationFrame(tick);
+      const expected = Math.floor(((nowMs() - this._startTime) / 1000) * CAPTURE.fps);
+      if (expected - this._lastFrameNumber >= 2) this.captureFrame();
+    }, 1000 / CAPTURE.fps);
   }
 
-  async _addVideoFrame() {
-    if (!this._videoSource || !this._readyForMoreFrames) return;
-    if (!this._output || this._output.state !== 'started') return;
+  /**
+   * Snapshot the canvas into the next 30fps slot. Called after each completed
+   * paint so we never encode a half-drawn frame. Safe to call often — duplicate
+   * slot numbers are ignored.
+   */
+  captureFrame() {
+    if (!this.recording || this._stopping || this._engine !== 'webcodecs') return;
+    if (!this._videoSource || !this._output || this._output.state !== 'started') return;
 
     const elapsedSeconds = (nowMs() - this._startTime) / 1000;
-    const frameNumber = Math.round(elapsedSeconds * CAPTURE.fps);
-    if (frameNumber < 0 || frameNumber === this._lastFrameNumber) return;
+    const frameNumber = Math.max(0, Math.floor(elapsedSeconds * CAPTURE.fps + 1e-6));
+    if (frameNumber <= this._lastFrameNumber) return;
 
-    this._lastFrameNumber = frameNumber;
+    if (!this._readyForMoreFrames) {
+      this._owedFrame = frameNumber;
+      return;
+    }
+
+    void this._commitVideo(frameNumber);
+  }
+
+  async _commitVideo(frameNumber) {
+    if (!this._videoSource || !this._output || this._output.state !== 'started') return;
+    if (frameNumber <= this._lastFrameNumber) return;
+
+    const from = this._lastFrameNumber + 1;
+    const fps = CAPTURE.fps;
     this._readyForMoreFrames = false;
     try {
-      await this._videoSource.add(frameNumber / CAPTURE.fps, 1 / CAPTURE.fps);
+      // Duration covers every skipped slot so the timeline has no holes.
+      await this._videoSource.add(from / fps, (frameNumber - this._lastFrameNumber) / fps);
+      this._lastFrameNumber = frameNumber;
+      // Let queued mic worklet messages run. Video encode is heavy; without
+      // a yield the port overflows and those samples never get muxed.
+      await new Promise((resolve) => setTimeout(resolve, 0));
     } catch (err) {
       console.error('Frame encode failed:', err);
     } finally {
       this._readyForMoreFrames = true;
+      if (this.recording && this._owedFrame > this._lastFrameNumber) {
+        const next = this._owedFrame;
+        this._owedFrame = this._lastFrameNumber;
+        void this._commitVideo(next);
+      }
     }
+  }
+
+  async resumeCapture() {
+    if (this._micCapture) await this._micCapture.resume();
   }
 
   _stopCapture() {
@@ -278,14 +463,15 @@ export class CanvasRecorder {
       clearInterval(this._captureTimer);
       this._captureTimer = null;
     }
-    if (this._captureRaf) {
-      cancelAnimationFrame(this._captureRaf);
-      this._captureRaf = 0;
-    }
   }
 
   async _abortWebCodecs() {
     this._stopCapture();
+    if (this._micCapture) {
+      this._micCapture.onBuffer = null;
+      await this._micCapture.stop();
+    }
+    await this._stopSidecarAudio().catch(() => null);
     if (this._output && (this._output.state === 'started' || this._output.state === 'pending')) {
       try {
         await this._output.cancel();
@@ -327,6 +513,7 @@ export class CanvasRecorder {
     // No timeslice: chunked Safari MP4 often has no duration and won't seek.
     this.recorder.start();
     this._engine = 'mediarecorder';
+    this._mediaStartedAt = nowMs();
   }
 
   /** @returns {Promise<{url: string, filename: string}>} */
@@ -341,12 +528,27 @@ export class CanvasRecorder {
     }
 
     this.recording = false;
+    this._stopping = true;
     this._stopCapture();
 
+    const lastFrame = Math.max(0, Math.floor(((nowMs() - this._startTime) / 1000) * CAPTURE.fps));
     const waitUntil = performance.now() + 2000;
     while (!this._readyForMoreFrames && performance.now() < waitUntil) {
       await new Promise((resolve) => setTimeout(resolve, 20));
     }
+    if (lastFrame > this._lastFrameNumber) await this._commitVideo(lastFrame);
+
+    const sidecarBlob = await this._stopSidecarAudio();
+    if (sidecarBlob) await this._ingestSidecarAudio(sidecarBlob);
+
+    if (this._micCapture) {
+      this._micCapture.onBuffer = (buffer) => this._enqueueAudio(buffer);
+      await this._micCapture.flush();
+      this._micCapture.onBuffer = null;
+      await this._micCapture.stop();
+    }
+
+    await this._audioChain;
 
     try {
       await this._output.finalize();
@@ -365,7 +567,7 @@ export class CanvasRecorder {
     this.recorder = { state: 'inactive' };
     this._resetWebCodecs();
     this._engine = null;
-    return { url, filename: `trivia-reel-${Date.now()}${ext}` };
+    return { url, filename: `trivia-reel-${Date.now()}${ext}`, blob };
   }
 
   _stopMediaRecorder() {
@@ -390,7 +592,7 @@ export class CanvasRecorder {
         this.recording = false;
         this._engine = null;
         releaseCanvasStream();
-        resolve({ url, filename: `trivia-reel-${Date.now()}.${ext}` });
+        resolve({ url, filename: `trivia-reel-${Date.now()}.${ext}`, blob });
       };
 
       this.recorder.onerror = (event) => {

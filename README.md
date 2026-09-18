@@ -25,25 +25,23 @@ prompted — your voice is recorded along with the video.
 2. **Pick a category** — Start stays disabled until you choose one
 3. **Record** — starts capturing (red REC dot appears)
 4. **Start** — first question appears, and **waits for you**
-5. **Tap the video** — starts the countdown, which runs down and reveals the answer
-6. **Tap ✓ Right or ✕ Wrong** — the answer text on the canvas recolors green or red
-7. **Tap the video** again to move to the next question
-8. **Stop**, then **Download video**
+5. **Tap the video** — the answer appears under the question on the same screen
+6. **Tap** again to move to the next question
+7. After the last answer, a recap lists every question — mark each ✓ Right or ✕ Wrong
+8. **Generate video**, then **Download** — right answers are green, wrong ones red
 
 **Tapping anywhere on the canvas advances**, but the camera half is the easy
 thumb reach when the phone's on a tripod, so that's the one to use.
 
-Nothing rushes you: the question sits there until you tap, and so does the
-answer. The countdown is the only thing on a clock — and a tap during it cuts
-it short if you already know the answer.
+Nothing rushes you: the question sits there until you tap, then the answer
+sits under it until you tap again. Marking happens after the take, not while
+you're on camera.
 
 ### Keyboard shortcuts
 
 | Key | Action |
 |---|---|
 | `Space` | Advance phase |
-| `→` / `C` | Mark correct |
-| `←` / `X` | Mark wrong |
 | `R` | Toggle recording |
 
 ## Picking a category
@@ -75,13 +73,12 @@ The file comes out with one audio track: your mic. That's the content, and it
 stays in sync with the footage, so you're not re-recording your answers
 separately.
 
-The app itself makes no sound. Countdown ticks, the buzzer, and right/wrong
-stings go on in CapCut, which means you can retime them freely instead of being
-stuck with whatever played during filming.
+The app itself makes no sound. Right/wrong stings go on in CapCut if you want
+them. The downloaded file already shows green for answers you marked right and
+red for ones you marked wrong.
 
-**In CapCut:** the visual countdown numerals and the color flash on reveal are
-your sync markers. Drop a tick on each numeral change, a buzzer on the reveal
-flash, and a success/fail sting when the answer turns green or red.
+**In CapCut:** the color flash on reveal is still a sync marker if you want a
+buzzer there.
 
 ## Video quality and how long a take can run
 
