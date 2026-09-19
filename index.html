@@ -6,67 +6,74 @@
   <title>Trivia Reel</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@500;700;900&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;0,700;1,600&family=Outfit:wght@400;500;600;700&display=swap" rel="stylesheet" />
 </head>
 <body>
-  <button type="button" class="ghost restart restart-top" id="restartTop" hidden>Restart</button>
+  <div class="shell">
+    <header class="mast">
+      <p class="wordmark">Trivia Reel</p>
+      <button type="button" class="ghost restart restart-top" id="restartTop" hidden>Restart</button>
+    </header>
 
-  <div class="canvas-wrap">
-    <canvas id="stage" width="720" height="1280"></canvas>
-    <div class="rec-dot" id="recDot">REC</div>
-    <div class="permission-overlay" id="permOverlay">
-      <h2>Point, ask, react</h2>
-      <p>Needs camera and mic access — your voice is recorded with the video. Everything stays on your device — recording is local and downloads straight to you.</p>
-      <button class="primary wide" id="enableCamBtn">Enable camera &amp; mic</button>
-    </div>
-  </div>
-
-  <div class="panel">
-    <p class="cam-info" id="camInfo" hidden></p>
-    <p class="diag" id="diag" hidden></p>
-
-    <div class="row">
-      <select id="categorySelect" class="wide" disabled>
-        <option value="" disabled selected>Choose a category…</option>
-      </select>
-    </div>
-
-    <div class="row">
-      <button class="primary" id="startBtn" disabled>Start</button>
-      <button id="shuffleBtn" disabled>Shuffle</button>
-    </div>
-
-    <div class="row">
-      <button class="record" id="recordBtn" disabled>● Record</button>
-    </div>
-
-    <div class="review" id="review" hidden>
-      <p class="review-title">Scroll down to mark your answers</p>
-      <p class="review-hint">Right is green, close enough is orange, wrong is red. Tap a mark again to hear another clap, gasp, or buzzer — keep the one you like. Then generate the video.</p>
-      <div id="reviewList"></div>
-      <button class="primary" id="generateBtn" disabled>Generate video</button>
-    </div>
-
-    <a class="download-link" id="downloadLink" download>Download video</a>
-
-    <div class="row">
-      <button class="ghost" id="settingsBtn">Settings</button>
-    </div>
-
-    <div class="settings" id="settings">
-      <div class="field">
-        <label for="questionBank">Questions — one per line: Question | Answer</label>
-        <textarea id="questionBank"></textarea>
+    <div class="canvas-wrap">
+      <canvas id="stage" width="720" height="1280"></canvas>
+      <div class="rec-dot" id="recDot">REC</div>
+      <div class="permission-overlay" id="permOverlay">
+        <div class="start-step" id="startStepCam">
+          <p class="eyebrow">On-device studio</p>
+          <h2>Point, ask, react</h2>
+          <p>Needs camera and mic access — your voice is recorded with the video. Everything stays on your device — recording is local and downloads straight to you.</p>
+          <button class="primary wide" id="enableCamBtn">Enable camera &amp; mic</button>
+        </div>
+        <div class="start-step" id="startStepQuiz" hidden>
+          <p class="eyebrow">Camera and mic are on</p>
+          <h2>Choose your quiz</h2>
+          <p>Pick a category, then start. The quiz name is the first frame — tap once more for question one.</p>
+          <select id="categorySelect" class="wide start-select" disabled>
+            <option value="" disabled selected>Choose a category…</option>
+          </select>
+          <button class="primary wide" id="startBtn" disabled>Start</button>
+        </div>
       </div>
-      <button id="saveQuestionsBtn">Save questions</button>
-      <button class="ghost" id="resetQuestionsBtn">Reset to defaults</button>
     </div>
 
-    <p class="note">
-      Product of Solupair PTY LTD. All rights reserved.
-    </p>
+    <div class="panel">
+      <p class="cam-info" id="camInfo" hidden></p>
+      <p class="diag" id="diag" hidden></p>
 
-    <button type="button" class="ghost restart restart-bottom" id="restartBottom" hidden>Restart</button>
+      <div class="row">
+        <button id="shuffleBtn" disabled>Shuffle</button>
+        <button class="record" id="recordBtn" disabled>● Record</button>
+      </div>
+
+      <div class="review" id="review" hidden>
+        <p class="review-title">Scroll down to mark your answers</p>
+        <p class="review-hint">Right is green, close enough is bronze, wrong is red. Tap a mark again to hear another clap, gasp, or buzzer — keep the one you like. Then generate the video.</p>
+        <div id="reviewList"></div>
+        <button class="primary" id="generateBtn" disabled>Generate video</button>
+      </div>
+
+      <a class="download-link" id="downloadLink" download>Download video</a>
+
+      <div class="row">
+        <button class="ghost" id="settingsBtn">Settings</button>
+      </div>
+
+      <div class="settings" id="settings">
+        <div class="field">
+          <label for="questionBank">Questions — one per line: Question | Answer</label>
+          <textarea id="questionBank"></textarea>
+        </div>
+        <button id="saveQuestionsBtn">Save questions</button>
+        <button class="ghost" id="resetQuestionsBtn">Reset to defaults</button>
+      </div>
+
+      <p class="note">
+        Product of Solupair PTY LTD. All rights reserved.
+      </p>
+
+      <button type="button" class="ghost restart restart-bottom" id="restartBottom" hidden>Restart</button>
+    </div>
   </div>
 
   <script type="module" src="/src/main.js"></script>

@@ -1,15 +1,16 @@
 :root {
-  --bg: #0b0d12;
-  --bg-2: #12151c;
-  --surface: #171a22;
-  --amber: #f2b705;
-  --violet: #8b6cff;
-  --right: #3ecf8e;
-  --close: #ff8a2a;
-  --wrong: #ff4d4d;
-  --ink: #f4f3f0;
-  --ink-dim: #9ba0ac;
-  --line: #232733;
+  --bg: #050506;
+  --bg-2: #0c0c0e;
+  --surface: #121214;
+  --ink: #f3eee6;
+  --ink-dim: #8f8a82;
+  --line: rgba(243, 238, 230, 0.14);
+  --line-strong: rgba(243, 238, 230, 0.32);
+  --right: #6fbf9a;
+  --close: #d4a054;
+  --wrong: #c45c52;
+  --radius: 5px;
+  --frame: 0 0 0 1px var(--line);
 }
 
 * {
@@ -26,11 +27,39 @@ body {
 
 body {
   color: var(--ink);
-  font-family: 'Inter', system-ui, -apple-system, sans-serif;
+  font-family: 'Outfit', system-ui, -apple-system, sans-serif;
   display: flex;
   flex-direction: column;
   align-items: center;
   min-height: 100dvh;
+  font-weight: 400;
+}
+
+.shell {
+  width: 100%;
+  max-width: 428px;
+  padding: calc(10px + env(safe-area-inset-top)) 14px calc(16px + env(safe-area-inset-bottom));
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.mast {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 4px 2px 2px;
+}
+
+.wordmark {
+  margin: 0;
+  font-family: 'Cormorant Garamond', serif;
+  font-style: italic;
+  font-weight: 600;
+  font-size: 26px;
+  letter-spacing: 0.01em;
+  line-height: 1;
 }
 
 /* ---------- canvas stage ---------- */
@@ -38,15 +67,15 @@ body {
 .canvas-wrap {
   position: relative;
   width: 100%;
-  max-width: 480px;
   aspect-ratio: 9 / 16;
   background: #000;
   cursor: pointer;
   user-select: none;
   -webkit-tap-highlight-color: transparent;
-  /* Taps drive the whole take, so skip the browser's double-tap-zoom wait —
-     it makes every advance feel late and can swallow the second of two taps. */
   touch-action: manipulation;
+  border-radius: var(--radius);
+  overflow: hidden;
+  box-shadow: var(--frame), inset 0 1px 0 rgba(243, 238, 230, 0.08);
 }
 
 canvas {
@@ -57,35 +86,36 @@ canvas {
 
 .rec-dot {
   position: absolute;
-  top: 14px;
-  left: 14px;
+  top: 12px;
+  left: 12px;
   display: none;
   align-items: center;
-  gap: 6px;
-  background: rgba(0, 0, 0, 0.55);
+  gap: 7px;
+  background: rgba(5, 5, 6, 0.72);
   padding: 6px 11px;
   border-radius: 99px;
-  font-size: 12px;
+  border: 1px solid var(--line);
+  font-size: 10px;
   font-weight: 600;
-  letter-spacing: 0.04em;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
 }
 
 .rec-dot.on {
   display: flex;
-  /* Tabular figures so the seconds don't jiggle the badge width each tick. */
   font-variant-numeric: tabular-nums;
 }
 
-/* Getting close to the length a take survives at this bitrate. */
 .rec-dot.near-limit {
-  background: var(--amber);
-  color: #1a1400;
+  background: var(--ink);
+  color: var(--bg);
+  border-color: var(--ink);
 }
 
 .rec-dot::before {
   content: '';
-  width: 8px;
-  height: 8px;
+  width: 6px;
+  height: 6px;
   border-radius: 50%;
   background: var(--wrong);
   animation: blink 1s infinite;
@@ -104,36 +134,68 @@ canvas {
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  gap: 16px;
+  gap: 14px;
   text-align: center;
-  padding: 0 32px;
-  background: radial-gradient(ellipse at 50% 20%, rgba(139, 108, 255, 0.18), transparent 62%),
-    var(--bg);
+  padding: 0 28px;
+  background: var(--bg);
+}
+
+.eyebrow {
+  margin: 0;
+  font-size: 10px;
+  font-weight: 500;
+  letter-spacing: 0.28em;
+  text-transform: uppercase;
+  color: var(--ink-dim);
 }
 
 .permission-overlay h2 {
-  font-family: 'Unbounded', sans-serif;
-  font-size: 21px;
-  font-weight: 700;
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 34px;
+  font-weight: 600;
+  font-style: italic;
   margin: 0;
+  letter-spacing: -0.01em;
 }
 
-.permission-overlay p {
+.permission-overlay p:not(.eyebrow) {
   color: var(--ink-dim);
   font-size: 13px;
   line-height: 1.55;
   margin: 0;
-  max-width: 300px;
+  max-width: 280px;
+}
+
+.start-step {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 14px;
+  width: 100%;
+}
+
+.start-step[hidden] {
+  display: none;
+}
+
+.start-select {
+  width: min(100%, 300px);
+  text-align: left;
+}
+
+.permission-overlay.is-quiz {
+  background: var(--bg);
 }
 
 /* ---------- control panel ---------- */
 
 .panel {
   width: 100%;
-  max-width: 480px;
   background: var(--bg-2);
-  border-top: 1px solid var(--line);
-  padding: 14px 16px calc(16px + env(safe-area-inset-bottom));
+  box-shadow: var(--frame), inset 0 1px 0 rgba(243, 238, 230, 0.06);
+  border-radius: var(--radius);
+  padding: 14px 14px 12px;
   display: flex;
   flex-direction: column;
   gap: 9px;
@@ -146,40 +208,51 @@ canvas {
 
 button {
   font-family: inherit;
-  font-weight: 600;
-  font-size: 13px;
+  font-weight: 500;
+  font-size: 12px;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
   border: 1px solid var(--line);
   background: var(--surface);
   color: var(--ink);
-  border-radius: 10px;
+  border-radius: var(--radius);
   padding: 13px 10px;
   flex: 1;
   cursor: pointer;
   -webkit-tap-highlight-color: transparent;
-  transition: opacity 0.12s ease;
+  box-shadow: inset 0 1px 0 rgba(243, 238, 230, 0.05);
+  transition: border-color 0.15s ease, background 0.15s ease, color 0.15s ease, opacity 0.12s ease;
 }
 
 button:active {
-  opacity: 0.75;
+  opacity: 0.78;
 }
 
 button:disabled {
-  opacity: 0.35;
+  opacity: 0.32;
   cursor: not-allowed;
 }
 
 button:focus-visible {
-  outline: 2px solid var(--violet);
-  outline-offset: 2px;
+  outline: 1px solid var(--ink);
+  outline-offset: 3px;
 }
 
 button.primary {
-  background: var(--amber);
-  color: #20180a;
-  border-color: var(--amber);
+  background: var(--ink);
+  color: var(--bg);
+  border-color: var(--ink);
+  box-shadow: none;
 }
 
 button.record {
+  background: transparent;
+  color: var(--wrong);
+  border-color: rgba(196, 92, 82, 0.55);
+  box-shadow: none;
+}
+
+button.record.is-live {
   background: var(--wrong);
   color: #fff;
   border-color: var(--wrong);
@@ -188,43 +261,50 @@ button.record {
 button.right {
   background: transparent;
   color: var(--right);
-  border-color: var(--right);
+  border-color: rgba(111, 191, 154, 0.45);
+  box-shadow: none;
 }
 
 button.right.active {
   background: var(--right);
-  color: #08281a;
+  color: #08140f;
+  border-color: var(--right);
 }
 
 button.close {
   background: transparent;
   color: var(--close);
-  border-color: var(--close);
+  border-color: rgba(212, 160, 84, 0.45);
+  box-shadow: none;
 }
 
 button.close.active {
   background: var(--close);
-  color: #2a1400;
+  color: #1a1206;
+  border-color: var(--close);
 }
 
 button.wrong {
   background: transparent;
   color: var(--wrong);
-  border-color: var(--wrong);
+  border-color: rgba(196, 92, 82, 0.45);
+  box-shadow: none;
 }
 
 button.wrong.active {
   background: var(--wrong);
   color: #fff;
+  border-color: var(--wrong);
 }
 
 button.ghost {
   background: transparent;
+  box-shadow: none;
 }
 
 button.wide {
   flex: none;
-  padding: 14px 30px;
+  padding: 14px 28px;
 }
 
 select.wide {
@@ -254,21 +334,32 @@ select.wide {
 }
 
 .field label {
-  font-size: 11px;
+  font-size: 10px;
   color: var(--ink-dim);
-  font-weight: 600;
+  font-weight: 500;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
 }
 
 input[type='number'],
 textarea,
 select {
-  background: var(--surface);
+  appearance: none;
+  background: var(--bg);
   border: 1px solid var(--line);
   color: var(--ink);
-  border-radius: 8px;
-  padding: 10px;
+  border-radius: var(--radius);
+  padding: 11px 12px;
   font-family: inherit;
   font-size: 13px;
+  box-shadow: inset 0 1px 0 rgba(243, 238, 230, 0.04);
+}
+
+select {
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'><path fill='none' stroke='%238f8a82' stroke-width='1.2' d='M1 1.5l5 5 5-5'/></svg>");
+  background-repeat: no-repeat;
+  background-position: right 12px center;
+  padding-right: 36px;
 }
 
 textarea {
@@ -276,12 +367,15 @@ textarea {
   line-height: 1.55;
   resize: vertical;
   font-size: 12px;
+  text-transform: none;
+  letter-spacing: 0;
 }
 
 input:focus,
-textarea:focus {
+textarea:focus,
+select:focus {
   outline: none;
-  border-color: var(--violet);
+  border-color: var(--line-strong);
 }
 
 /* ---------- download ---------- */
@@ -289,13 +383,15 @@ textarea:focus {
 .download-link {
   display: none;
   text-align: center;
-  background: var(--violet);
-  color: #fff;
+  background: var(--ink);
+  color: var(--bg);
   text-decoration: none;
   padding: 13px;
-  border-radius: 10px;
-  font-weight: 700;
-  font-size: 13px;
+  border-radius: var(--radius);
+  font-weight: 500;
+  font-size: 12px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
 }
 
 .download-link.show {
@@ -307,9 +403,10 @@ textarea:focus {
   flex-direction: column;
   gap: 10px;
   border: 1px solid var(--line);
-  background: var(--surface);
-  border-radius: 10px;
-  padding: 12px;
+  background: var(--bg);
+  border-radius: var(--radius);
+  padding: 14px 12px;
+  box-shadow: inset 0 1px 0 rgba(243, 238, 230, 0.05);
 }
 
 .review[hidden] {
@@ -318,16 +415,21 @@ textarea:focus {
 
 .review-title {
   margin: 0;
-  font-family: 'Unbounded', sans-serif;
-  font-size: 15px;
-  font-weight: 700;
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 22px;
+  font-weight: 600;
+  font-style: italic;
+  letter-spacing: 0;
+  text-transform: none;
 }
 
 .review-hint {
   margin: 0;
   font-size: 12px;
   color: var(--ink-dim);
-  line-height: 1.45;
+  line-height: 1.5;
+  letter-spacing: 0;
+  text-transform: none;
 }
 
 #reviewList {
@@ -339,7 +441,7 @@ textarea:focus {
   display: flex;
   flex-direction: column;
   gap: 6px;
-  padding: 10px 0;
+  padding: 12px 0;
   border-top: 1px solid var(--line);
 }
 
@@ -353,18 +455,29 @@ textarea:focus {
   margin: 0;
   font-size: 13px;
   line-height: 1.4;
+  letter-spacing: 0;
+  text-transform: none;
+}
+
+.review-q {
+  font-weight: 500;
 }
 
 .review-a {
   color: var(--ink-dim);
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 16px;
+  font-style: italic;
 }
 
 .note {
-  font-size: 11px;
+  font-size: 10px;
   color: var(--ink-dim);
   text-align: center;
   line-height: 1.5;
-  margin: 2px 0 0;
+  margin: 4px 0 0;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
 }
 
 .restart {
@@ -373,33 +486,34 @@ textarea:focus {
 }
 
 .restart-top {
-  max-width: 480px;
+  width: auto;
   margin: 0;
-  padding-top: calc(12px + env(safe-area-inset-top));
-  border-radius: 0;
-  border-left: none;
-  border-right: none;
-  border-top: none;
+  padding: 7px 12px;
+  font-size: 10px;
+}
+
+.restart-bottom {
+  margin-top: 2px;
 }
 
 /* What the camera actually negotiated. Lives in the panel, never on the
    canvas — anything drawn there lands in the recording. */
 .cam-info {
   font-size: 11px;
-  font-weight: 600;
+  font-weight: 500;
   color: var(--ink-dim);
   text-align: center;
   line-height: 1.45;
   margin: 0 0 2px;
-  padding: 7px 10px;
-  border-radius: 8px;
-  background: var(--surface);
+  padding: 8px 10px;
+  border-radius: var(--radius);
+  background: var(--bg);
   border: 1px solid var(--line);
 }
 
 .cam-info.warn {
-  color: var(--amber);
-  border-color: var(--amber);
+  color: var(--ink);
+  border-color: var(--line-strong);
 }
 
 /* Live recording diagnostics. Monospace because it's read as data, not prose. */
@@ -409,17 +523,19 @@ textarea:focus {
   line-height: 1.5;
   color: var(--ink-dim);
   margin: 0 0 2px;
-  padding: 7px 9px;
-  border-radius: 8px;
-  background: var(--surface);
+  padding: 8px 9px;
+  border-radius: var(--radius);
+  background: var(--bg);
   border: 1px solid var(--line);
   white-space: pre-wrap;
   word-break: break-word;
+  letter-spacing: 0;
+  text-transform: none;
 }
 
 .diag.fault {
   color: var(--wrong);
-  border-color: var(--wrong);
+  border-color: rgba(196, 92, 82, 0.55);
 }
 
 @media (prefers-reduced-motion: reduce) {

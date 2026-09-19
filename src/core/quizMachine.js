@@ -3,11 +3,11 @@ import { TIMING, TAP_DEBOUNCE_MS, MARK_RESULTS } from './config.js';
 /**
  * Quiz phase state machine.
  *
- *   idle ──tap──> question ──tap──> reveal ──tap──> question (next)
- *                                                    │
- *                                             (last answer)
- *                                                    ▼
- *                                                 review
+ *   idle ──tap/Start──> title ──tap──> question ──tap──> reveal ──tap──> question
+ *                                                                        │
+ *                                                                 (last answer)
+ *                                                                        ▼
+ *                                                                     review
  *
  * Nothing is on a clock. Right/Wrong is not a live tap — you mark the
  * recap after the last question, then the download is colored from those
@@ -21,7 +21,8 @@ export class QuizMachine {
     this.questions = questions;
     this.onChange = onChange || (() => {});
     this.index = 0;
-    this.phase = 'idle'; // 'idle' | 'question' | 'reveal' | 'review'
+    this.phase = 'idle'; // 'idle' | 'title' | 'question' | 'reveal' | 'review'
+    this.quizTitle = '';
     this.marks = [];
     this.stingPicks = [];
     this.flashUntil = 0;
@@ -38,8 +39,13 @@ export class QuizMachine {
     this.questions = questions;
     this.index = 0;
     this._resetMarks();
-    if (this.phase !== 'idle') this.showQuestion();
+    if (this.phase === 'question' || this.phase === 'reveal') this.showQuestion();
     else this._emit();
+  }
+
+  setQuizTitle(title) {
+    this.quizTitle = title || '';
+    this._emit();
   }
 
   get current() {
@@ -57,6 +63,7 @@ export class QuizMachine {
   snapshot() {
     return {
       phase: this.phase,
+      quizTitle: this.quizTitle,
       index: this.index,
       total: this.questions.length,
       question: this.current[0],
@@ -73,6 +80,7 @@ export class QuizMachine {
   resetToIdle() {
     this.index = 0;
     this.phase = 'idle';
+    this.quizTitle = '';
     this.flashUntil = 0;
     this._lastAdvanceAt = 0;
     this._resetMarks();
@@ -82,7 +90,14 @@ export class QuizMachine {
   start() {
     this.index = 0;
     this._resetMarks();
-    this.showQuestion();
+    this.showTitle();
+  }
+
+  /** First canvas page of a take — quiz name, before question 1. */
+  showTitle() {
+    this.phase = 'title';
+    this.index = 0;
+    this._emit();
   }
 
   /**
@@ -141,6 +156,9 @@ export class QuizMachine {
 
     switch (this.phase) {
       case 'idle':
+        this.showTitle();
+        break;
+      case 'title':
         this.showQuestion();
         break;
       case 'question':

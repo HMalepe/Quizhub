@@ -49,15 +49,19 @@ export const ENCODING = {
 };
 
 export const COLORS = {
-  bg: '#0B0D12',
-  bgTop: '#12151C',
-  ink: '#F4F3F0',
-  inkDim: '#9BA0AC',
-  amber: '#F2B705',
-  violet: '#8B6CFF',
-  right: '#3ECF8E',
-  close: '#FF8A2A',
-  wrong: '#FF4D4D'
+  bg: '#070708',
+  bgTop: '#111113',
+  ink: '#F3EEE6',
+  inkDim: '#8F8A82',
+  /** Bone kicker — not the old mustard that read as brown on dark UI. */
+  amber: '#E6DCC8',
+  /** Unmarked reveal kicker; kept as a key so render code does not change. */
+  violet: '#E6DCC8',
+  right: '#6FBF9A',
+  close: '#D4A054',
+  wrong: '#C45C52',
+  /** Hairline between quiz overlay and camera. */
+  rule: 'rgba(243, 238, 230, 0.28)'
 };
 
 /** Recap marks that count as complete. Close is the in-between orange. */
@@ -65,18 +69,21 @@ export const MARK_RESULTS = ['right', 'close', 'wrong'];
 
 /** RGB triples for the translucent full-frame flash on reveal/marking. */
 export const FLASH_RGB = {
-  neutral: '139,108,255',
-  right: '62,207,142',
-  close: '255,138,42',
-  wrong: '255,77,77'
+  neutral: '230, 220, 200',
+  right: '111,191,154',
+  close: '212,160,84',
+  wrong: '196,92,82'
 };
 
 export const TYPE = {
-  counter: '600 26px Inter, sans-serif',
-  kicker: '700 24px Inter, sans-serif',
-  question: '600 46px Inter, sans-serif',
-  answer: '700 54px Unbounded, sans-serif',
-  idle: '700 44px Unbounded, sans-serif'
+  counter: '500 22px Outfit, sans-serif',
+  kicker: '500 18px Outfit, sans-serif',
+  question: '500 46px Outfit, sans-serif',
+  answer: '600 54px "Cormorant Garamond", serif',
+  idle: '600 44px "Cormorant Garamond", serif',
+  questionFit: '500 {size}px Outfit, sans-serif',
+  answerFit: '600 {size}px "Cormorant Garamond", serif',
+  titleFit: '700 {size}px Outfit, sans-serif'
 };
 
 export const TIMING = {

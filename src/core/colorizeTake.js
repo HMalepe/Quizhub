@@ -20,7 +20,7 @@ import { getSting, mixStingInto, stingHits } from './stings.js';
  * marks. Live takes always recorded the answer in white; this is where green,
  * orange (close), and red get applied. The 1/8 counter stays off the download.
  */
-export function overlayStateAt(time, questions, timeline, marks) {
+export function overlayStateAt(time, questions, timeline, marks, quizTitle = '') {
   let current = { phase: 'idle', index: 0 };
   for (const event of timeline) {
     if (event.t <= time + 1e-3) current = event;
@@ -28,12 +28,13 @@ export function overlayStateAt(time, questions, timeline, marks) {
   }
 
   const pair = questions[current.index] || ['', ''];
-  const phase = current.phase === 'question' || current.phase === 'reveal'
+  const phase = current.phase === 'question' || current.phase === 'reveal' || current.phase === 'title'
     ? current.phase
     : 'idle';
 
   return {
     phase,
+    quizTitle,
     index: current.index,
     total: questions.length,
     question: pair[0],
@@ -51,11 +52,11 @@ export function overlayStateAt(time, questions, timeline, marks) {
  * Stings are mixed in a second pass only when that pass still has audible
  * duration; otherwise the colored file keeps the original voice.
  */
-export async function colorizeTake({ blob, questions, timeline, marks, stingPicks, onProgress }) {
+export async function colorizeTake({ blob, questions, timeline, marks, stingPicks, quizTitle, onProgress }) {
   await ensureAacEncoder();
 
   const hits = stingHits(timeline, marks, stingPicks);
-  const colored = await colorizeOnce({ blob, questions, timeline, marks, onProgress });
+  const colored = await colorizeOnce({ blob, questions, timeline, marks, quizTitle, onProgress });
 
   if (!hits.length) {
     return fileResult(colored);
@@ -80,7 +81,7 @@ function fileResult(file) {
   };
 }
 
-async function colorizeOnce({ blob, questions, timeline, marks, onProgress }) {
+async function colorizeOnce({ blob, questions, timeline, marks, quizTitle, onProgress }) {
   const input = new Input({
     source: new BlobSource(blob),
     formats: ALL_FORMATS
@@ -112,7 +113,7 @@ async function colorizeOnce({ blob, questions, timeline, marks, onProgress }) {
       keyFrameInterval: ENCODING.keyFrameInterval,
       hardwareAcceleration: 'prefer-hardware',
       process: (sample) => {
-        const state = overlayStateAt(sample.timestamp, questions, timeline, marks);
+        const state = overlayStateAt(sample.timestamp, questions, timeline, marks, quizTitle);
         const ctx = renderer.ctx;
         ctx.setTransform(1, 0, 0, 1, 0, 0);
         sample.draw(ctx, 0, 0, canvas.width, canvas.height);

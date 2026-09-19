@@ -23,6 +23,8 @@ export class Controls {
     this.el = {
       enableCam: $('enableCamBtn'),
       permOverlay: $('permOverlay'),
+      startStepCam: $('startStepCam'),
+      startStepQuiz: $('startStepQuiz'),
       camInfo: $('camInfo'),
       diag: $('diag'),
       categorySelect: $('categorySelect'),
@@ -50,7 +52,10 @@ export class Controls {
     const h = this.handlers;
 
     this.el.enableCam.addEventListener('click', () => h.onEnableCamera());
-    this.el.start.addEventListener('click', () => h.onStart());
+    this.el.start.addEventListener('click', () => {
+      this.hideStartOverlay();
+      h.onStart();
+    });
 
     this.el.categorySelect.addEventListener('change', (e) => {
       this._categoryChosen = Boolean(e.target.value);
@@ -76,7 +81,7 @@ export class Controls {
     // Keyboard shortcuts — much easier than tapping when you're mid-take
     // and the phone is on a tripod across the room with a bluetooth keyboard.
     document.addEventListener('keydown', (e) => {
-      if (e.target.tagName === 'TEXTAREA' || e.target.tagName === 'INPUT') return;
+      if (e.target.tagName === 'TEXTAREA' || e.target.tagName === 'INPUT' || e.target.tagName === 'SELECT') return;
       if (e.code === 'Space') {
         e.preventDefault();
         h.onAdvance();
@@ -87,19 +92,26 @@ export class Controls {
   }
 
   enableCameraDependentControls() {
-    this.el.permOverlay.style.display = 'none';
     this._cameraEnabled = true;
+    this.el.startStepCam.hidden = true;
+    this.el.startStepQuiz.hidden = false;
+    this.el.permOverlay.classList.add('is-quiz');
+    this.el.permOverlay.style.display = '';
     this.el.categorySelect.disabled = false;
-    [this.el.shuffle, this.el.record].forEach((btn) => {
-      btn.disabled = false;
-    });
     this._updateStartEnabled();
     this.setRestartVisible(true);
   }
 
   /** Start needs both camera access and a chosen category/question set. */
   _updateStartEnabled() {
-    this.el.start.disabled = !(this._cameraEnabled && this._categoryChosen);
+    const ready = this._cameraEnabled && this._categoryChosen;
+    this.el.start.disabled = !ready;
+    this.el.shuffle.disabled = !ready;
+  }
+
+  hideStartOverlay() {
+    this.el.permOverlay.style.display = 'none';
+    this.el.record.disabled = !this._cameraEnabled;
   }
 
   /** Builds the category picker: one <optgroup> per section, plus a "My Questions" option. */
@@ -212,6 +224,7 @@ export class Controls {
 
   setRecording(isRecording) {
     this.el.record.textContent = isRecording ? '■ Stop' : '● Record';
+    this.el.record.classList.toggle('is-live', isRecording);
     this.el.recDot.classList.toggle('on', isRecording);
     if (isRecording) this.el.download.classList.remove('show');
 
@@ -283,6 +296,9 @@ export class Controls {
     this._cameraEnabled = false;
     this._categoryChosen = false;
     this.el.permOverlay.style.display = '';
+    this.el.permOverlay.classList.remove('is-quiz');
+    this.el.startStepCam.hidden = false;
+    this.el.startStepQuiz.hidden = true;
     this.el.categorySelect.disabled = true;
     this.el.categorySelect.selectedIndex = 0;
     [this.el.start, this.el.shuffle, this.el.record].forEach((btn) => {

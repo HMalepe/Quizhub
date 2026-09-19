@@ -22,13 +22,12 @@ prompted — your voice is recorded along with the video.
 ## Using it
 
 1. **Enable camera & mic** — grants permission, starts the preview
-2. **Pick a category** — Start stays disabled until you choose one
+2. **Pick a category** on the start screen, then **Start** — the quiz name is the first frame
 3. **Record** — starts capturing (red REC dot appears)
-4. **Start** — first question appears, and **waits for you**
-5. **Tap the video** — the answer appears under the question on the same screen
-6. **Tap** again to move to the next question
-7. After the last answer, **scroll down** to mark each one ✓ Right, ≈ Close, or ✕ Wrong
-8. **Generate video**, then **Download** — right is green, close enough is orange, wrong is red, each with a clap / gasp / buzzer you picked on the recap (tap a mark again to hear another). The 1/8 counter from filming is not in the file.
+4. **Tap the video** — question one, then the answer under it on the next tap
+5. **Tap** again to move to the next question
+6. After the last answer, **scroll down** to mark each one ✓ Right, ≈ Close, or ✕ Wrong
+7. **Generate video**, then **Download** — right is green, close enough is orange, wrong is red, each with a clap / gasp / buzzer you picked on the recap (tap a mark again to hear another). The 1/8 counter from filming is not in the file.
 
 **Restart** (top of the screen and bottom of the panel) turns the camera off
 and returns you to the landing page so you can enable camera & mic again from

@@ -42,7 +42,7 @@ let restarting = false;
 
 function logTimeline(state) {
   if (!recorder.recording) return;
-  if (state.phase !== 'question' && state.phase !== 'reveal') return;
+  if (state.phase !== 'question' && state.phase !== 'reveal' && state.phase !== 'title') return;
   const last = timeline[timeline.length - 1];
   if (last && last.phase === state.phase && last.index === state.index) return;
   timeline.push({
@@ -88,6 +88,12 @@ renderer.onAfterDraw = () => recorder.captureFrame();
 const diagnostics = new RecordingDiagnostics({ recorder, camera, renderer });
 diagnostics.onUpdate = (report) => controls.showDiagnostics(report);
 
+function quizDisplayName(value) {
+  if (!value) return '';
+  if (value === '__custom') return 'My Questions';
+  return `Can You Pass as ${value}`;
+}
+
 const controls = new Controls({
   onEnableCamera: async () => {
     try {
@@ -112,6 +118,7 @@ const controls = new Controls({
     if (!value) return;
     questions = value === '__custom' ? loadQuestions() : shuffled(CATEGORY_BANK[value]);
     machine.setQuestions(questions);
+    machine.setQuizTitle(quizDisplayName(value));
     controls.setQuestionBankText(stringifyQuestions(questions));
   },
 
@@ -154,6 +161,7 @@ const controls = new Controls({
         timeline,
         marks: machine.marks,
         stingPicks: machine.stingPicks,
+        quizTitle: machine.quizTitle,
         onProgress: (progress) => {
           if (token !== generateToken) return;
           controls.setGenerating(progress);
@@ -189,7 +197,7 @@ const controls = new Controls({
         }
         await recorder.start();
         const state = machine.snapshot();
-        if (state.phase === 'question' || state.phase === 'reveal') {
+        if (state.phase === 'question' || state.phase === 'reveal' || state.phase === 'title') {
           timeline.push({ t: 0, phase: state.phase, index: state.index });
         }
         diagnostics.start();
@@ -214,6 +222,7 @@ const controls = new Controls({
     questions = parsed;
     saveQuestions(questions);
     machine.setQuestions(questions);
+    machine.setQuizTitle('My Questions');
     controls.setCategorySelectValue('__custom');
     controls.closeSettings();
   },
@@ -222,6 +231,7 @@ const controls = new Controls({
     questions = [...DEFAULT_QUESTIONS];
     saveQuestions(questions);
     machine.setQuestions(questions);
+    machine.setQuizTitle('My Questions');
     controls.setQuestionBankText(stringifyQuestions(questions));
     controls.setCategorySelectValue('__custom');
   },
@@ -279,7 +289,7 @@ controls.setQuestionBankText(stringifyQuestions(questions));
 latestState = machine.snapshot();
 controls.syncPhase(latestState);
 
-// Text layout is cached by measured width, and Unbounded/Inter load async —
+// Text layout is cached by measured width, and the webfonts load async —
 // anything measured before they arrive was measured in the fallback face.
 // Drop those entries once the real fonts are in.
 if (document.fonts && document.fonts.ready) {

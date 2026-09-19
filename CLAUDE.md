@@ -145,12 +145,12 @@ These look like omissions but are intentional. Check here before changing them.
     recordings, and it must come from config, not layout.
 
 14. **`startBtn` is gated on camera AND a chosen category, not camera alone.**
-    `Controls._updateStartEnabled()` tracks both `_cameraEnabled` and
-    `_categoryChosen` and only enables Start when both are true. The category
-    `<select>` starts on a disabled, unselected placeholder — picking a
-    built-in category (or "My Questions") is what calls `machine.setQuestions()`
-    with the right bank in the first place, so Start being enabled without a
-    real bank behind it isn't a state worth allowing.
+    After Enable camera & mic, the same overlay switches to a category picker
+    — Start stays on that screen and stays disabled until a real bank is
+    chosen. `Controls._updateStartEnabled()` tracks both `_cameraEnabled` and
+    `_categoryChosen`. Picking a built-in (or "My Questions") is what calls
+    `machine.setQuestions()` with the right bank, so Start without a category
+    behind it isn't a state worth allowing.
 
 15. **There is no text-to-speech and no speech recognition.** Both existed once
     (`speech.js`, `answerListener.js`, `matching.js`) and were deliberately
@@ -202,7 +202,7 @@ Keep it that way — it's what makes the machine testable in isolation.
 ## Phase state machine
 
 ```
-idle ──tap──> question ──tap──> reveal ──tap──> question (next index)
+idle ──tap──> title ──tap──> question ──tap──> reveal ──tap──> question (next index)
                                   │
                            (last answer)
                                   ▼
@@ -287,11 +287,13 @@ Built-in categories live in `core/categoryBank.js` as `SECTIONS` (8 sections,
 grouping 50 "Can You Pass as..." categories, 8 questions each — 400 total).
 `main.js` builds a flat `CATEGORY_BANK` name → questions lookup from it.
 
-The `#categorySelect` dropdown in the panel is populated from `SECTIONS` via
+The `#categorySelect` dropdown lives on the start overlay (shown right after
+camera and mic are on) and is populated from `SECTIONS` via
 `Controls.populateCategories()` (one `<optgroup>` per section), plus a
 "My Questions (custom)" option that maps to whatever's in `localStorage`
 (the same bank the Settings → Questions textarea edits). Picking anything
-calls `machine.setQuestions()` with that bank, shuffled for built-ins.
+calls `machine.setQuestions()` with that bank, shuffled for built-ins. Start
+on that overlay then shows the quiz-name title card.
 
 This intentionally did *not* extend the `Question | Answer` textarea parse
 format with a category field (the previous roadmap note here suggested a

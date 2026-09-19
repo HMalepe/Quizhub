@@ -161,6 +161,13 @@ export class Renderer {
     ctx.fillStyle = this._overlayGradient;
     ctx.fillRect(0, 0, W, topH);
 
+    ctx.strokeStyle = COLORS.rule;
+    ctx.lineWidth = 2;
+    ctx.beginPath();
+    ctx.moveTo(0, topH - 1);
+    ctx.lineTo(W, topH - 1);
+    ctx.stroke();
+
     ctx.textAlign = 'center';
     ctx.textBaseline = 'middle';
 
@@ -177,6 +184,9 @@ export class Renderer {
     switch (state.phase) {
       case 'idle':
         this.drawIdle('Tap to start');
+        break;
+      case 'title':
+        this.drawTitle(state);
         break;
       case 'question':
         this.drawQuestion(state);
@@ -201,7 +211,30 @@ export class Renderer {
     const { ctx, W } = this;
     ctx.fillStyle = color;
     ctx.font = TYPE.kicker;
+    ctx.letterSpacing = '7px';
     ctx.fillText(label, W / 2, 138);
+    ctx.letterSpacing = '0px';
+  }
+
+  drawTitle(state) {
+    const { ctx, W, topH } = this;
+    const raw = (state.quizTitle || '').trim() || 'Trivia Reel';
+    const prefix = 'Can You Pass as ';
+    const kicker = raw.startsWith(prefix) ? 'CAN YOU PASS AS' : 'QUIZ';
+    const name = raw.startsWith(prefix) ? raw.slice(prefix.length) : raw;
+
+    this.drawKicker(kicker, COLORS.amber);
+    ctx.fillStyle = COLORS.ink;
+    drawFitted(
+      ctx,
+      name,
+      W / 2,
+      topH * 0.52,
+      W * 0.82,
+      topH * 0.42,
+      TYPE.titleFit,
+      72
+    );
   }
 
   drawQuestion(state) {
@@ -225,7 +258,7 @@ export class Renderer {
       topH * 0.38,
       W * 0.82,
       topH * 0.28,
-      '600 {size}px Inter, sans-serif',
+      TYPE.questionFit,
       46
     );
   }
@@ -246,7 +279,7 @@ export class Renderer {
       topH * 0.74,
       W * 0.85,
       topH * 0.28,
-      '700 {size}px Unbounded, sans-serif',
+      TYPE.answerFit,
       44
     );
   }
