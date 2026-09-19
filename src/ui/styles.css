@@ -470,6 +470,15 @@ select:focus {
   font-style: italic;
 }
 
+.review-logo {
+  display: inline-block;
+  height: 28px;
+  width: 28px;
+  object-fit: contain;
+  vertical-align: middle;
+  border-radius: 4px;
+}
+
 .note {
   font-size: 10px;
   color: var(--ink-dim);

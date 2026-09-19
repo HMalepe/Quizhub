@@ -3,6 +3,8 @@ import './ui/styles.css';
 import { CANVAS, STORAGE_KEYS } from './core/config.js';
 import { loadQuestions, shuffled } from './core/questions.js';
 import { SECTIONS, CATEGORY_BANK } from './core/categoryBank.js';
+import { loadLogoQuiz, imageUrlFromQuestion } from './core/logoBank.js';
+import { preloadImages } from './render/imageCache.js';
 import { QuizMachine } from './core/quizMachine.js';
 import { Camera, describeCameraError, describeCameraQuality } from './core/camera.js';
 import { CanvasRecorder, isRecordingSupported, prefetchEncoders } from './core/recorder.js';
@@ -84,6 +86,7 @@ diagnostics.onUpdate = (report) => controls.showDiagnostics(report);
 function quizDisplayName(value) {
   if (!value) return '';
   if (value === '__custom') return 'My Questions';
+  if (value === '__logos') return 'Guess the Brand';
   return `Can You Pass as ${value}`;
 }
 
@@ -107,9 +110,27 @@ const controls = new Controls({
 
   onStart: () => machine.start(),
 
-  onCategoryChange: (value) => {
+  onCategoryChange: async (value) => {
     if (!value) return;
-    questions = value === '__custom' ? loadQuestions() : shuffled(CATEGORY_BANK[value]);
+
+    if (value === '__logos') {
+      const logoQuestions = await loadLogoQuiz();
+      if (!logoQuestions.length) {
+        alert(
+          'No logos added yet. Drop an image in public/logos/ and list it in ' +
+          'public/logos/manifest.json, then redeploy — see public/logos/README.md.'
+        );
+        controls.setCategorySelectValue('');
+        return;
+      }
+      // Preload before Start so the first paint of question 1 isn't blank —
+      // getCachedImage() is synchronous and returns null until a URL loads.
+      await preloadImages(logoQuestions.map(([q]) => imageUrlFromQuestion(q)));
+      questions = shuffled(logoQuestions);
+    } else {
+      questions = value === '__custom' ? loadQuestions() : shuffled(CATEGORY_BANK[value]);
+    }
+
     machine.setQuestions(questions);
     machine.setQuizTitle(quizDisplayName(value));
   },

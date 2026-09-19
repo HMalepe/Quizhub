@@ -1,4 +1,5 @@
 import { MARK_RESULTS } from '../core/config.js';
+import { imageUrlFromQuestion } from '../core/logoBank.js';
 
 /**
  * Wires DOM controls to the app. Holds no quiz logic of its own — it reads
@@ -130,6 +131,12 @@ export class Controls {
     customOpt.value = '__custom';
     customOpt.textContent = 'My Questions (custom)';
     customGroup.appendChild(customOpt);
+
+    const logosOpt = document.createElement('option');
+    logosOpt.value = '__logos';
+    logosOpt.textContent = 'My Logos (guess the brand)';
+    customGroup.appendChild(logosOpt);
+
     select.appendChild(customGroup);
   }
 
@@ -156,7 +163,17 @@ export class Controls {
 
       const q = document.createElement('p');
       q.className = 'review-q';
-      q.textContent = `${index + 1}. ${question}`;
+      const logoUrl = imageUrlFromQuestion(question);
+      if (logoUrl) {
+        q.textContent = `${index + 1}. `;
+        const thumb = document.createElement('img');
+        thumb.className = 'review-logo';
+        thumb.src = logoUrl;
+        thumb.alt = 'Logo';
+        q.appendChild(thumb);
+      } else {
+        q.textContent = `${index + 1}. ${question}`;
+      }
 
       const a = document.createElement('p');
       a.className = 'review-a';
