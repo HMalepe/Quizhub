@@ -23,6 +23,7 @@ export class QuizMachine {
     this.index = 0;
     this.phase = 'idle'; // 'idle' | 'question' | 'reveal' | 'review'
     this.marks = [];
+    this.stingPicks = [];
     this.flashUntil = 0;
     this._lastAdvanceAt = 0;
     this._resetMarks();
@@ -30,6 +31,7 @@ export class QuizMachine {
 
   _resetMarks() {
     this.marks = this.questions.map(() => null);
+    this.stingPicks = this.questions.map(() => 0);
   }
 
   setQuestions(questions) {
@@ -62,6 +64,7 @@ export class QuizMachine {
       answerResult: null,
       showCounter: true,
       marks: this.marks.slice(),
+      stingPicks: this.stingPicks.slice(),
       questions: this.questions,
       flashUntil: this.flashUntil
     };
@@ -99,10 +102,16 @@ export class QuizMachine {
     this._emit();
   }
 
-  /** Recap marking — not used during the live take. */
+  /** Recap marking — not used during the live take. Same button again cycles the sting. */
   markAt(index, result) {
     if (index < 0 || index >= this.marks.length) return;
-    this.marks[index] = result;
+    if (!MARK_RESULTS.includes(result)) return;
+    if (this.marks[index] === result) {
+      this.stingPicks[index] += 1;
+    } else {
+      this.marks[index] = result;
+      this.stingPicks[index] = 0;
+    }
     this._emit();
   }
 

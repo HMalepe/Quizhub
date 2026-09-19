@@ -33,8 +33,8 @@ These look like omissions but are intentional. Check here before changing them.
    Don't add app sound *during filming*, and don't wire an AudioContext node
    to `destination` while the mic is live — that howls or leaks into the take.
    AEC/NS/AGC stay off — they gate the voice in a recording. Right/wrong
-   stings are mixed onto the download at generate time (a different clap,
-   gasp, buzzer, or cheer per question), and a speaker preview plays on the
+   stings are mixed onto the download at generate time (the last clap,
+   gasp, or buzzer you previewed on that recap row), and a speaker preview plays on the
    recap tap after the take has already stopped. Don't play anything during
    the live take.
 
@@ -156,8 +156,8 @@ These look like omissions but are intentional. Check here before changing them.
     (`speech.js`, `answerListener.js`, `matching.js`) and were deliberately
     removed: marking Right/Wrong is still a manual tap, not speech. Don't
     reintroduce TTS or recognition without asking. Yay/buzzer stings are
-    generate-time (a different clap / gasp / buzzer per question, plus a
-    recap preview) — never during the live take.
+    generate-time (the last clap / gasp / buzzer previewed on that recap
+    row; tap the same mark again to cycle) — never during the live take.
 
 ## Architecture
 
@@ -179,7 +179,7 @@ src/
 │   │                     first one that stops. Read it before theorising.
 │   ├── colorizeTake.js   Re-encodes a take with recap marks as green/orange/red
 │   │                     and mixes a per-question clap / gasp / buzzer onto reveals.
-│   ├── stings.js         Synthesized crowd + game-show reactions. Recap preview + generate mix.
+│   ├── stings.js         Recap preview + generate mix. Same mark again cycles the bank.
 │   └── recorder.js       WebCodecs/Mediabunny recorder + MediaRecorder fallback.
 ├── render/
 │   ├── text.js          Canvas text wrapping and auto-fit, with a layout

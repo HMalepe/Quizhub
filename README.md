@@ -28,7 +28,7 @@ prompted — your voice is recorded along with the video.
 5. **Tap the video** — the answer appears under the question on the same screen
 6. **Tap** again to move to the next question
 7. After the last answer, **scroll down** to mark each one ✓ Right, ≈ Close, or ✕ Wrong
-8. **Generate video**, then **Download** — right is green, close enough is orange, wrong is red, each with a different clap / gasp / buzzer. The 1/8 counter from filming is not in the file.
+8. **Generate video**, then **Download** — right is green, close enough is orange, wrong is red, each with a clap / gasp / buzzer you picked on the recap (tap a mark again to hear another). The 1/8 counter from filming is not in the file.
 
 **Restart** (top of the screen and bottom of the panel) turns the camera off
 and returns you to the landing page so you can enable camera & mic again from
@@ -76,8 +76,9 @@ Everything before the first `|` is the question, everything after is the answer
 The take itself is mic-only, so your answers stay in sync with the footage.
 After you mark the recap, **Generate video** paints right/close/wrong on the
 overlay and mixes a reaction onto each reveal — clapping, cheering, a gasp,
-a buzzer, and so on, a different one per question so it does not repeat.
-Tapping a mark on the recap plays a short preview of that question's sting
+a buzzer, and so on. Tap a recap mark again to cycle that question's sting
+until you like it; generate uses the last one you heard.
+Tapping a mark on the recap plays a short preview
 — that is after recording has stopped, so it never leaks into the file.
 
 The question counter (1/8) is only on screen while you film.

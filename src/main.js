@@ -127,7 +127,7 @@ const controls = new Controls({
     machine.markAt(index, result);
     // Recap only — recording has already stopped, so this cannot leak into the mic.
     if (result === 'right' || result === 'wrong' || result === 'close') {
-      void playSting(result, index);
+      void playSting(result, machine.stingPicks[index]);
     }
   },
 
@@ -153,6 +153,7 @@ const controls = new Controls({
         questions: machine.questions,
         timeline,
         marks: machine.marks,
+        stingPicks: machine.stingPicks,
         onProgress: (progress) => {
           if (token !== generateToken) return;
           controls.setGenerating(progress);

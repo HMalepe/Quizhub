@@ -51,10 +51,10 @@ export function overlayStateAt(time, questions, timeline, marks) {
  * Stings are mixed in a second pass only when that pass still has audible
  * duration; otherwise the colored file keeps the original voice.
  */
-export async function colorizeTake({ blob, questions, timeline, marks, onProgress }) {
+export async function colorizeTake({ blob, questions, timeline, marks, stingPicks, onProgress }) {
   await ensureAacEncoder();
 
-  const hits = stingHits(timeline, marks);
+  const hits = stingHits(timeline, marks, stingPicks);
   const colored = await colorizeOnce({ blob, questions, timeline, marks, onProgress });
 
   if (!hits.length) {
@@ -217,7 +217,7 @@ export function mixStingsIntoSample(sample, hits) {
     const rate = sample.sampleRate;
     const overlapping = [];
     for (const hit of hits) {
-      const sting = getSting(hit.kind, rate, hit.index);
+      const sting = getSting(hit.kind, rate, hit.pick ?? hit.index);
       if (!sting.length) continue;
       const stingEnd = hit.t + sting.length / rate;
       if (hit.t < end && stingEnd > start) overlapping.push({ hit, sting });
@@ -237,7 +237,7 @@ export function mixStingsIntoSample(sample, hits) {
         const add = scratch[i];
         if (!add) continue;
         const mixed = data[i] + add;
-        data[i] = mixed > 1 ? 1 : mixed < -1 ? -1 : mixed;
+        data[i] = Math.tanh(mixed);
       }
     }
 
