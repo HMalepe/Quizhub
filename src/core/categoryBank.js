@@ -1,6 +1,6 @@
 /**
- * "Can You Pass As..." — 60 identity-check trivia categories, grouped into
- * 9 sections, 8 questions each (480 total). Sourced from the uploaded
+ * "Can You Pass As..." — 86 identity-check trivia categories, grouped into
+ * 10 sections, 8 questions each (688 total). Sourced from the uploaded
  * question set and kept in the same [question, answer] pair shape that
  * `questions.js` already uses everywhere else, so a chosen category can be
  * fed straight into `machine.setQuestions()`.
