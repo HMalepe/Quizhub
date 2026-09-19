@@ -834,6 +834,349 @@ export const SECTIONS = [
         ]
       }
     ]
+  },
+  {
+    section: 'Sports Fandom',
+    categories: [
+      {
+        name: 'a Tennis Fan',
+        questions: [
+          ['What do you call a score of zero in tennis?', 'Love'],
+          ['How many Grand Slam tournaments are there each year?', 'Four'],
+          ['What\'s it called when a player wins a set 6-0?', 'A "bagel"'],
+          ['What surface is the French Open played on?', 'Clay'],
+          ['What\'s a "let" in tennis?', 'A serve that clips the net but still lands in the correct box, replayed'],
+          ['Who is widely regarded as holding the record for most men\'s Grand Slam singles titles?', 'Novak Djokovic'],
+          ['What\'s it called when a player wins all four Grand Slams in the same calendar year?', 'A calendar Grand Slam'],
+          ['What\'s the tiebreak format played at 6-6 in most sets called?', 'A tiebreaker (or tiebreak)']
+        ]
+      },
+      {
+        name: 'a Grand Slam Historian',
+        questions: [
+          ['Which Grand Slam is played on grass?', 'Wimbledon'],
+          ['Which city hosts the US Open?', 'New York'],
+          ['Which Grand Slam is played on hard courts in Melbourne?', 'The Australian Open'],
+          ['Who holds the Open Era record for most men\'s Wimbledon singles titles, with 8?', 'Roger Federer'],
+          ['Who holds the Open Era record for most women\'s Grand Slam singles titles, with 23?', 'Serena Williams'],
+          ['Which is the earliest of the four Grand Slams played each year?', 'The Australian Open'],
+          ['Which Grand Slam is the last of the year, played in New York?', 'The US Open'],
+          ['What colour are the clay courts at the French Open (Roland Garros)?', 'Red/orange']
+        ]
+      },
+      {
+        name: 'a Wimbledon Regular',
+        questions: [
+          ['What\'s the strict dress code colour at Wimbledon?', 'All white'],
+          ['What\'s traditionally served with strawberries at Wimbledon?', 'Cream'],
+          ['What\'s the name of Wimbledon\'s main show court?', 'Centre Court'],
+          ['What\'s Wimbledon\'s VIP seating area known as?', 'The Royal Box'],
+          ['What\'s the grass-court Grand Slam officially called?', 'The Championships, Wimbledon'],
+          ['In which part of London is the All England Club located?', 'Wimbledon'],
+          ['What ball brand has long supplied Wimbledon?', 'Slazenger'],
+          ['Which Grand Slam added a retractable roof over its main court to fight rain delays?', 'Wimbledon, over Centre Court']
+        ]
+      },
+      {
+        name: 'a Tennis Rules Nerd',
+        questions: [
+          ['What\'s a "double fault"?', 'Missing both first and second serve attempts, losing the point'],
+          ['What\'s "deuce"?', 'A tied score of 40-40 in a game'],
+          ['How many points are needed to win a standard game, without deuce?', 'Four'],
+          ['What\'s an "ace"?', 'A serve the opponent can\'t touch, winning the point outright'],
+          ['What\'s it called when players switch ends of the court?', 'A changeover'],
+          ['What\'s a "rally"?', 'A sequence of shots exchanged before the point ends'],
+          ['What\'s generally banned mid-match in traditional tennis rules?', 'On-court coaching'],
+          ['What\'s a "break of serve"?', 'Winning a game when your opponent was serving']
+        ]
+      },
+      {
+        name: 'a Tennis Tour Nerd',
+        questions: [
+          ['What does "ATP" stand for, the men\'s tour body?', 'Association of Tennis Professionals'],
+          ['What does "WTA" stand for, the women\'s tour body?', 'Women\'s Tennis Association'],
+          ['What are the year-end events for each tour\'s top 8 ranked players called?', 'The ATP Finals and WTA Finals'],
+          ['What determines a player\'s tour ranking?', 'Points earned from tournament results'],
+          ['What\'s "match point"?', 'The point that, if won, ends the match'],
+          ['What\'s a "seed" in a tournament draw?', 'A top player positioned to avoid early meetings with other top players'],
+          ['What\'s an "unforced error"?', 'A mistake made without pressure from the opponent\'s shot'],
+          ['What technology largely replaced human line judges for close calls?', 'Electronic line-calling (e.g. Hawk-Eye)']
+        ]
+      },
+      {
+        name: 'a Cricket Fan',
+        questions: [
+          ['How many players are on a cricket team on the field?', 'Eleven'],
+          ['What\'s it called when a bowler takes three wickets on three consecutive balls?', 'A hat-trick'],
+          ['What\'s the term for scoring 100 runs in an innings?', 'A century'],
+          ['How many balls make up a standard over?', 'Six'],
+          ['What\'s a "duck"?', 'Being dismissed for zero runs'],
+          ['What\'s the wooden structure a bowler aims at called?', 'The stumps (the wicket)'],
+          ['What does an "LBW" dismissal stand for?', 'Leg Before Wicket'],
+          ['What\'s the shortest major international format, played over 20 overs a side?', 'T20']
+        ]
+      },
+      {
+        name: 'a Cricket World Cup Historian',
+        questions: [
+          ['Which country has won the most Cricket World Cups?', 'Australia'],
+          ['Which country won the first Cricket World Cup, in 1975?', 'The West Indies'],
+          ['Which country hosted and won the 2011 Cricket World Cup?', 'India'],
+          ['Which country won the dramatic 2019 Cricket World Cup final at Lord\'s?', 'England'],
+          ['How often is the Cricket World Cup held?', 'Every four years'],
+          ['Which country won the 2023 Cricket World Cup, hosted by India?', 'Australia'],
+          ['What\'s the top prize in T20 international cricket called?', 'The ICC Men\'s T20 World Cup'],
+          ['Which two countries contest "The Ashes"?', 'England and Australia']
+        ]
+      },
+      {
+        name: 'a Cricket Terminology Nerd',
+        questions: [
+          ['What\'s a "googly"?', 'A deceptive delivery that spins the opposite way to how it looks'],
+          ['What\'s a "maiden over"?', 'An over in which no runs are scored'],
+          ['What\'s a "boundary"?', 'A shot that reaches the edge of the field, worth 4 or 6 runs'],
+          ['What\'s a "yorker"?', 'A fast, full-length delivery aimed at the batter\'s feet'],
+          ['What\'s the "slip" fielding position mainly used for?', 'Catching edges near the wicketkeeper'],
+          ['What\'s a "declaration"?', 'A captain voluntarily ending their team\'s innings before all wickets fall'],
+          ['What\'s "sledging"?', 'Verbal needling or trash talk between players on the field'],
+          ['What does "DRS" stand for?', 'Decision Review System']
+        ]
+      },
+      {
+        name: 'a Test Cricket Purist',
+        questions: [
+          ['How many days can a Test match traditionally last?', 'Five'],
+          ['What colour ball is traditionally used in Test cricket?', 'Red'],
+          ['What\'s the term for a player who bats and bowls at a high level?', 'An all-rounder'],
+          ['Who holds the record for the highest individual score in a Test innings, 400 not out?', 'Brian Lara'],
+          ['What\'s a "follow-on"?', 'When a team batting second is forced to bat again immediately after a big first-innings deficit'],
+          ['What colour is traditionally worn in Test cricket kit?', 'White'],
+          ['What\'s the oldest recognised cricket trophy, contested between England and Australia?', 'The Ashes'],
+          ['What\'s a "nightwatchman"?', 'A lower-order batter sent in late in the day to protect a specialist batter']
+        ]
+      },
+      {
+        name: 'an IPL / T20 Nerd',
+        questions: [
+          ['What does "IPL" stand for?', 'Indian Premier League'],
+          ['What\'s a "Super Over"?', 'A one-over eliminator used to break a tie'],
+          ['What\'s the "Powerplay" in limited-overs cricket?', 'An early phase of overs with fielding restrictions'],
+          ['What\'s a "free hit"?', 'A delivery after a no-ball where the batter can\'t be dismissed by most methods'],
+          ['How many overs per side are bowled in T20 cricket?', 'Twenty'],
+          ['What\'s a "death over"?', 'An over near the end of the innings, typically high-scoring and high-pressure'],
+          ['What\'s an "all-rounder"?', 'A player skilled at both batting and bowling'],
+          ['What does "MoM" stand for, an award given after a match?', 'Man of the Match']
+        ]
+      },
+      {
+        name: 'a Rugby Fan',
+        questions: [
+          ['How many players are on a rugby union team on the field?', 'Fifteen'],
+          ['How many points is a try worth?', 'Five'],
+          ['What\'s a "conversion"?', 'A kick after a try, worth 2 more points if successful'],
+          ['What\'s a "scrum"?', 'A contested restart where forwards bind together to compete for the ball'],
+          ['What\'s a "lineout"?', 'A restart where the ball is thrown in after going out of play (into touch)'],
+          ['What\'s it called when a team kicks the ball between the posts for 3 points during open play?', 'A drop goal'],
+          ['How many points is a penalty kick worth?', 'Three'],
+          ['What colour card sends a player off for the rest of the match?', 'Red']
+        ]
+      },
+      {
+        name: 'a Rugby World Cup Historian',
+        questions: [
+          ['Which country has won the most Rugby World Cups?', 'South Africa'],
+          ['Which country won the first Rugby World Cup, in 1987?', 'New Zealand'],
+          ['Which country hosted the 2023 Rugby World Cup?', 'France'],
+          ['Which country won the 2023 Rugby World Cup final?', 'South Africa'],
+          ['What\'s South Africa\'s national rugby team nicknamed?', 'The Springboks'],
+          ['What\'s New Zealand\'s national rugby team nicknamed?', 'The All Blacks'],
+          ['How often is the Rugby World Cup held?', 'Every four years'],
+          ['What trophy is awarded to the Rugby World Cup winners?', 'The Webb Ellis Cup']
+        ]
+      },
+      {
+        name: 'a Six Nations Follower',
+        questions: [
+          ['Which annual northern-hemisphere tournament features England, France, Ireland, Italy, Scotland, and Wales?', 'The Six Nations'],
+          ['Which southern-hemisphere tournament features South Africa, New Zealand, Australia, and Argentina?', 'The Rugby Championship'],
+          ['What\'s it called when a team wins every match in a single Six Nations tournament?', 'A Grand Slam'],
+          ['What\'s the trophy contested between England and Scotland in the Six Nations called?', 'The Calcutta Cup'],
+          ['What colour jersey does Ireland\'s national team wear?', 'Green'],
+          ['What\'s the term for winning the most points/matches in a Six Nations without a Grand Slam?', 'Winning the Championship'],
+          ['What\'s the name of the combined England/Ireland/Scotland/Wales team that tours the Southern Hemisphere?', 'The British & Irish Lions'],
+          ['How often does a British & Irish Lions tour take place?', 'Every four years']
+        ]
+      },
+      {
+        name: 'a Rugby Terminology Nerd',
+        questions: [
+          ['What\'s a "maul"?', 'A phase where the ball carrier is held up by teammates in a moving pack, staying on their feet'],
+          ['What\'s a "ruck"?', 'A phase where players contest the ball on the ground after a tackle'],
+          ['What\'s a "knock-on"?', 'Illegally fumbling the ball forward, resulting in a scrum for the opposition'],
+          ['What\'s offside broadly about in rugby?', 'Being ahead of the ball, or the back foot of a ruck/maul, when not allowed to be involved'],
+          ['Which position typically wears the number 10 jersey as chief kicker and playmaker?', 'Fly-half'],
+          ['What\'s a hooker\'s main job in the scrum?', 'Striking for and hooking back the ball'],
+          ['What\'s a "high tackle"?', 'An illegal tackle making contact above the shoulders'],
+          ['What\'s the term for the two packs of forwards binding together to contest possession?', 'The scrum']
+        ]
+      },
+      {
+        name: 'an Athletics Fan',
+        questions: [
+          ['What\'s the most prestigious sprint event, run over 100 metres?', 'The 100m'],
+          ['Who holds the men\'s 100m and 200m world records?', 'Usain Bolt'],
+          ['What does "PB" stand for?', 'Personal Best'],
+          ['What event combines running, jumping, and throwing over two days for men?', 'The decathlon'],
+          ['How many events make up the heptathlon, usually contested by women?', 'Seven'],
+          ['What\'s a "false start" in sprinting?', 'Leaving the blocks before the starting signal'],
+          ['What\'s the standard length of an outdoor athletics track?', '400 metres'],
+          ['What field event involves clearing a bar using a pole?', 'Pole vault']
+        ]
+      },
+      {
+        name: 'an Olympics Athletics Historian',
+        questions: [
+          ['Which country does sprint legend Usain Bolt represent?', 'Jamaica'],
+          ['Who holds the women\'s 100m and 200m world records, set in 1988?', 'Florence Griffith-Joyner'],
+          ['Which country hosted the 2012 Summer Olympics?', 'The United Kingdom (London)'],
+          ['Which country hosted the 2020 Olympics, actually held in 2021?', 'Japan (Tokyo)'],
+          ['Which country hosted the 2024 Olympics?', 'France (Paris)'],
+          ['What\'s the official marathon distance?', '26.2 miles (42.195 km)'],
+          ['Which British distance runner dominated the 5000m and 10000m through the 2010s?', 'Mo Farah'],
+          ['How often are the Summer Olympics held?', 'Every four years']
+        ]
+      },
+      {
+        name: 'a Field Events Nerd',
+        questions: [
+          ['What field event involves throwing a heavy metal ball for distance?', 'Shot put'],
+          ['What\'s thrown in the "discus" event?', 'A weighted disc, usually with a metal rim'],
+          ['What\'s the event where a weighted ball on a wire is spun and thrown called?', 'Hammer throw'],
+          ['What\'s the "javelin"?', 'A spear-like implement thrown for distance'],
+          ['What\'s the key difference between long jump and triple jump?', 'Triple jump adds a hop and a step before the final jump'],
+          ['What\'s the modern high jump technique, going over backwards, called?', 'The Fosbury Flop'],
+          ['What\'s the sprint before takeoff in a jumping event called?', 'The run-up'],
+          ['What\'s measured in the long jump?', 'The distance from the takeoff board to the landing mark']
+        ]
+      },
+      {
+        name: 'a Distance Running Nerd',
+        questions: [
+          ['What\'s the classic "metric mile" distance?', '1500 metres'],
+          ['How many laps of a standard track make up a 10,000m race?', '25'],
+          ['What\'s a "pacer" or "rabbit" in distance running?', 'A runner who sets an early fast pace for others, often dropping out before the finish'],
+          ['What\'s "negative splitting" in a race?', 'Running the second half faster than the first'],
+          ['What\'s the steeplechase known for, besides hurdles?', 'A water jump'],
+          ['Which runner set a huge marathon world record of 2:00:35 at the 2023 Chicago Marathon?', 'Kelvin Kiptum'],
+          ['Which two East African nations are famously dominant in distance running?', 'Kenya and Ethiopia'],
+          ['What\'s a "split" in distance running?', 'The time recorded at a set checkpoint during a race']
+        ]
+      },
+      {
+        name: 'a Golf Fan',
+        questions: [
+          ['What\'s it called when you finish a hole one shot under par?', 'A birdie'],
+          ['What\'s an "eagle"?', 'Two shots under par on a hole'],
+          ['What\'s a "bogey"?', 'One shot over par on a hole'],
+          ['What\'s "par"?', 'The expected number of shots a skilled golfer should take on a hole'],
+          ['How many holes make up a standard round of golf?', 'Eighteen'],
+          ['What\'s a "hole-in-one"?', 'Sinking the ball with a single shot from the tee'],
+          ['What\'s the area of very short grass around the hole called?', 'The green'],
+          ['What\'s a "handicap" in golf?', 'A numerical measure of a player\'s ability, used to adjust scores']
+        ]
+      },
+      {
+        name: 'a Major Championship Historian',
+        questions: [
+          ['How many men\'s major championships are there each year?', 'Four'],
+          ['Name the four men\'s majors.', 'The Masters, the PGA Championship, the U.S. Open, and The Open Championship'],
+          ['Which major is always played at Augusta National?', 'The Masters'],
+          ['What colour jacket does the Masters champion receive?', 'Green'],
+          ['Which major is the oldest, first played in 1860?', 'The Open Championship'],
+          ['Who holds the record for most men\'s major championships won, with 18?', 'Jack Nicklaus'],
+          ['Which country is The Open Championship traditionally played in?', 'Scotland (the United Kingdom)'],
+          ['What trophy is awarded to The Open Championship winner?', 'The Claret Jug']
+        ]
+      },
+      {
+        name: 'a Ryder Cup Follower',
+        questions: [
+          ['Which two sides compete in the Ryder Cup?', 'Europe and the United States'],
+          ['How often is the Ryder Cup held?', 'Every two years'],
+          ['What team formats, alongside singles, make up most Ryder Cup matches?', 'Fourball and foursomes'],
+          ['What format is the Ryder Cup scored in?', 'Match play, with points awarded per match won'],
+          ['Are Ryder Cup players professionals or amateurs?', 'Professionals'],
+          ['What\'s the trophy itself called?', 'The Ryder Cup'],
+          ['Which continent\'s golfers make up "Team Europe"?', 'Europe'],
+          ['Who was the English businessman the cup is named after?', 'Samuel Ryder']
+        ]
+      },
+      {
+        name: 'a Golf Rules & Terms Nerd',
+        questions: [
+          ['What\'s a "mulligan"?', 'An informal do-over shot, not allowed under official rules'],
+          ['What\'s "the fairway"?', 'The mowed area of the course between tee and green'],
+          ['What\'s a "bunker"?', 'A sand hazard on the course'],
+          ['What\'s "the rough"?', 'Longer grass bordering the fairway, harder to play from'],
+          ['What\'s a "fourball" format?', 'A team format where each player plays their own ball and the best score counts'],
+          ['What\'s "stroke play"?', 'Scoring by the total number of shots taken over a round'],
+          ['What\'s "match play"?', 'A format where holes are won or lost, rather than strokes counted'],
+          ['What\'s a "caddie"?', 'A person who carries a player\'s clubs and gives advice during a round']
+        ]
+      },
+      {
+        name: 'a Basketball Fan',
+        questions: [
+          ['How many players per team are on the court in basketball?', 'Five'],
+          ['How many points is a free throw worth?', 'One'],
+          ['How many points is a shot from beyond the three-point line worth?', 'Three'],
+          ['What\'s a "dunk"?', 'Forcefully scoring by putting the ball directly through the hoop with the hand(s)'],
+          ['What\'s a "triple-double"?', 'Reaching double digits in three statistical categories in one game'],
+          ['What\'s the top professional basketball league in the US called?', 'The NBA'],
+          ['What\'s a "rebound"?', 'Recovering the ball after a missed shot'],
+          ['How long is an NBA game, in regulation?', '48 minutes']
+        ]
+      },
+      {
+        name: 'an NBA Historian',
+        questions: [
+          ['Which team has won the most NBA championships?', 'The Boston Celtics'],
+          ['Who won six championships with the Chicago Bulls and is widely considered among the greatest ever?', 'Michael Jordan'],
+          ['Who holds the NBA\'s all-time regular-season scoring record?', 'LeBron James'],
+          ['What\'s the trophy awarded to the NBA champion called?', 'The Larry O\'Brien Trophy'],
+          ['What\'s the NBA\'s regular-season MVP trophy officially called?', 'The Maurice Podoloff Trophy'],
+          ['Which city\'s team is known as the Lakers?', 'Los Angeles'],
+          ['What\'s the league\'s annual mid-season showcase of top players called?', 'The NBA All-Star Game'],
+          ['Who is the NBA Finals MVP trophy named after?', 'Bill Russell']
+        ]
+      },
+      {
+        name: 'a Basketball Rules Nerd',
+        questions: [
+          ['What\'s "travelling"?', 'Taking too many steps without dribbling the ball'],
+          ['What does a "shot clock" enforce?', 'A time limit for a team to attempt a shot'],
+          ['What\'s "goaltending"?', 'Illegally blocking a shot on its way down toward the basket'],
+          ['What\'s a "technical foul"?', 'A penalty for unsportsmanlike conduct, unrelated to physical play on the ball'],
+          ['What\'s a "double dribble"?', 'Dribbling with both hands at once, or stopping and restarting a dribble'],
+          ['What\'s the rectangular area near the basket commonly called?', 'The paint (or the key)'],
+          ['What\'s a "pick and roll"?', 'An offensive play where a player sets a screen, then moves toward the basket for a pass'],
+          ['How many personal fouls typically disqualify an NBA player from a game?', 'Six']
+        ]
+      },
+      {
+        name: 'a March Madness Nerd',
+        questions: [
+          ['What\'s the popular nickname for the US men\'s college basketball championship tournament?', 'March Madness'],
+          ['How many teams make up the men\'s NCAA tournament bracket?', '68'],
+          ['What\'s a "Cinderella" team in the tournament?', 'A lower-seeded underdog team that makes a surprising deep run'],
+          ['What\'s the "Final Four"?', 'The last four teams remaining in the NCAA tournament'],
+          ['What organisation governs US college sports, including basketball?', 'The NCAA'],
+          ['What\'s a "bracket" in tournament terms?', 'The chart predicting or tracking the tournament\'s matchups and winners'],
+          ['What\'s a "one-and-done" player?', 'A player who leaves college for the pros after just one season'],
+          ['What\'s it called when a #16 seed beats a #1 seed, historically rare?', 'A major upset']
+        ]
+      }
+    ]
   }
 ];
 
