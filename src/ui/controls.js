@@ -1,3 +1,5 @@
+import { MARK_RESULTS } from '../core/config.js';
+
 /**
  * Wires DOM controls to the app. Holds no quiz logic of its own — it reads
  * state and calls handlers. Keeping it dumb means the state machine stays
@@ -36,7 +38,9 @@ export class Controls {
       settings: $('settings'),
       questionBank: $('questionBank'),
       saveQuestions: $('saveQuestionsBtn'),
-      resetQuestions: $('resetQuestionsBtn')
+      resetQuestions: $('resetQuestionsBtn'),
+      restartTop: $('restartTop'),
+      restartBottom: $('restartBottom')
     };
 
     this._bind();
@@ -66,6 +70,8 @@ export class Controls {
     });
 
     this.el.resetQuestions.addEventListener('click', () => h.onResetQuestions());
+    this.el.restartTop.addEventListener('click', () => h.onRestart());
+    this.el.restartBottom.addEventListener('click', () => h.onRestart());
 
     // Keyboard shortcuts — much easier than tapping when you're mid-take
     // and the phone is on a tripod across the room with a bluetooth keyboard.
@@ -88,6 +94,7 @@ export class Controls {
       btn.disabled = false;
     });
     this._updateStartEnabled();
+    this.setRestartVisible(true);
   }
 
   /** Start needs both camera access and a chosen category/question set. */
@@ -167,6 +174,13 @@ export class Controls {
       right.classList.toggle('active', state.marks[index] === 'right');
       right.addEventListener('click', () => this.handlers.onMarkAt(index, 'right'));
 
+      const close = document.createElement('button');
+      close.type = 'button';
+      close.className = 'close';
+      close.textContent = '≈ Close';
+      close.classList.toggle('active', state.marks[index] === 'close');
+      close.addEventListener('click', () => this.handlers.onMarkAt(index, 'close'));
+
       const wrong = document.createElement('button');
       wrong.type = 'button';
       wrong.className = 'wrong';
@@ -174,12 +188,12 @@ export class Controls {
       wrong.classList.toggle('active', state.marks[index] === 'wrong');
       wrong.addEventListener('click', () => this.handlers.onMarkAt(index, 'wrong'));
 
-      row.append(right, wrong);
+      row.append(right, close, wrong);
       item.append(q, a, row);
       this.el.reviewList.appendChild(item);
     });
 
-    this.el.generate.disabled = !state.marks.every((m) => m === 'right' || m === 'wrong');
+    this.el.generate.disabled = !state.marks.every((m) => MARK_RESULTS.includes(m));
   }
 
   hideReview() {
@@ -254,5 +268,34 @@ export class Controls {
     this.el.camInfo.textContent = text;
     this.el.camInfo.classList.toggle('warn', warn);
     this.el.camInfo.hidden = false;
+  }
+
+  setRestartVisible(on) {
+    this.el.restartTop.hidden = !on;
+    this.el.restartBottom.hidden = !on;
+  }
+
+  /**
+   * Back to the landing overlay: camera off, category unpicked, take discarded.
+   * Enable camera & mic is the next step.
+   */
+  resetToLanding() {
+    this._cameraEnabled = false;
+    this._categoryChosen = false;
+    this.el.permOverlay.style.display = '';
+    this.el.categorySelect.disabled = true;
+    this.el.categorySelect.selectedIndex = 0;
+    [this.el.start, this.el.shuffle, this.el.record].forEach((btn) => {
+      btn.disabled = true;
+    });
+    this.setRecording(false);
+    this.setGenerating(null);
+    this.hideReview();
+    this.el.download.classList.remove('show');
+    this.el.download.removeAttribute('href');
+    this.el.camInfo.hidden = true;
+    this.el.diag.hidden = true;
+    this.closeSettings();
+    this.setRestartVisible(false);
   }
 }

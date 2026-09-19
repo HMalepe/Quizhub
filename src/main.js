@@ -18,6 +18,7 @@ import { RecordingDiagnostics } from './core/recordingDiagnostics.js';
 import { Renderer } from './render/renderer.js';
 import { clearTextLayoutCache } from './render/text.js';
 import { Controls } from './ui/controls.js';
+import { playSting } from './core/stings.js';
 
 const canvas = document.getElementById('stage');
 const camera = new Camera();
@@ -36,6 +37,8 @@ let latestState = null;
 let timeline = [];
 let rawTake = null;
 let generating = false;
+let generateToken = 0;
+let restarting = false;
 
 function logTimeline(state) {
   if (!recorder.recording) return;
@@ -120,7 +123,13 @@ const controls = new Controls({
 
   onAdvance: () => machine.advance(),
 
-  onMarkAt: (index, result) => machine.markAt(index, result),
+  onMarkAt: (index, result) => {
+    machine.markAt(index, result);
+    // Recap only — recording has already stopped, so this cannot leak into the mic.
+    if (result === 'right' || result === 'wrong' || result === 'close') {
+      void playSting(result, index);
+    }
+  },
 
   onGenerate: async () => {
     if (generating) return;
@@ -129,11 +138,12 @@ const controls = new Controls({
       return;
     }
     if (!machine.allMarked) {
-      alert('Mark every question right or wrong before generating.');
+      alert('Mark every question right, close, or wrong before generating.');
       return;
     }
 
     generating = true;
+    const token = ++generateToken;
     controls.setGenerating(0);
     try {
       const { colorizeTake } = await import('./core/colorizeTake.js');
@@ -143,14 +153,23 @@ const controls = new Controls({
         questions: machine.questions,
         timeline,
         marks: machine.marks,
-        onProgress: (progress) => controls.setGenerating(progress)
+        onProgress: (progress) => {
+          if (token !== generateToken) return;
+          controls.setGenerating(progress);
+        }
       });
+      if (token !== generateToken) {
+        URL.revokeObjectURL(result.url);
+        return;
+      }
       controls.showDownload(result);
     } catch (err) {
+      if (token !== generateToken) return;
       console.error(err);
       alert(`Could not generate the video: ${err.message}`);
       if (rawTake) controls.showDownload(rawTake);
     } finally {
+      if (token !== generateToken) return;
       generating = false;
       controls.setGenerating(null);
       if (latestState && latestState.phase === 'review') controls.showReview(latestState);
@@ -164,6 +183,9 @@ const controls = new Controls({
         rawTake = null;
         timeline = [];
         recorder.audioTrack = camera.audioTrack;
+        if (!recorder.audioTrack) {
+          throw new Error('Microphone is not available. Tap Restart, then Enable camera & mic, and allow both.');
+        }
         await recorder.start();
         const state = machine.snapshot();
         if (state.phase === 'question' || state.phase === 'reveal') {
@@ -201,8 +223,43 @@ const controls = new Controls({
     machine.setQuestions(questions);
     controls.setQuestionBankText(stringifyQuestions(questions));
     controls.setCategorySelectValue('__custom');
-  }
+  },
+
+  onRestart: () => { void restartToLanding(); }
 });
+
+async function restartToLanding() {
+  if (restarting) return;
+  restarting = true;
+  generateToken += 1;
+  generating = false;
+  try {
+    diagnostics.stop();
+    if (recorder.recording) {
+      try {
+        await recorder.stop();
+      } catch {
+        /* still going back to landing */
+      }
+    }
+    controls.setRecording(false);
+    wakeLock.release();
+    renderer.stop();
+    camera.stop();
+    recorder.audioTrack = null;
+    if (rawTake?.url) URL.revokeObjectURL(rawTake.url);
+    rawTake = null;
+    timeline = [];
+    machine.resetToIdle();
+    questions = loadQuestions();
+    machine.setQuestions(questions);
+    controls.setQuestionBankText(stringifyQuestions(questions));
+    controls.resetToLanding();
+    renderer.drawFrame();
+  } finally {
+    restarting = false;
+  }
+}
 
 // Tapping the canvas is the primary interaction during a take.
 canvas.addEventListener('click', () => machine.advance());

@@ -27,8 +27,12 @@ prompted — your voice is recorded along with the video.
 4. **Start** — first question appears, and **waits for you**
 5. **Tap the video** — the answer appears under the question on the same screen
 6. **Tap** again to move to the next question
-7. After the last answer, a recap lists every question — mark each ✓ Right or ✕ Wrong
-8. **Generate video**, then **Download** — right answers are green, wrong ones red
+7. After the last answer, **scroll down** to mark each one ✓ Right, ≈ Close, or ✕ Wrong
+8. **Generate video**, then **Download** — right is green, close enough is orange, wrong is red, each with a different clap / gasp / buzzer. The 1/8 counter from filming is not in the file.
+
+**Restart** (top of the screen and bottom of the panel) turns the camera off
+and returns you to the landing page so you can enable camera & mic again from
+scratch.
 
 **Tapping anywhere on the canvas advances**, but the camera half is the easy
 thumb reach when the phone's on a tripod, so that's the one to use.
@@ -67,18 +71,16 @@ Everything before the first `|` is the question, everything after is the answer
 (so answers can contain pipes). Saved to `localStorage` — persists across reloads.
 **Reset to defaults** restores the built-in bank.
 
-## Your voice is recorded — nothing else is
+## Your voice is recorded while you film
 
-The file comes out with one audio track: your mic. That's the content, and it
-stays in sync with the footage, so you're not re-recording your answers
-separately.
+The take itself is mic-only, so your answers stay in sync with the footage.
+After you mark the recap, **Generate video** paints right/close/wrong on the
+overlay and mixes a reaction onto each reveal — clapping, cheering, a gasp,
+a buzzer, and so on, a different one per question so it does not repeat.
+Tapping a mark on the recap plays a short preview of that question's sting
+— that is after recording has stopped, so it never leaks into the file.
 
-The app itself makes no sound. Right/wrong stings go on in CapCut if you want
-them. The downloaded file already shows green for answers you marked right and
-red for ones you marked wrong.
-
-**In CapCut:** the color flash on reveal is still a sync marker if you want a
-buzzer there.
+The question counter (1/8) is only on screen while you film.
 
 ## Video quality and how long a take can run
 

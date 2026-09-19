@@ -5,6 +5,7 @@
   --amber: #f2b705;
   --violet: #8b6cff;
   --right: #3ecf8e;
+  --close: #ff8a2a;
   --wrong: #ff4d4d;
   --ink: #f4f3f0;
   --ink-dim: #9ba0ac;
@@ -195,6 +196,17 @@ button.right.active {
   color: #08281a;
 }
 
+button.close {
+  background: transparent;
+  color: var(--close);
+  border-color: var(--close);
+}
+
+button.close.active {
+  background: var(--close);
+  color: #2a1400;
+}
+
 button.wrong {
   background: transparent;
   color: var(--wrong);
@@ -353,6 +365,21 @@ textarea:focus {
   text-align: center;
   line-height: 1.5;
   margin: 2px 0 0;
+}
+
+.restart {
+  flex: none;
+  width: 100%;
+}
+
+.restart-top {
+  max-width: 480px;
+  margin: 0;
+  padding-top: calc(12px + env(safe-area-inset-top));
+  border-radius: 0;
+  border-left: none;
+  border-right: none;
+  border-top: none;
 }
 
 /* What the camera actually negotiated. Lives in the panel, never on the

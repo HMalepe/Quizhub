@@ -164,7 +164,11 @@ export class Renderer {
     ctx.textAlign = 'center';
     ctx.textBaseline = 'middle';
 
-    if (state.total) {
+    if (
+      state.showCounter !== false
+      && state.total
+      && (state.phase === 'question' || state.phase === 'reveal')
+    ) {
       ctx.fillStyle = COLORS.inkDim;
       ctx.font = TYPE.counter;
       ctx.fillText(`${state.index + 1} / ${state.total}`, W / 2, 62);
@@ -181,7 +185,7 @@ export class Renderer {
         this.drawReveal(state);
         break;
       case 'review':
-        this.drawIdle('Mark your answers');
+        this.drawIdle('Scroll down to mark your answers');
         break;
     }
   }
@@ -208,8 +212,8 @@ export class Renderer {
   /**
    * Same slot in both phases so the question doesn't jump when the answer
    * appears under it. Upper half of the overlay; the lower half is reserved
-   * for the answer. Live takes always draw the answer in white; green/red
-   * is applied later from the recap marks when the download is generated.
+   * for the answer. Live takes always draw the answer in white; green / orange
+   * / red is applied later from the recap marks when the download is generated.
    */
   drawQuestionText(question) {
     const { ctx, W, topH } = this;
@@ -228,24 +232,12 @@ export class Renderer {
 
   drawReveal(state) {
     const { ctx, W, topH } = this;
+    const look = markLook(state.answerResult);
 
-    const kickerColor =
-      state.answerResult === 'right' ? COLORS.right
-      : state.answerResult === 'wrong' ? COLORS.wrong
-      : COLORS.violet;
-
-    const kickerLabel =
-      state.answerResult === 'right' ? 'CORRECT'
-      : state.answerResult === 'wrong' ? 'WRONG'
-      : 'ANSWER';
-
-    this.drawKicker(kickerLabel, kickerColor);
+    this.drawKicker(look.kicker, look.kickerColor);
     this.drawQuestionText(state.question);
 
-    ctx.fillStyle =
-      state.answerResult === 'right' ? COLORS.right
-      : state.answerResult === 'wrong' ? COLORS.wrong
-      : COLORS.ink;
+    ctx.fillStyle = look.answerColor;
 
     drawFitted(
       ctx,
@@ -264,13 +256,22 @@ export class Renderer {
     const now = performance.now();
     if (now >= state.flashUntil) return;
 
-    const rgb =
-      state.answerResult === 'right' ? FLASH_RGB.right
-      : state.answerResult === 'wrong' ? FLASH_RGB.wrong
-      : FLASH_RGB.neutral;
-
+    const { flash } = markLook(state.answerResult);
     const alpha = ((state.flashUntil - now) / TIMING.flashMs) * 0.35;
-    this.ctx.fillStyle = `rgba(${rgb},${Math.max(alpha, 0)})`;
+    this.ctx.fillStyle = `rgba(${flash},${Math.max(alpha, 0)})`;
     this.ctx.fillRect(0, 0, this.W, this.H);
   }
+}
+
+function markLook(result) {
+  if (result === 'right') {
+    return { kicker: 'CORRECT', kickerColor: COLORS.right, answerColor: COLORS.right, flash: FLASH_RGB.right };
+  }
+  if (result === 'close') {
+    return { kicker: 'CLOSE ENOUGH', kickerColor: COLORS.close, answerColor: COLORS.close, flash: FLASH_RGB.close };
+  }
+  if (result === 'wrong') {
+    return { kicker: 'WRONG', kickerColor: COLORS.wrong, answerColor: COLORS.wrong, flash: FLASH_RGB.wrong };
+  }
+  return { kicker: 'ANSWER', kickerColor: COLORS.violet, answerColor: COLORS.ink, flash: FLASH_RGB.neutral };
 }

@@ -1,5 +1,6 @@
 import {
   ALL_FORMATS,
+  AudioSample,
   BlobSource,
   BufferTarget,
   Conversion,
@@ -11,12 +12,13 @@ import {
 import { CANVAS, ENCODING } from './config.js';
 import { ensureAacEncoder } from './recorder.js';
 import { Renderer } from '../render/renderer.js';
+import { getSting, mixStingInto, stingHits } from './stings.js';
 
 /**
  * Rebuilds the overlay snapshot that should be on screen at `time` seconds
  * into the take, using the phase log captured while recording and the recap
- * marks. Live takes always recorded the answer in white; this is where green
- * and red get applied.
+ * marks. Live takes always recorded the answer in white; this is where green,
+ * orange (close), and red get applied. The 1/8 counter stays off the download.
  */
 export function overlayStateAt(time, questions, timeline, marks) {
   let current = { phase: 'idle', index: 0 };
@@ -37,18 +39,49 @@ export function overlayStateAt(time, questions, timeline, marks) {
     question: pair[0],
     answer: pair[1],
     answerResult: phase === 'reveal' ? marks[current.index] || null : null,
+    showCounter: false,
     flashUntil: 0
   };
 }
 
 /**
  * Re-encodes a recorded take, redrawing the quiz overlay so marked answers
- * land green (right) or red (wrong). Audio packets are copied, never
- * transcoded — a second AAC pass is where crackle comes back.
+ * land green / orange / red. The mic is copied as packets whenever we can —
+ * a failed AAC pass used to drop the whole audio track and leave a silent
+ * download. Stings are mixed on a decode → mix → encode path only when that
+ * path still keeps an audio track; otherwise the voice is copied untouched.
  */
 export async function colorizeTake({ blob, questions, timeline, marks, onProgress }) {
   await ensureAacEncoder();
 
+  const hits = stingHits(timeline, marks);
+  const inputHadAudio = await blobHasAudio(blob);
+
+  let mixed = null;
+  if (inputHadAudio && hits.length) {
+    try {
+      mixed = await colorizeOnce({ blob, questions, timeline, marks, hits, mixAudio: true, onProgress });
+    } catch (err) {
+      console.warn('Sting mix generate failed; keeping the mic.', err);
+    }
+  }
+
+  const mixedKeepsMic = mixed && await blobHasAudio(mixed.blob);
+  const result = mixedKeepsMic
+    ? mixed
+    : await colorizeOnce({ blob, questions, timeline, marks, hits, mixAudio: false, onProgress });
+
+  if (inputHadAudio && hits.length && !mixedKeepsMic) {
+    console.warn('Generate could not mix stings without dropping the mic; kept the voice.');
+  }
+
+  return {
+    url: URL.createObjectURL(result.blob),
+    filename: `trivia-reel-${Date.now()}${result.ext}`
+  };
+}
+
+async function colorizeOnce({ blob, questions, timeline, marks, hits, mixAudio, onProgress }) {
   const input = new Input({
     source: new BlobSource(blob),
     formats: ALL_FORMATS
@@ -64,15 +97,15 @@ export async function colorizeTake({ blob, questions, timeline, marks, onProgres
   const renderer = new Renderer({
     canvas,
     camera: { ready: false, video: { videoWidth: 0, videoHeight: 0 } },
-    getState: () => ({ phase: 'idle', index: 0, total: 0, question: '', answer: '', answerResult: null, flashUntil: 0 })
+    getState: () => ({ phase: 'idle', index: 0, total: 0, question: '', answer: '', answerResult: null, showCounter: false, flashUntil: 0 })
   });
 
   const conversion = await Conversion.init({
     input,
     output,
     showWarnings: false,
-    // Copy the already-encoded mic. A second AAC pass is where crackle comes
-    // back. Shift tolerance lets the muxer keep A/V lock without resampling.
+    // Copy the already-encoded mic when we are not mixing. Shift tolerance
+    // lets the muxer keep A/V lock without resampling.
     copy: { mode: 'preferred', shiftTolerance: Infinity },
     video: {
       forceTranscode: true,
@@ -90,7 +123,14 @@ export async function colorizeTake({ blob, questions, timeline, marks, onProgres
         renderer.drawOverlayZone(state);
         return canvas;
       }
-    }
+    },
+    audio: mixAudio
+      ? {
+          forceTranscode: true,
+          quality: new Quality({ bitrate: ENCODING.audioBitsPerSecond, bitrateMode: 'constant' }),
+          process: (sample) => mixStingsIntoSample(sample, hits)
+        }
+      : undefined
   });
 
   if (!conversion.isValid) {
@@ -98,14 +138,91 @@ export async function colorizeTake({ blob, questions, timeline, marks, onProgres
     throw new Error(`Could not colorize the take (${reason}).`);
   }
 
+  if (mixAudio && !conversionKeepsAudio(conversion)) {
+    return null;
+  }
+
+  if (conversion.discardedTracks && conversion.discardedTracks.length) {
+    console.warn(
+      'Generate discarded tracks:',
+      conversion.discardedTracks.map((d) => d.reason).join(', ')
+    );
+  }
+
   if (onProgress) conversion.onProgress = onProgress;
   await conversion.execute();
 
   const mimeType = output.format.mimeType;
   const ext = output.format.fileExtension;
-  const outBlob = new Blob([output.target.buffer], { type: mimeType });
   return {
-    url: URL.createObjectURL(outBlob),
-    filename: `trivia-reel-${Date.now()}${ext}`
+    blob: new Blob([output.target.buffer], { type: mimeType }),
+    mimeType,
+    ext
   };
+}
+
+function conversionKeepsAudio(conversion) {
+  return (conversion.utilizedTracks || []).some((track) => {
+    try {
+      return typeof track.isAudioTrack === 'function' ? track.isAudioTrack() : track.codecType === 'audio';
+    } catch {
+      return false;
+    }
+  });
+}
+
+async function blobHasAudio(blob) {
+  try {
+    const input = new Input({
+      source: new BlobSource(blob),
+      formats: ALL_FORMATS
+    });
+    return Boolean(await input.getPrimaryAudioTrack());
+  } catch {
+    return false;
+  }
+}
+
+/**
+ * Adds a reaction onto a decoded mic chunk wherever a marked reveal overlaps
+ * this sample. Unrelated chunks pass through untouched. Failures return the
+ * original sample so a sting mix cannot silence the take.
+ */
+export function mixStingsIntoSample(sample, hits) {
+  try {
+    const start = sample.timestamp;
+    const end = start + sample.duration;
+    const rate = sample.sampleRate;
+    const overlapping = [];
+    for (const hit of hits) {
+      const sting = getSting(hit.kind, rate, hit.index);
+      if (!sting.length) continue;
+      const stingEnd = hit.t + sting.length / rate;
+      if (hit.t < end && stingEnd > start) overlapping.push({ hit, sting });
+    }
+    if (!overlapping.length) return sample;
+
+    const audioBuffer = sample.toAudioBuffer();
+    const frames = audioBuffer.length;
+    const scratch = new Float32Array(frames);
+    for (const { hit, sting } of overlapping) {
+      mixStingInto(scratch, rate, start, sting, rate, hit.t);
+    }
+
+    for (let c = 0; c < audioBuffer.numberOfChannels; c++) {
+      const data = audioBuffer.getChannelData(c);
+      for (let i = 0; i < frames; i++) {
+        const add = scratch[i];
+        if (!add) continue;
+        const mixed = data[i] + add;
+        data[i] = mixed > 1 ? 1 : mixed < -1 ? -1 : mixed;
+      }
+    }
+
+    const parts = AudioSample.fromAudioBuffer(audioBuffer, start);
+    return parts.length === 1 ? parts[0] : parts;
+  } catch (err) {
+    console.warn('Sting mix failed; keeping this mic chunk.', err);
+    return sample;
+  }
 }

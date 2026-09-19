@@ -56,13 +56,18 @@ export const COLORS = {
   amber: '#F2B705',
   violet: '#8B6CFF',
   right: '#3ECF8E',
+  close: '#FF8A2A',
   wrong: '#FF4D4D'
 };
+
+/** Recap marks that count as complete. Close is the in-between orange. */
+export const MARK_RESULTS = ['right', 'close', 'wrong'];
 
 /** RGB triples for the translucent full-frame flash on reveal/marking. */
 export const FLASH_RGB = {
   neutral: '139,108,255',
   right: '62,207,142',
+  close: '255,138,42',
   wrong: '255,77,77'
 };
 

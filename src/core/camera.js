@@ -31,7 +31,8 @@ export class Camera {
   get audioTrack() {
     if (!this.stream) return null;
     const [track] = this.stream.getAudioTracks();
-    return track || null;
+    if (!track || track.readyState === 'ended') return null;
+    return track;
   }
 
   get ready() {
@@ -82,6 +83,7 @@ export class Camera {
       this.stream.getTracks().forEach((track) => track.stop());
       this.stream = null;
     }
+    this.video.srcObject = null;
   }
 }
 

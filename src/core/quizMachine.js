@@ -1,4 +1,4 @@
-import { TIMING, TAP_DEBOUNCE_MS } from './config.js';
+import { TIMING, TAP_DEBOUNCE_MS, MARK_RESULTS } from './config.js';
 
 /**
  * Quiz phase state machine.
@@ -45,7 +45,7 @@ export class QuizMachine {
   }
 
   get allMarked() {
-    return this.marks.length > 0 && this.marks.every((m) => m === 'right' || m === 'wrong');
+    return this.marks.length > 0 && this.marks.every((m) => MARK_RESULTS.includes(m));
   }
 
   _emit() {
@@ -60,10 +60,20 @@ export class QuizMachine {
       question: this.current[0],
       answer: this.current[1],
       answerResult: null,
+      showCounter: true,
       marks: this.marks.slice(),
       questions: this.questions,
       flashUntil: this.flashUntil
     };
+  }
+
+  resetToIdle() {
+    this.index = 0;
+    this.phase = 'idle';
+    this.flashUntil = 0;
+    this._lastAdvanceAt = 0;
+    this._resetMarks();
+    this._emit();
   }
 
   start() {

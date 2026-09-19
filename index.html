@@ -9,6 +9,8 @@
   <link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@500;700;900&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
 </head>
 <body>
+  <button type="button" class="ghost restart restart-top" id="restartTop" hidden>Restart</button>
+
   <div class="canvas-wrap">
     <canvas id="stage" width="720" height="1280"></canvas>
     <div class="rec-dot" id="recDot">REC</div>
@@ -39,8 +41,8 @@
     </div>
 
     <div class="review" id="review" hidden>
-      <p class="review-title">How did you do?</p>
-      <p class="review-hint">Mark each one, then generate the video. Right answers turn green, wrong ones red.</p>
+      <p class="review-title">Scroll down to mark your answers</p>
+      <p class="review-hint">Right is green, close enough is orange, wrong is red — each question gets a different clap, gasp, or buzzer. Then generate the video.</p>
       <div id="reviewList"></div>
       <button class="primary" id="generateBtn" disabled>Generate video</button>
     </div>
@@ -63,6 +65,8 @@
     <p class="note">
       Product of Solupair PTY LTD. All rights reserved.
     </p>
+
+    <button type="button" class="ghost restart restart-bottom" id="restartBottom" hidden>Restart</button>
   </div>
 
   <script type="module" src="/src/main.js"></script>

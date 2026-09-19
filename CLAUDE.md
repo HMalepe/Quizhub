@@ -27,9 +27,13 @@ These look like omissions but are intentional. Check here before changing them.
    recorded with a sidecar MediaRecorder (native, off-thread) and muxed into
    the MP4 after the take. Don't encode the mic on the main thread next to
    canvas WebCodecs — that starves the capture and comes out as crackle.
-   Don't add app sound, and don't wire an AudioContext node to `destination`.
-   AEC/NS/AGC stay off — they gate the voice in a recording. Everything
-   *app-generated* (buzzer, right/wrong stings) still goes on in CapCut.
+   Don't add app sound *during filming*, and don't wire an AudioContext node
+   to `destination` while the mic is live — that howls or leaks into the take.
+   AEC/NS/AGC stay off — they gate the voice in a recording. Right/wrong
+   stings are mixed onto the download at generate time (a different clap,
+   gasp, buzzer, or cheer per question), and a speaker preview plays on the
+   recap tap after the take has already stopped. Don't play anything during
+   the live take.
 
 2. **`camera.video` stays `muted` even though the stream carries audio.**
    An unmuted element plays your own mic back through the speakers and howls.
@@ -104,8 +108,9 @@ These look like omissions but are intentional. Check here before changing them.
 10. **Nothing is on a clock — `question` and `reveal` wait for a tap,
     indefinitely.** After the last reveal, the machine goes to `review`.
     Right/Wrong is not a live canvas tap: you mark the recap list, then
-    `colorizeTake()` re-encodes the overlay so those marks land as green/red
-    in the download. Don't put live marking or a timer back on the take.
+    `colorizeTake()` re-encodes the overlay so those marks land as green /
+    orange / red in the download, without the live 1/8 counter. Don't put
+    live marking or a timer back on the take.
 
     `advance()` also debounces taps within `TAP_DEBOUNCE_MS`. With taps as the
     only driver, one ghost click would run question → reveal → next in a
@@ -119,9 +124,10 @@ These look like omissions but are intentional. Check here before changing them.
     back without asking; it would also mean re-solving the mic track dying
     whenever the stream is rebuilt mid-take.
 
-12. **Live `answerResult` is always `null`.** Green/red is applied at generate
-    time from `machine.marks`, not during filming. Unmarked recap rows stay
-    unmarked until you tap Right or Wrong on the list.
+12. **Live `answerResult` is always `null`.** Green / orange / red is applied at
+    generate time from `machine.marks`, not during filming. Unmarked recap
+    rows stay unmarked until you tap Right, Close, or Wrong on the list. The
+    1/8 counter is live-only (`showCounter`); generate sets it false.
 
 13. **The canvas records at `CANVAS.outputWidth/Height` but every coordinate,
     font size and offset in the render code is written in a fixed 1080×1920
@@ -145,8 +151,10 @@ These look like omissions but are intentional. Check here before changing them.
 
 15. **There is no text-to-speech and no speech recognition.** Both existed once
     (`speech.js`, `answerListener.js`, `matching.js`) and were deliberately
-    removed: the app should make no sound of its own, and marking Right/Wrong
-    is a manual tap. Don't reintroduce either without asking.
+    removed: marking Right/Wrong is still a manual tap, not speech. Don't
+    reintroduce TTS or recognition without asking. Yay/buzzer stings are
+    generate-time (a different clap / gasp / buzzer per question, plus a
+    recap preview) — never during the live take.
 
 ## Architecture
 
@@ -166,7 +174,9 @@ src/
 │   ├── wakeLock.js      Holds the screen awake while recording.
 │   ├── recordingDiagnostics.js  Polls every layer during a take; names the
 │   │                     first one that stops. Read it before theorising.
-│   ├── colorizeTake.js   Re-encodes a take with recap marks as green/red.
+│   ├── colorizeTake.js   Re-encodes a take with recap marks as green/orange/red
+│   │                     and mixes a per-question clap / gasp / buzzer onto reveals.
+│   ├── stings.js         Synthesized crowd + game-show reactions. Recap preview + generate mix.
 │   └── recorder.js       WebCodecs/Mediabunny recorder + MediaRecorder fallback.
 ├── render/
 │   ├── text.js          Canvas text wrapping and auto-fit, with a layout
