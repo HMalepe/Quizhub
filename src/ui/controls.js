@@ -36,11 +36,6 @@ export class Controls {
       reviewList: $('reviewList'),
       generate: $('generateBtn'),
       download: $('downloadLink'),
-      settingsBtn: $('settingsBtn'),
-      settings: $('settings'),
-      questionBank: $('questionBank'),
-      saveQuestions: $('saveQuestionsBtn'),
-      resetQuestions: $('resetQuestionsBtn'),
       restartTop: $('restartTop'),
       restartBottom: $('restartBottom')
     };
@@ -66,15 +61,6 @@ export class Controls {
     this.el.record.addEventListener('click', () => h.onToggleRecord());
     this.el.generate.addEventListener('click', () => h.onGenerate());
 
-    this.el.settingsBtn.addEventListener('click', () => {
-      this.el.settings.classList.toggle('open');
-    });
-
-    this.el.saveQuestions.addEventListener('click', () => {
-      h.onSaveQuestions(this.el.questionBank.value);
-    });
-
-    this.el.resetQuestions.addEventListener('click', () => h.onResetQuestions());
     this.el.restartTop.addEventListener('click', () => h.onRestart());
     this.el.restartBottom.addEventListener('click', () => h.onRestart());
 
@@ -255,14 +241,6 @@ export class Controls {
     this.el.download.classList.add('show');
   }
 
-  setQuestionBankText(text) {
-    this.el.questionBank.value = text;
-  }
-
-  closeSettings() {
-    this.el.settings.classList.remove('open');
-  }
-
   /**
    * Live recording diagnostics. Faults stay on screen after the take ends —
    * the whole point is to still be readable once something has gone wrong.
@@ -311,7 +289,6 @@ export class Controls {
     this.el.download.removeAttribute('href');
     this.el.camInfo.hidden = true;
     this.el.diag.hidden = true;
-    this.closeSettings();
     this.setRestartVisible(false);
   }
 }

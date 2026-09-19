@@ -1,14 +1,7 @@
 import './ui/styles.css';
 
 import { CANVAS, STORAGE_KEYS } from './core/config.js';
-import {
-  DEFAULT_QUESTIONS,
-  loadQuestions,
-  saveQuestions,
-  parseQuestionText,
-  stringifyQuestions,
-  shuffled
-} from './core/questions.js';
+import { loadQuestions, shuffled } from './core/questions.js';
 import { SECTIONS, CATEGORY_BANK } from './core/categoryBank.js';
 import { QuizMachine } from './core/quizMachine.js';
 import { Camera, describeCameraError, describeCameraQuality } from './core/camera.js';
@@ -119,13 +112,11 @@ const controls = new Controls({
     questions = value === '__custom' ? loadQuestions() : shuffled(CATEGORY_BANK[value]);
     machine.setQuestions(questions);
     machine.setQuizTitle(quizDisplayName(value));
-    controls.setQuestionBankText(stringifyQuestions(questions));
   },
 
   onShuffle: () => {
     questions = shuffled(questions);
     machine.setQuestions(questions);
-    controls.setQuestionBankText(stringifyQuestions(questions));
   },
 
   onAdvance: () => machine.advance(),
@@ -213,29 +204,6 @@ const controls = new Controls({
     }
   },
 
-  onSaveQuestions: (raw) => {
-    const parsed = parseQuestionText(raw);
-    if (!parsed.length) {
-      alert('No valid questions found. Each line needs the format:\n\nQuestion | Answer');
-      return;
-    }
-    questions = parsed;
-    saveQuestions(questions);
-    machine.setQuestions(questions);
-    machine.setQuizTitle('My Questions');
-    controls.setCategorySelectValue('__custom');
-    controls.closeSettings();
-  },
-
-  onResetQuestions: () => {
-    questions = [...DEFAULT_QUESTIONS];
-    saveQuestions(questions);
-    machine.setQuestions(questions);
-    machine.setQuizTitle('My Questions');
-    controls.setQuestionBankText(stringifyQuestions(questions));
-    controls.setCategorySelectValue('__custom');
-  },
-
   onRestart: () => { void restartToLanding(); }
 });
 
@@ -264,7 +232,6 @@ async function restartToLanding() {
     machine.resetToIdle();
     questions = loadQuestions();
     machine.setQuestions(questions);
-    controls.setQuestionBankText(stringifyQuestions(questions));
     controls.resetToLanding();
     renderer.drawFrame();
   } finally {
@@ -285,7 +252,6 @@ document.addEventListener('visibilitychange', () => {
 });
 
 controls.populateCategories(SECTIONS);
-controls.setQuestionBankText(stringifyQuestions(questions));
 latestState = machine.snapshot();
 controls.syncPhase(latestState);
 
