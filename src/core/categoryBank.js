@@ -1,6 +1,6 @@
 /**
- * "Can You Pass As..." — 50 identity-check trivia categories, grouped into
- * 8 sections, 8 questions each (400 total). Sourced from the uploaded
+ * "Can You Pass As..." — 60 identity-check trivia categories, grouped into
+ * 9 sections, 8 questions each (480 total). Sourced from the uploaded
  * question set and kept in the same [question, answer] pair shape that
  * `questions.js` already uses everywhere else, so a chosen category can be
  * fed straight into `machine.setQuestions()`.
@@ -696,6 +696,141 @@ export const SECTIONS = [
           ['What is the point of renters or home insurance?', 'Financial protection against loss or damage to belongings or property'],
           ['What’s a "warranty"?', 'A guarantee covering repair or replacement of a product for a set period'],
           ['What’s "budgeting"?', 'Planning income and expenses to manage money effectively']
+        ]
+      }
+    ]
+  },
+  {
+    section: 'Football Fandom',
+    categories: [
+      {
+        name: 'a Football Fan',
+        questions: [
+          ["What's the name of Manchester City's home stadium?", 'The Etihad Stadium'],
+          ['How many goals are in a "brace"?', 'Two'],
+          ['What does the position "CDM" stand for?', 'Central Defensive Midfielder'],
+          ['In which country would you find the club AZ Alkmaar?', 'The Netherlands'],
+          ["Which club did Cristiano Ronaldo start his senior career at?", 'Sporting CP, in Portugal'],
+          ['Who is the all-time top goalscorer for the Spanish national team?', 'David Villa'],
+          ['Which club did the Bosnian striker Edin Džeko famously play for in the Premier League?', 'Manchester City'],
+          ['Which country did Emmanuel Adebayor represent internationally?', 'Togo']
+        ]
+      },
+      {
+        name: 'a World Cup Historian',
+        questions: [
+          ['Which country won the World Cup in 2006?', 'Italy'],
+          ['Which team did France beat in the 2018 World Cup final?', 'Croatia, 4-2'],
+          ['Which country hosted and won the very first World Cup in 1930?', 'Uruguay'],
+          ['Which country has won the most World Cups?', 'Brazil, with five'],
+          ["Who scored the infamous \"Hand of God\" goal at the 1986 World Cup?", 'Diego Maradona'],
+          ['Which country did West Germany beat in the 1990 World Cup final?', 'Argentina'],
+          ['Which country hosted the 2014 World Cup?', 'Brazil'],
+          ['Which two countries co-hosted the 2002 World Cup?', 'South Korea and Japan']
+        ]
+      },
+      {
+        name: 'a Champions League Obsessive',
+        questions: [
+          ['Who are the most recent Italian side to win the Champions League title?', 'Inter Milan, in 2010'],
+          ['Which goalkeeper did Declan Rice score two free-kick goals against in a 2025 Champions League quarterfinal?', 'Thibaut Courtois'],
+          ['Which club has won the most European Cup/Champions League titles?', 'Real Madrid'],
+          ['What competition did the Champions League replace in 1992?', 'The European Cup'],
+          ['Which English club won the 2019 Champions League in an all-English final against Tottenham?', 'Liverpool'],
+          ['What is the Champions League trophy commonly nicknamed?', '"Ol\' Big Ears"'],
+          ['Which club did Liverpool beat on penalties in the 2005 "Miracle of Istanbul" final?', 'AC Milan'],
+          ['What colour are the famous Champions League anthem branding and starball?', 'Blue and white/silver']
+        ]
+      },
+      {
+        name: 'a Euros Fanatic',
+        questions: [
+          ['Which country did Portugal beat 1-0 in the 2016 Euros final?', 'France'],
+          ['Which country won Euro 2020 (played in 2021)?', 'Italy'],
+          ['Which country hosted Euro 2024?', 'Germany'],
+          ['Which country won Euro 2024?', 'Spain'],
+          ['What is the trophy for winning the European Championship called?', 'The Henri Delaunay Trophy'],
+          ['How often is the European Championship held?', 'Every four years'],
+          ['Which country won the very first European Championship, in 1960?', 'The Soviet Union'],
+          ['What is the minimum number of teams in a Euros group-stage group?', 'Four']
+        ]
+      },
+      {
+        name: 'a Transfer Window Addict',
+        questions: [
+          ['In 2013, Monaco signed Radamel Falcao — but from which club?', 'Atletico Madrid'],
+          ['Which club does Luka Modrić play for after his 2025 move?', 'AC Milan'],
+          ['Which club sold Neymar to PSG for a world-record fee in 2017?', 'Barcelona'],
+          ['Which club did Erling Haaland join from Borussia Dortmund in 2022?', 'Manchester City'],
+          ['Which club did Cristiano Ronaldo rejoin in 2021, moving from Juventus?', 'Manchester United'],
+          ['Which English club did James Rodríguez make 23 appearances for?', 'Everton'],
+          ['Which club did Jude Bellingham join from Borussia Dortmund in 2023?', 'Real Madrid'],
+          ['Which club did Kylian Mbappé join on a free transfer in 2024?', 'Real Madrid']
+        ]
+      },
+      {
+        name: 'a Ballon d\'Or Buff',
+        questions: [
+          ["Who is the most recent Brazilian player to win the Ballon d'Or?", 'Kaká, in 2007'],
+          ['Which club was Ronaldinho playing for when he won the 2002 World Cup?', 'PSG'],
+          ["Who has won the most Ballon d'Or awards?", 'Lionel Messi'],
+          ['What does "Ballon d\'Or" translate to in English?', '"Golden Ball"'],
+          ["Which publication originally created the Ballon d'Or award?", 'France Football'],
+          ["Who won the first-ever Women's Ballon d'Or, in 2018?", 'Ada Hegerberg'],
+          ["Which goalkeeper famously won the Ballon d'Or in 1963?", 'Lev Yashin'],
+          ["Who won the Ballon d'Or in 2014, the same year Germany won the World Cup?", 'Cristiano Ronaldo']
+        ]
+      },
+      {
+        name: 'an El Clásico Fanatic',
+        questions: [
+          ['El Clásico is the fixture between which two clubs?', 'Real Madrid and Barcelona'],
+          ['Who holds the record for the most El Clásico goals?', 'Lionel Messi'],
+          ["What was the long-standing name of Barcelona's home stadium?", 'Camp Nou'],
+          ["What is Real Madrid's home stadium called?", 'Santiago Bernabéu'],
+          ["What is Real Madrid's nickname?", 'Los Blancos'],
+          ["What is Barcelona's nickname?", 'Blaugrana (or Culés)'],
+          ['Which club did Luis Figo controversially join in 2000, coming from Barcelona?', 'Real Madrid'],
+          ['Which Frenchman won multiple Champions Leagues with Real Madrid as both player and manager?', 'Zinedine Zidane']
+        ]
+      },
+      {
+        name: 'a Golden Boot Chaser',
+        questions: [
+          ['What is a Golden Boot awarded for?', 'Being the top goalscorer'],
+          ['Who won the World Cup Golden Boot in Qatar in 2022?', 'Kylian Mbappé'],
+          ['Who is the all-time top scorer at the World Cup?', 'Miroslav Klose'],
+          ['Who has won the European Golden Shoe the most times?', 'Cristiano Ronaldo'],
+          ['How many goals did Erling Haaland score to set the Premier League single-season record in 2022-23?', '36'],
+          ['What award goes to the World Cup\'s best young player, separate from the Golden Boot?', 'The Best Young Player Award'],
+          ["In which year did Brazil's Ronaldo win the World Cup Golden Boot with 8 goals?", '2002'],
+          ['What is awarded to the World Cup goalkeeper judged best in the tournament?', 'The Golden Glove']
+        ]
+      },
+      {
+        name: 'a Tactics Nerd',
+        questions: [
+          ['What does a "false 9" describe?', 'A forward who drops deep instead of staying central'],
+          ['What is "gegenpressing"?', 'Pressing immediately to win the ball back right after losing it'],
+          ['What is a "back three"?', 'A defensive line of three central defenders, as in a 3-5-2'],
+          ['What is an "overlap" in attacking play?', 'A wide player running around or outside a teammate to provide width'],
+          ['What does a "low block" mean defensively?', 'A team sitting deep with most players behind the ball'],
+          ['What is the "offside trap"?', 'Defenders stepping up together to catch attackers offside'],
+          ['What role does a "regista" play?', 'A deep-lying playmaker who dictates tempo from midfield'],
+          ['What is an "inverted fullback"?', 'A fullback who tucks into central midfield when in possession']
+        ]
+      },
+      {
+        name: 'a Football Manager (Game) Player',
+        questions: [
+          ['What is "FM" short for in the gaming world?', 'Football Manager'],
+          ['Before 2004, the Football Manager series was called what?', 'Championship Manager'],
+          ['What term describes a young player with exceptional potential?', 'A "wonderkid"'],
+          ['What is a "regen" in Football Manager?', 'A newly generated player once the real-world database is exhausted'],
+          ['What attribute category covers passing, finishing, and tackling ability?', 'Technical attributes'],
+          ['What does "PPM" stand for in the series?', 'Player Preferred Move'],
+          ['Which studio develops Football Manager?', 'Sports Interactive'],
+          ['What is the in-game mode where you handle transfers, tactics, and training called?', 'Career/manager mode']
         ]
       }
     ]
