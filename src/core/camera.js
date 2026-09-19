@@ -57,7 +57,7 @@ export class Camera {
         echoCancellation: false,
         noiseSuppression: false,
         autoGainControl: false,
-        channelCount: 1
+        channelCount: { ideal: 1 }
       }
     });
     this.video.srcObject = this.stream;

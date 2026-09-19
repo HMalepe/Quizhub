@@ -46,42 +46,41 @@ export function overlayStateAt(time, questions, timeline, marks) {
 
 /**
  * Re-encodes a recorded take, redrawing the quiz overlay so marked answers
- * land green / orange / red. The mic is copied as packets whenever we can —
- * a failed AAC pass used to drop the whole audio track and leave a silent
- * download. Stings are mixed on a decode → mix → encode path only when that
- * path still keeps an audio track; otherwise the voice is copied untouched.
+ * land green / orange / red. The mic is copied as packets — transcoding it
+ * to mix stings used to drop the whole track and leave a silent download.
+ * Stings are mixed in a second pass only when that pass still has audible
+ * duration; otherwise the colored file keeps the original voice.
  */
 export async function colorizeTake({ blob, questions, timeline, marks, onProgress }) {
   await ensureAacEncoder();
 
   const hits = stingHits(timeline, marks);
-  const inputHadAudio = await blobHasAudio(blob);
+  const colored = await colorizeOnce({ blob, questions, timeline, marks, onProgress });
 
-  let mixed = null;
-  if (inputHadAudio && hits.length) {
-    try {
-      mixed = await colorizeOnce({ blob, questions, timeline, marks, hits, mixAudio: true, onProgress });
-    } catch (err) {
-      console.warn('Sting mix generate failed; keeping the mic.', err);
+  if (!hits.length) {
+    return fileResult(colored);
+  }
+
+  try {
+    const mixed = await mixStingsOntoFile(colored.blob, hits);
+    if (mixed && await blobAudioSeconds(mixed.blob) >= 0.2) {
+      return fileResult(mixed);
     }
+  } catch (err) {
+    console.warn('Sting mix generate failed; keeping the mic.', err);
   }
 
-  const mixedKeepsMic = mixed && await blobHasAudio(mixed.blob);
-  const result = mixedKeepsMic
-    ? mixed
-    : await colorizeOnce({ blob, questions, timeline, marks, hits, mixAudio: false, onProgress });
+  return fileResult(colored);
+}
 
-  if (inputHadAudio && hits.length && !mixedKeepsMic) {
-    console.warn('Generate could not mix stings without dropping the mic; kept the voice.');
-  }
-
+function fileResult(file) {
   return {
-    url: URL.createObjectURL(result.blob),
-    filename: `trivia-reel-${Date.now()}${result.ext}`
+    url: URL.createObjectURL(file.blob),
+    filename: `trivia-reel-${Date.now()}${file.ext}`
   };
 }
 
-async function colorizeOnce({ blob, questions, timeline, marks, hits, mixAudio, onProgress }) {
+async function colorizeOnce({ blob, questions, timeline, marks, onProgress }) {
   const input = new Input({
     source: new BlobSource(blob),
     formats: ALL_FORMATS
@@ -104,8 +103,6 @@ async function colorizeOnce({ blob, questions, timeline, marks, hits, mixAudio, 
     input,
     output,
     showWarnings: false,
-    // Copy the already-encoded mic when we are not mixing. Shift tolerance
-    // lets the muxer keep A/V lock without resampling.
     copy: { mode: 'preferred', shiftTolerance: Infinity },
     video: {
       forceTranscode: true,
@@ -123,23 +120,12 @@ async function colorizeOnce({ blob, questions, timeline, marks, hits, mixAudio, 
         renderer.drawOverlayZone(state);
         return canvas;
       }
-    },
-    audio: mixAudio
-      ? {
-          forceTranscode: true,
-          quality: new Quality({ bitrate: ENCODING.audioBitsPerSecond, bitrateMode: 'constant' }),
-          process: (sample) => mixStingsIntoSample(sample, hits)
-        }
-      : undefined
+    }
   });
 
   if (!conversion.isValid) {
     const reason = (conversion.discardedTracks || []).map((d) => d.reason).join(', ') || 'unknown';
     throw new Error(`Could not colorize the take (${reason}).`);
-  }
-
-  if (mixAudio && !conversionKeepsAudio(conversion)) {
-    return null;
   }
 
   if (conversion.discardedTracks && conversion.discardedTracks.length) {
@@ -161,6 +147,40 @@ async function colorizeOnce({ blob, questions, timeline, marks, hits, mixAudio, 
   };
 }
 
+async function mixStingsOntoFile(blob, hits) {
+  const input = new Input({
+    source: new BlobSource(blob),
+    formats: ALL_FORMATS
+  });
+
+  const format = new Mp4OutputFormat({ fastStart: 'in-memory' });
+  const target = new BufferTarget();
+  const output = new Output({ format, target });
+
+  const conversion = await Conversion.init({
+    input,
+    output,
+    showWarnings: false,
+    copy: { mode: 'preferred', shiftTolerance: Infinity },
+    audio: {
+      forceTranscode: true,
+      quality: new Quality({ bitrate: ENCODING.audioBitsPerSecond, bitrateMode: 'constant' }),
+      process: (sample) => mixStingsIntoSample(sample, hits)
+    }
+  });
+
+  if (!conversion.isValid || !conversionKeepsAudio(conversion)) return null;
+  await conversion.execute();
+
+  const mimeType = output.format.mimeType;
+  const ext = output.format.fileExtension;
+  return {
+    blob: new Blob([output.target.buffer], { type: mimeType }),
+    mimeType,
+    ext
+  };
+}
+
 function conversionKeepsAudio(conversion) {
   return (conversion.utilizedTracks || []).some((track) => {
     try {
@@ -171,15 +191,17 @@ function conversionKeepsAudio(conversion) {
   });
 }
 
-async function blobHasAudio(blob) {
+async function blobAudioSeconds(blob) {
   try {
     const input = new Input({
       source: new BlobSource(blob),
       formats: ALL_FORMATS
     });
-    return Boolean(await input.getPrimaryAudioTrack());
+    const track = await input.getPrimaryAudioTrack();
+    if (!track) return 0;
+    return await track.computeDuration();
   } catch {
-    return false;
+    return 0;
   }
 }
 

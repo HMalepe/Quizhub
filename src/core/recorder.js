@@ -84,7 +84,22 @@ async function ensureAacEncoder() {
   return aacPolyfill;
 }
 
-export { ensureAacEncoder };
+export { ensureAacEncoder, pickAudioEncode };
+
+async function pickAudioEncode(preferred, sampleRate) {
+  const quality = new Quality({ bitrate: ENCODING.audioBitsPerSecond, bitrateMode: 'constant' });
+  const tries = [
+    { numberOfChannels: 1, sampleRate },
+    { numberOfChannels: 2, sampleRate },
+    { numberOfChannels: 2, sampleRate: 48000 },
+    { numberOfChannels: 1, sampleRate: 48000 }
+  ];
+  for (const t of tries) {
+    const codec = await getFirstEncodableAudioCodec(preferred, { quality, ...t });
+    if (codec) return { codec, quality, ...t };
+  }
+  return null;
+}
 
 function pickAudioMimeType() {
   if (typeof MediaRecorder === 'undefined') return null;
@@ -154,6 +169,7 @@ export class CanvasRecorder {
     this._micCapture = null;
     this._sidecar = null;
     this._sidecarChunks = [];
+    this._pcmChunks = [];
     this._audioChain = Promise.resolve();
     this._captureTimer = null;
     this._readyForMoreFrames = true;
@@ -242,38 +258,35 @@ export class CanvasRecorder {
       ? ['aac', ...format.getSupportedAudioCodecs().filter((c) => c !== 'aac')]
       : ['opus', ...format.getSupportedAudioCodecs().filter((c) => c !== 'opus')];
 
-    const sidecarMime = this.audioTrack ? pickAudioMimeType() : null;
-    const useSidecar = Boolean(this.audioTrack && sidecarMime !== null);
-
+    this._pcmChunks = [];
     let audioSampleRate = 48000;
     if (this.audioTrack && this.audioTrack.getSettings) {
       audioSampleRate = this.audioTrack.getSettings().sampleRate || audioSampleRate;
     }
 
-    if (!useSidecar && this.audioTrack) {
+    // PCM first. Sidecar MediaRecorder is a fallback: Safari's audio/mp4
+    // sidecar often muxes an empty track, which plays as silence.
+    if (this.audioTrack) {
       const micCapture = new MicCapture();
       try {
         await micCapture.start(this.audioTrack);
         if (micCapture.active) {
           this._micCapture = micCapture;
-          audioSampleRate = micCapture.sampleRate;
+          audioSampleRate = micCapture.sampleRate || audioSampleRate;
         } else {
           await micCapture.stop();
         }
       } catch (err) {
-        console.warn('Mic capture failed; recording video only.', err);
+        console.warn('Mic capture failed:', err);
         await micCapture.stop();
       }
     }
 
-    const wantAudio = useSidecar || Boolean(this._micCapture);
-    const audioCodec = wantAudio
-      ? await getFirstEncodableAudioCodec(preferredAudio, {
-          quality: new Quality({ bitrate: ENCODING.audioBitsPerSecond, bitrateMode: 'constant' }),
-          numberOfChannels: 1,
-          sampleRate: audioSampleRate
-        })
-      : null;
+    const sidecarMime = (!this._micCapture && this.audioTrack) ? pickAudioMimeType() : null;
+    const useSidecar = Boolean(!this._micCapture && this.audioTrack && sidecarMime);
+
+    const wantAudio = Boolean(this._micCapture || useSidecar);
+    const encode = wantAudio ? await pickAudioEncode(preferredAudio, audioSampleRate) : null;
 
     const target = new BufferTarget();
     const output = new Output({ format, target });
@@ -292,11 +305,11 @@ export class CanvasRecorder {
     });
     output.addVideoTrack(videoSource, { frameRate: CAPTURE.fps });
 
-    if (wantAudio && audioCodec) {
+    if (wantAudio && encode) {
       const audioSource = new AudioBufferSource({
-        codec: audioCodec,
-        quality: new Quality({ bitrate: ENCODING.audioBitsPerSecond, bitrateMode: 'constant' }),
-        transform: { numberOfChannels: 1, sampleRate: audioSampleRate }
+        codec: encode.codec,
+        quality: encode.quality,
+        transform: { numberOfChannels: encode.numberOfChannels, sampleRate: encode.sampleRate }
       }, { startTimestamp: 0 });
       output.addAudioTrack(audioSource);
       this._audioSource = audioSource;
@@ -305,7 +318,7 @@ export class CanvasRecorder {
         await this._micCapture.stop();
         this._micCapture = null;
       }
-      if (this.audioTrack && wantAudio && !audioCodec) {
+      if (this.audioTrack && wantAudio && !encode) {
         console.warn('Mic is live but this browser cannot encode audio; recording video only.');
       }
     }
@@ -319,11 +332,13 @@ export class CanvasRecorder {
     // made video cover the init delay while the mic was still discarded, so
     // the file had a frozen first second and short audio.
     this._startTime = nowMs();
-    if (useSidecar && this._audioSource) this._startSidecarAudio();
-    if (this._micCapture) {
-      this._micCapture.onBuffer = (buffer) => this._enqueueAudio(buffer);
+    if (this._micCapture && this._audioSource) {
+      this._micCapture.onBuffer = (buffer) => {
+        this._pcmChunks.push(buffer);
+      };
       this._micCapture.enable();
     }
+    if (useSidecar && this._audioSource) this._startSidecarAudio();
 
     this.recorder = { state: 'recording' };
     return true;
@@ -538,15 +553,24 @@ export class CanvasRecorder {
     }
     if (lastFrame > this._lastFrameNumber) await this._commitVideo(lastFrame);
 
-    const sidecarBlob = await this._stopSidecarAudio();
-    if (sidecarBlob) await this._ingestSidecarAudio(sidecarBlob);
-
     if (this._micCapture) {
-      this._micCapture.onBuffer = (buffer) => this._enqueueAudio(buffer);
       await this._micCapture.flush();
       this._micCapture.onBuffer = null;
       await this._micCapture.stop();
+      this._micCapture = null;
     }
+
+    const sidecarBlob = await this._stopSidecarAudio();
+    if (this._audioSource && this._pcmChunks.length) {
+      for (const buf of this._pcmChunks) {
+        await this._audioSource.add(buf);
+      }
+    } else if (sidecarBlob && this._audioSource) {
+      await this._ingestSidecarAudio(sidecarBlob);
+    } else if (this._audioSource) {
+      console.warn('No mic samples were captured; the file will be silent.');
+    }
+    this._pcmChunks = [];
 
     await this._audioChain;
 

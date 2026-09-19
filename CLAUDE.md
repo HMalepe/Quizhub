@@ -27,6 +27,9 @@ These look like omissions but are intentional. Check here before changing them.
    recorded with a sidecar MediaRecorder (native, off-thread) and muxed into
    the MP4 after the take. Don't encode the mic on the main thread next to
    canvas WebCodecs — that starves the capture and comes out as crackle.
+   Capture PCM with MicCapture during the take and mux it after video encode
+   stops. Sidecar MediaRecorder is only the fallback when PCM capture cannot
+   start; Safari's audio/mp4 sidecar often muxes an empty track.
    Don't add app sound *during filming*, and don't wire an AudioContext node
    to `destination` while the mic is live — that howls or leaks into the take.
    AEC/NS/AGC stay off — they gate the voice in a recording. Right/wrong
