@@ -1,6 +1,6 @@
 /**
- * "Can You Pass As..." — 115 identity-check trivia categories, grouped into
- * 14 sections, 8 questions each (920 total). Sourced from the uploaded
+ * "Can You Pass As..." — 128 identity-check trivia categories, grouped into
+ * 15 sections, 8 questions each (1024 total). Sourced from the uploaded
  * question set and kept in the same [question, answer] pair shape that
  * `questions.js` already uses everywhere else, so a chosen category can be
  * fed straight into `machine.setQuestions()`.
@@ -1571,6 +1571,180 @@ export const SECTIONS = [
           ['What\'s "LTV" short for?', 'Loan-to-Value ratio'],
           ['What does "positive cash flow" mean on a rental?', 'The rent exceeds the bond repayment and running costs'],
           ['What\'s "location, location, location" shorthand for?', 'The idea that position drives property value above all else']
+        ]
+      }
+    ]
+  },
+  {
+    section: 'Acronyms',
+    categories: [
+      {
+        name: 'Fluent in Texting Acronyms',
+        questions: [
+          ['What does "IRL" stand for?', 'In Real Life'],
+          ['What does "WDYM" stand for?', 'What Do You Mean'],
+          ['What does "TBH" stand for?', 'To Be Honest'],
+          ['What does "IMO" stand for?', 'In My Opinion'],
+          ['What does "BRB" stand for?', 'Be Right Back'],
+          ['What does "IDK" stand for?', "I Don't Know"],
+          ['What does "NVM" stand for?', 'Never Mind'],
+          ['What does "TTYL" stand for?', 'Talk To You Later']
+        ]
+      },
+      {
+        name: 'Fluent in Internet Acronyms',
+        questions: [
+          ['What does "GOAT" stand for?', 'Greatest Of All Time'],
+          ['What does "YOLO" stand for?', 'You Only Live Once'],
+          ['What does "TMI" stand for?', 'Too Much Information'],
+          ['What does "SMH" stand for?', 'Shaking My Head'],
+          ['What does "IYKYK" stand for?', 'If You Know, You Know'],
+          ['What does "NGL" stand for?', 'Not Gonna Lie'],
+          ['What does "ICYMI" stand for?', 'In Case You Missed It'],
+          ['What does "FR" stand for?', 'For Real']
+        ]
+      },
+      {
+        name: 'Fluent in Social Media Acronyms',
+        questions: [
+          ['What does "DM" stand for?', 'Direct Message'],
+          ['What does "TL;DR" stand for?', "Too Long; Didn't Read"],
+          ['What does "AMA" stand for?', 'Ask Me Anything'],
+          ['What does "PFP" stand for?', 'Profile Picture'],
+          ['What does "FYP" stand for on TikTok?', 'For You Page'],
+          ['What does "GRWM" stand for?', 'Get Ready With Me'],
+          ['What does "POV" stand for?', 'Point Of View'],
+          ['What does "OOTD" stand for?', 'Outfit Of The Day']
+        ]
+      },
+      {
+        name: 'Fluent in Old-School Internet Acronyms',
+        questions: [
+          ['What does "LOL" stand for?', 'Laugh Out Loud'],
+          ['What does "ROFL" stand for?', 'Rolling On the Floor Laughing'],
+          ['What does "BFF" stand for?', 'Best Friends Forever'],
+          ['What does "OMG" stand for?', 'Oh My God'],
+          ['What did "ASL" mean in an old chatroom?', 'Age, Sex, Location'],
+          ['What does "IMHO" stand for?', 'In My Humble Opinion'],
+          ['What does "FTW" stand for?', 'For The Win'],
+          ['What does "JK" stand for?', 'Just Kidding']
+        ]
+      },
+      {
+        name: 'Fluent in Work Acronyms',
+        questions: [
+          ['What does "EOD" stand for?', 'End Of Day'],
+          ['What does "OOO" stand for?', 'Out Of Office'],
+          ['What does "ASAP" stand for?', 'As Soon As Possible'],
+          ['What does "FYI" stand for?', 'For Your Information'],
+          ['What does "WFH" stand for?', 'Working From Home'],
+          ['What does "EOW" stand for?', 'End Of Week'],
+          ['What does "COB" stand for?', 'Close Of Business'],
+          ['What does "PTO" stand for?', 'Paid Time Off']
+        ]
+      },
+      {
+        name: 'Fluent in Business Acronyms',
+        questions: [
+          ['What does "CEO" stand for?', 'Chief Executive Officer'],
+          ['What does "CFO" stand for?', 'Chief Financial Officer'],
+          ['What does "VAT" stand for?', 'Value Added Tax'],
+          ['What does "SME" stand for in business?', 'Small and Medium Enterprise'],
+          ['What does "P&L" stand for?', 'Profit and Loss'],
+          ['What does "CV" stand for?', 'Curriculum Vitae'],
+          ['What does "HR" stand for?', 'Human Resources'],
+          ['What does "PAYE" stand for?', 'Pay As You Earn']
+        ]
+      },
+      {
+        name: 'Fluent in Tech Acronyms',
+        questions: [
+          ['What does "URL" stand for?', 'Uniform Resource Locator'],
+          ['What does "RAM" stand for?', 'Random Access Memory'],
+          ['What does "CPU" stand for?', 'Central Processing Unit'],
+          ['What does "USB" stand for?', 'Universal Serial Bus'],
+          ['What does "PDF" stand for?', 'Portable Document Format'],
+          ['What does "GPS" stand for?', 'Global Positioning System'],
+          ['What does "OS" stand for?', 'Operating System'],
+          ['What does "SSD" stand for?', 'Solid State Drive']
+        ]
+      },
+      {
+        name: 'Fluent in Web Acronyms',
+        questions: [
+          ['What does "HTML" stand for?', 'HyperText Markup Language'],
+          ['What does "HTTP" stand for?', 'HyperText Transfer Protocol'],
+          ['What does "DNS" stand for?', 'Domain Name System'],
+          ['What does "ISP" stand for?', 'Internet Service Provider'],
+          ['What does "WWW" stand for?', 'World Wide Web'],
+          ['What does "SEO" stand for?', 'Search Engine Optimisation'],
+          ['What does "FTP" stand for?', 'File Transfer Protocol'],
+          ['What does "IP" stand for in "IP address"?', 'Internet Protocol']
+        ]
+      },
+      {
+        name: 'Fluent in Medical Acronyms',
+        questions: [
+          ['What does "ICU" stand for?', 'Intensive Care Unit'],
+          ['What does "CPR" stand for?', 'Cardiopulmonary Resuscitation'],
+          ['What does "IV" stand for?', 'Intravenous'],
+          ['What does "MRI" stand for?', 'Magnetic Resonance Imaging'],
+          ['What does "ECG" stand for?', 'Electrocardiogram'],
+          ['What does "CT" stand for in "CT scan"?', 'Computed Tomography'],
+          ['What does "BMI" stand for?', 'Body Mass Index'],
+          ['What does "DNR" stand for?', 'Do Not Resuscitate']
+        ]
+      },
+      {
+        name: 'Fluent in Pharmacy Acronyms',
+        questions: [
+          ['What does "Rx" stand for on a prescription?', 'The Latin "recipe" — meaning "take"'],
+          ['What does "PRN" mean on a prescription?', 'Pro re nata — as needed'],
+          ['What does "BD" mean on a prescription?', 'Twice daily'],
+          ['What does "TDS" mean on a prescription?', 'Three times daily'],
+          ['What does "NOCTE" mean on a prescription?', 'At night'],
+          ['What does "STAT" mean on a prescription?', 'Immediately'],
+          ['What does "ADR" stand for?', 'Adverse Drug Reaction'],
+          ['What does "API" stand for in pharmaceutical manufacturing?', 'Active Pharmaceutical Ingredient']
+        ]
+      },
+      {
+        name: 'Fluent in South African Acronyms',
+        questions: [
+          ['What does "SARS" stand for in South Africa?', 'The South African Revenue Service'],
+          ['What does "SASSA" stand for?', 'The South African Social Security Agency'],
+          ['What does "SABC" stand for?', 'The South African Broadcasting Corporation'],
+          ['What does "SAPS" stand for?', 'The South African Police Service'],
+          ['What does "UIF" stand for?', 'The Unemployment Insurance Fund'],
+          ['What does "NHI" stand for?', 'National Health Insurance'],
+          ['What does "RDP" stand for?', 'The Reconstruction and Development Programme'],
+          ['What does "SANDF" stand for?', 'The South African National Defence Force']
+        ]
+      },
+      {
+        name: 'Fluent in Gaming Acronyms',
+        questions: [
+          ['What does "RPG" stand for?', 'Role-Playing Game'],
+          ['What does "DLC" stand for?', 'Downloadable Content'],
+          ['What does "XP" stand for?', 'Experience Points'],
+          ['What does "HP" stand for in a game?', 'Hit Points (health)'],
+          ['What does "PvP" stand for?', 'Player versus Player'],
+          ['What does "MMORPG" stand for?', 'Massively Multiplayer Online Role-Playing Game'],
+          ['What does "GOTY" stand for?', 'Game Of The Year'],
+          ['What does "AFK" stand for?', 'Away From Keyboard']
+        ]
+      },
+      {
+        name: 'Fluent in Relationship Acronyms',
+        questions: [
+          ['What does "DTR" stand for?', 'Define The Relationship'],
+          ['What does "LDR" stand for?', 'Long Distance Relationship'],
+          ['What does "PDA" stand for?', 'Public Display of Affection'],
+          ['What does "LTR" stand for?', 'Long Term Relationship'],
+          ['What does "SO" stand for?', 'Significant Other'],
+          ['What is "bae" commonly said to stand for?', 'Before Anyone Else'],
+          ['What does "DINK" stand for?', 'Dual Income, No Kids'],
+          ['What does "MIL" stand for?', 'Mother-In-Law']
         ]
       }
     ]
