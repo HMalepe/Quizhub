@@ -197,6 +197,30 @@ These look like omissions but are intentional. Check here before changing them.
     in `colorizeTake.js` — don't rely on the first preload surviving to
     generate time.
 
+17. **"Can You Pass as X" is a gatekeeping test, not a general-knowledge
+    quiz.** The bar for every question in a category: **a real X answers it in
+    about three seconds, and an outsider has never heard the term.** Both
+    halves matter. "What does BP stand for?" fails on both counts — everyone
+    knows it, so it separates nobody — and the whole original bank was written
+    at that level before being rewritten.
+
+    Concretely, that means reaching for the working vocabulary of the role
+    rather than its public image: a doctor gets Virchow's triad and the target
+    INR, not what a stethoscope is for; a pharmacist gets narrow-therapeutic-
+    index drugs and why an S6 script can't be repeated, not what a
+    prescription is. A question that a viewer could answer from television is
+    the wrong question.
+
+    Two failure modes to avoid on the way up. Don't make it *obscure* instead
+    of *insider* — trivia a practitioner would also have to look up is a
+    different (and worse) quiz. And keep answers short enough to say out loud
+    on camera; this is filmed content, so a 120-character answer is a
+    stumble, not a reveal.
+
+    Lean local where there's a choice: SA scheduling, the two-pot system,
+    accrual versus community of property, NSFAS. That's knowledge the user
+    actually has and a generic quiz app doesn't.
+
 ## Architecture
 
 ```
