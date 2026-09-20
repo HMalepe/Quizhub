@@ -706,183 +706,183 @@ export const SECTIONS = [
       {
         name: 'a Football Fan',
         questions: [
-          ["What's the name of Manchester City's home stadium?", 'The Etihad Stadium'],
-          ['How many goals are in a "brace"?', 'Two'],
-          ['What does the position "CDM" stand for?', 'Central Defensive Midfielder'],
-          ['In which country would you find the club AZ Alkmaar?', 'The Netherlands'],
-          ["Which club did Cristiano Ronaldo start his senior career at?", 'Sporting CP, in Portugal'],
-          ['Who is the all-time top goalscorer for the Spanish national team?', 'David Villa'],
-          ['Which club did the Bosnian striker Edin Džeko famously play for in the Premier League?', 'Manchester City'],
-          ['Which country did Emmanuel Adebayor represent internationally?', 'Togo']
+          ['How far back must the wall be at a free kick?', '9.15 metres — ten yards'],
+          ['From which three restarts can you never be offside?', 'A throw-in, a goal kick and a corner'],
+          ['What is the six-second rule?', 'A goalkeeper may not control the ball in their hands for longer than six seconds'],
+          ['What does a back-pass handled by the keeper concede?', 'An indirect free kick inside the penalty area'],
+          ['What is the difference between a direct and an indirect free kick?', 'An indirect one must touch another player before a goal can count'],
+          ['How many substitutes are allowed in most competitions now, and across how many stoppages?', 'Five, in three windows'],
+          ['If a penalty is saved and rebounds to the taker, can they score?', 'Yes in open play — but not in a shootout, where they get one attempt'],
+          ['Who restarts play after a dropped ball now?', 'One team only — usually whoever last touched it, with opponents four metres away']
         ]
       },
       {
         name: 'a World Cup Historian',
         questions: [
-          ['Which country won the World Cup in 2006?', 'Italy'],
-          ['Which team did France beat in the 2018 World Cup final?', 'Croatia, 4-2'],
-          ['Which country hosted and won the very first World Cup in 1930?', 'Uruguay'],
-          ['Which country has won the most World Cups?', 'Brazil, with five'],
-          ["Who scored the infamous \"Hand of God\" goal at the 1986 World Cup?", 'Diego Maradona'],
-          ['Which country did West Germany beat in the 1990 World Cup final?', 'Argentina'],
-          ['Which country hosted the 2014 World Cup?', 'Brazil'],
-          ['Which two countries co-hosted the 2002 World Cup?', 'South Korea and Japan']
+          ['Which country has appeared at every single World Cup?', 'Brazil'],
+          ['What was the Maracanazo?', 'Uruguay beating hosts Brazil in the deciding match of the 1950 World Cup'],
+          ['Who is the only man to score a hat-trick in a World Cup final?', 'Geoff Hurst, in 1966'],
+          ['Why were there no World Cups in 1942 and 1946?', 'The Second World War'],
+          ['Which country stepped in to host the 1986 World Cup after Colombia withdrew?', 'Mexico'],
+          ['Who is the youngest scorer in a World Cup final?', 'Pelé, aged 17 in 1958'],
+          ['Which country has lost the most World Cup finals?', 'Germany, with four'],
+          ['Who did Uruguay beat in the first final, in 1930?', 'Argentina']
         ]
       },
       {
         name: 'a Champions League Obsessive',
         questions: [
-          ['Who are the most recent Italian side to win the Champions League title?', 'Inter Milan, in 2010'],
-          ['Which goalkeeper did Declan Rice score two free-kick goals against in a 2025 Champions League quarterfinal?', 'Thibaut Courtois'],
-          ['Which club has won the most European Cup/Champions League titles?', 'Real Madrid'],
-          ['What competition did the Champions League replace in 1992?', 'The European Cup'],
-          ['Which English club won the 2019 Champions League in an all-English final against Tottenham?', 'Liverpool'],
-          ['What is the Champions League trophy commonly nicknamed?', '"Ol\' Big Ears"'],
-          ['Which club did Liverpool beat on penalties in the 2005 "Miracle of Istanbul" final?', 'AC Milan'],
-          ['What colour are the famous Champions League anthem branding and starball?', 'Blue and white/silver']
+          ['What happened to the away goals rule?', 'UEFA abolished it from the 2021-22 season'],
+          ['How many clubs are in the league phase under the format introduced in 2024-25?', '36'],
+          ['What happens to the teams finishing 9th to 24th in the league phase?', 'They go into a two-legged knockout playoff round'],
+          ['Which Dutch club won three European Cups in a row in the early 1970s?', 'Ajax'],
+          ['Who has scored the most Champions League goals?', 'Cristiano Ronaldo'],
+          ['Which manager has won it a record five times?', 'Carlo Ancelotti'],
+          ['What was the half-time score in the 2005 Istanbul final?', 'AC Milan led Liverpool 3-0'],
+          ['Which club has won the most European Cups and Champions Leagues?', 'Real Madrid']
         ]
       },
       {
         name: 'a Euros Fanatic',
         questions: [
-          ['Which country did Portugal beat 1-0 in the 2016 Euros final?', 'France'],
-          ['Which country won Euro 2020 (played in 2021)?', 'Italy'],
-          ['Which country hosted Euro 2024?', 'Germany'],
-          ['Which country won Euro 2024?', 'Spain'],
-          ['What is the trophy for winning the European Championship called?', 'The Henri Delaunay Trophy'],
-          ['How often is the European Championship held?', 'Every four years'],
-          ['Which country won the very first European Championship, in 1960?', 'The Soviet Union'],
-          ['What is the minimum number of teams in a Euros group-stage group?', 'Four']
+          ['Which country has won the most European Championships?', 'Spain, with four'],
+          ['Which final was decided by a golden goal?', 'Euro 1996 — Germany beat the Czech Republic'],
+          ['Which country won Euro 2004 as enormous outsiders?', 'Greece'],
+          ['Who scored the winning goal in the Euro 2016 final?', 'Eder'],
+          ['Who was Henri Delaunay?', "UEFA's first general secretary, who proposed the tournament"],
+          ['What was different about Euro 2020?', 'It had no single host — it was played across eleven cities, and in 2021'],
+          ['How many teams contested Euro 2024?', '24'],
+          ['Which country won the very first European Championship, in 1960?', 'The Soviet Union']
         ]
       },
       {
         name: 'a Transfer Window Addict',
         questions: [
-          ['In 2013, Monaco signed Radamel Falcao — but from which club?', 'Atletico Madrid'],
-          ['Which club does Luka Modrić play for after his 2025 move?', 'AC Milan'],
-          ['Which club sold Neymar to PSG for a world-record fee in 2017?', 'Barcelona'],
-          ['Which club did Erling Haaland join from Borussia Dortmund in 2022?', 'Manchester City'],
-          ['Which club did Cristiano Ronaldo rejoin in 2021, moving from Juventus?', 'Manchester United'],
-          ['Which English club did James Rodríguez make 23 appearances for?', 'Everton'],
-          ['Which club did Jude Bellingham join from Borussia Dortmund in 2023?', 'Real Madrid'],
-          ['Which club did Kylian Mbappé join on a free transfer in 2024?', 'Real Madrid']
+          ['What is a Bosman transfer?', 'A free move at the end of a contract, after the 1995 Bosman ruling'],
+          ['What is a release clause?', 'A pre-agreed fee the selling club must accept if it is triggered'],
+          ['What is the world-record transfer fee, and for whom?', 'Neymar to PSG, €222 million in 2017'],
+          ['What does it mean to amortise a transfer fee?', 'Spreading it across the length of the contract in the accounts'],
+          ['What is a sell-on clause?', 'The selling club takes a share of any future profit on that player'],
+          ['What is third-party ownership, and what happened to it?', "Outside investors holding a share of a player's economic rights — FIFA banned it in 2015"],
+          ['Which club did Monaco sign Radamel Falcao from in 2013?', 'Atlético Madrid'],
+          ['What is a "player-plus-cash" deal usually designed to do?', 'Inflate the book value of both players and ease Financial Fair Play pressure']
         ]
       },
       {
-        name: 'a Ballon d\'Or Buff',
+        name: "a Ballon d'Or Buff",
         questions: [
-          ["Who is the most recent Brazilian player to win the Ballon d'Or?", 'Kaká, in 2007'],
-          ['Which club was Ronaldinho playing for when he won the 2002 World Cup?', 'PSG'],
-          ["Who has won the most Ballon d'Or awards?", 'Lionel Messi'],
-          ['What does "Ballon d\'Or" translate to in English?', '"Golden Ball"'],
-          ["Which publication originally created the Ballon d'Or award?", 'France Football'],
-          ["Who won the first-ever Women's Ballon d'Or, in 2018?", 'Ada Hegerberg'],
-          ["Which goalkeeper famously won the Ballon d'Or in 1963?", 'Lev Yashin'],
-          ["Who won the Ballon d'Or in 2014, the same year Germany won the World Cup?", 'Cristiano Ronaldo']
+          ['Who is the only goalkeeper ever to win it?', 'Lev Yashin, in 1963'],
+          ['Who is the most recent Brazilian winner?', 'Kaká, in 2007'],
+          ['Who was the first African winner?', 'George Weah, in 1995'],
+          ['Who was eligible to win it before 1995?', 'Only European players'],
+          ['What happened to the award between 2010 and 2015?', "It merged with FIFA's award as the FIFA Ballon d'Or"],
+          ['Who has won the most?', 'Lionel Messi'],
+          ['Which publication runs it?', 'France Football'],
+          ['Who won it in 2014, the year Germany won the World Cup?', 'Cristiano Ronaldo']
         ]
       },
       {
         name: 'an El Clásico Fanatic',
         questions: [
-          ['El Clásico is the fixture between which two clubs?', 'Real Madrid and Barcelona'],
-          ['Who holds the record for the most El Clásico goals?', 'Lionel Messi'],
-          ["What was the long-standing name of Barcelona's home stadium?", 'Camp Nou'],
-          ["What is Real Madrid's home stadium called?", 'Santiago Bernabéu'],
-          ["What is Real Madrid's nickname?", 'Los Blancos'],
-          ["What is Barcelona's nickname?", 'Blaugrana (or Culés)'],
-          ['Which club did Luis Figo controversially join in 2000, coming from Barcelona?', 'Real Madrid'],
-          ['Which Frenchman won multiple Champions Leagues with Real Madrid as both player and manager?', 'Zinedine Zidane']
+          ['Why was the Luís Figo transfer so incendiary?', 'He left Barcelona for Real Madrid in 2000 after being a fan favourite'],
+          ['What was thrown at Figo from the Camp Nou stands on his return?', "A pig's head"],
+          ['What was the "Manita"?', "Barcelona's 5-0 win over Real Madrid in 2010 — the little hand, five fingers"],
+          ['Who has scored the most Clásico goals?', 'Lionel Messi'],
+          ["What is Barcelona's youth academy called?", 'La Masia'],
+          ["What is Real Madrid's academy called?", 'La Fábrica'],
+          ['What does "Més que un club" mean?', '"More than a club" — Barcelona\'s motto'],
+          ['How many Clásicos were played in 18 days in 2011?', 'Four, across three different competitions']
         ]
       },
       {
         name: 'a Golden Boot Chaser',
         questions: [
-          ['What is a Golden Boot awarded for?', 'Being the top goalscorer'],
-          ['Who won the World Cup Golden Boot in Qatar in 2022?', 'Kylian Mbappé'],
-          ['Who is the all-time top scorer at the World Cup?', 'Miroslav Klose'],
-          ['Who has won the European Golden Shoe the most times?', 'Cristiano Ronaldo'],
-          ['How many goals did Erling Haaland score to set the Premier League single-season record in 2022-23?', '36'],
-          ['What award goes to the World Cup\'s best young player, separate from the Golden Boot?', 'The Best Young Player Award'],
-          ["In which year did Brazil's Ronaldo win the World Cup Golden Boot with 8 goals?", '2002'],
-          ['What is awarded to the World Cup goalkeeper judged best in the tournament?', 'The Golden Glove']
+          ['Who holds the record for goals at a single World Cup?', 'Just Fontaine, with 13 in 1958'],
+          ['Who is the all-time top scorer at World Cups?', 'Miroslav Klose, with 16'],
+          ['How is the European Golden Shoe weighted?', 'Goals are multiplied by a coefficient reflecting the strength of the league'],
+          ['Who scored 91 goals in a single calendar year?', 'Lionel Messi, in 2012'],
+          ['What is the Premier League single-season goal record?', '36, by Erling Haaland in 2022-23'],
+          ['Who is the all-time Premier League top scorer?', 'Alan Shearer, with 260'],
+          ['What is the difference between the Golden Ball and the Golden Boot?', 'The Ball goes to the best player; the Boot to the top scorer'],
+          ['Who won the Golden Boot at the 2022 World Cup?', 'Kylian Mbappé']
         ]
       },
       {
         name: 'a Tactics Nerd',
         questions: [
-          ['What does a "false 9" describe?', 'A forward who drops deep instead of staying central'],
-          ['What is "gegenpressing"?', 'Pressing immediately to win the ball back right after losing it'],
-          ['What is a "back three"?', 'A defensive line of three central defenders, as in a 3-5-2'],
-          ['What is an "overlap" in attacking play?', 'A wide player running around or outside a teammate to provide width'],
-          ['What does a "low block" mean defensively?', 'A team sitting deep with most players behind the ball'],
-          ['What is the "offside trap"?', 'Defenders stepping up together to catch attackers offside'],
-          ['What role does a "regista" play?', 'A deep-lying playmaker who dictates tempo from midfield'],
-          ['What is an "inverted fullback"?', 'A fullback who tucks into central midfield when in possession']
+          ['What is a "false 9"?', 'A centre-forward who drops deep, dragging centre-backs out of position'],
+          ['What is gegenpressing?', 'Counter-pressing — swarming to win the ball back in the seconds after losing it'],
+          ['What is a "regista"?', 'A deep-lying playmaker who sets the tempo from in front of the defence'],
+          ['What is an inverted fullback?', 'A fullback who steps into central midfield when the team has the ball'],
+          ['What is "rest defence"?', 'How a team positions itself to stop the counter-attack while still attacking'],
+          ['What is the "half-space"?', 'The vertical channel between the centre of the pitch and the wing'],
+          ['What is a "box midfield"?', 'Two deep and two advanced central midfielders forming a square'],
+          ['What does "overload to isolate" mean?', 'Packing one side of the pitch to create a one-v-one on the far side']
         ]
       },
       {
         name: 'a Football Manager (Game) Player',
         questions: [
-          ['What is "FM" short for in the gaming world?', 'Football Manager'],
-          ['Before 2004, the Football Manager series was called what?', 'Championship Manager'],
-          ['What term describes a young player with exceptional potential?', 'A "wonderkid"'],
-          ['What is a "regen" in Football Manager?', 'A newly generated player once the real-world database is exhausted'],
-          ['What attribute category covers passing, finishing, and tackling ability?', 'Technical attributes'],
-          ['What does "PPM" stand for in the series?', 'Player Preferred Move'],
+          ['What is the difference between current ability and potential ability?', 'CA is how good a player is now; PA is the ceiling they can reach'],
+          ['What is a "regen"?', 'A newly generated player, created once the real-world database is exhausted'],
+          ['What does PPM stand for?', 'Player Preferred Moves'],
+          ['Which hidden attribute most influences how a young player develops?', 'Determination'],
+          ['What does the tactical familiarity bar show?', 'How well the squad has drilled the tactic you are asking them to play'],
+          ['What is a "wonderkid"?', 'A young player flagged with exceptionally high potential ability'],
           ['Which studio develops Football Manager?', 'Sports Interactive'],
-          ['What is the in-game mode where you handle transfers, tactics, and training called?', 'Career/manager mode']
+          ['What was the series called before 2004?', 'Championship Manager']
         ]
       },
       {
-        name: 'a Women\'s Football Fan',
+        name: "a Women's Football Fan",
         questions: [
-          ['Which country won the 2023 FIFA Women\'s World Cup?', 'Spain'],
-          ['Which country has won the most Women\'s World Cups?', 'The United States, with four'],
-          ['What does "WSL" stand for in English women\'s football?', 'The Women\'s Super League'],
-          ['Which two countries co-hosted the 2023 Women\'s World Cup?', 'Australia and New Zealand'],
-          ['Which American won both the Golden Boot and Golden Ball at the 2019 Women\'s World Cup?', 'Megan Rapinoe'],
-          ['What\'s the top club competition in European women\'s football?', 'The UEFA Women\'s Champions League'],
-          ['Which country won the 2022 Women\'s Euros on home soil?', 'England'],
-          ['What does "NWSL" stand for?', 'The National Women\'s Soccer League, in the United States']
+          ["Who did Spain beat in the 2023 Women's World Cup final?", 'England'],
+          ["Which country has won the most Women's World Cups?", 'The United States, with four'],
+          ["Who is the all-time leading scorer at Women's World Cups?", 'Marta'],
+          ["Which club has won the most Women's Champions Leagues?", 'Lyon'],
+          ['What was the 2019 USWNT legal action about?', 'Suing US Soccer over unequal pay and conditions compared with the men'],
+          ['Which Norwegian boycotted a World Cup over her federation\'s treatment of women\'s football?', 'Ada Hegerberg'],
+          ["Which country won the 2022 Women's Euros, and where?", 'England, on home soil'],
+          ['What does NWSL stand for?', "The National Women's Soccer League"]
         ]
       },
       {
         name: 'an African Football Fan',
         questions: [
-          ['What does "AFCON" stand for?', 'The Africa Cup of Nations'],
           ['Which country has won the most AFCON titles?', 'Egypt, with seven'],
-          ['What\'s South Africa\'s top-flight football league commonly called?', 'The PSL — the Premier Soccer League'],
-          ['Which two Soweto clubs contest South Africa\'s biggest derby?', 'Kaizer Chiefs and Orlando Pirates'],
-          ['What is the Kaizer Chiefs vs Orlando Pirates fixture known as?', 'The Soweto Derby'],
-          ['Which African country reached the World Cup semi-finals in 2022, a first for the continent?', 'Morocco'],
-          ['Which Liberian forward is the only African to win the Ballon d\'Or, in 1995?', 'George Weah'],
-          ['Which South African club won the CAF Champions League in 2016?', 'Mamelodi Sundowns']
+          ['Which country won three AFCONs in a row?', 'Egypt, in 2006, 2008 and 2010'],
+          ['Which African side was the first to reach a World Cup quarter-final?', 'Cameroon, in 1990'],
+          ['Which African nation reached the World Cup semi-finals in 2022?', 'Morocco'],
+          ['Which South African club won the CAF Champions League in 2016?', 'Mamelodi Sundowns'],
+          ['Which country won AFCON on home soil in 1996?', 'South Africa'],
+          ['What is the Soweto Derby?', 'Kaizer Chiefs against Orlando Pirates'],
+          ['Which Liberian went on to become his country\'s president?', 'George Weah']
         ]
       },
       {
         name: 'a Football Kit Nerd',
         questions: [
-          ['What\'s a "third kit"?', 'A club\'s alternative strip beyond its home and away kits'],
-          ['Why does a team wear a "clash" or away kit?', 'To avoid a colour clash with the opposing team'],
-          ['What does a star above a national team\'s crest usually signify?', 'A World Cup title won'],
+          ['What does a star above a crest usually mean?', 'A World Cup win — or a set number of league titles, depending on the country'],
           ['How many stars sit above Brazil\'s crest?', 'Five'],
-          ['What colours are Juventus\'s traditional home stripes?', 'Black and white'],
-          ['Which German club is famously associated with yellow and black?', 'Borussia Dortmund'],
-          ['Which sportswear brand uses the "swoosh" logo?', 'Nike'],
-          ['Which brand\'s three stripes are a football kit staple?', 'Adidas']
+          ['Why did the 2017 Juventus crest redesign cause uproar?', 'It dropped the traditional shield for a minimal "J"'],
+          ['What was unusual about Cruyff\'s Netherlands shirt at the 1974 World Cup?', "It had two stripes, not Adidas' three, because of his rival boot deal"],
+          ['Why must goalkeepers wear a different colour?', 'The Laws require them to be distinguishable from both teams and the officials'],
+          ['What does a gold badge on a Premier League sleeve signify?', 'The reigning champions'],
+          ['What is a "clash kit" for?', 'Avoiding a colour clash with the opposition'],
+          ['What is a third kit?', "An alternative strip beyond a club's home and away kits"]
         ]
       },
       {
         name: 'a VAR & Referee Rules Nerd',
         questions: [
-          ['What does "VAR" stand for?', 'Video Assistant Referee'],
-          ['Which four decision types can VAR review?', 'Goals, penalties, direct red cards, and mistaken identity'],
-          ['What signal does a referee make before consulting the pitchside monitor?', 'Drawing a rectangle — a "TV screen" — in the air'],
-          ['What happens when a player receives two yellow cards in one match?', 'They become a red card and the player is sent off'],
-          ['What\'s "advantage"?', 'Letting play continue after a foul because the fouled team benefits from doing so'],
-          ['What\'s added at the end of each half to account for delays?', 'Stoppage time (added or injury time)'],
-          ['What\'s the offside rule, in one line?', 'An attacker is ahead of the second-last defender when the ball is played to them'],
-          ['What broadly counts as a handball offence?', 'Deliberately touching the ball with hand or arm, or doing so with an unnaturally enlarged body shape']
+          ['Which four decisions can VAR review?', 'Goals, penalties, direct red cards and mistaken identity'],
+          ['What threshold must be met before VAR intervenes?', 'A clear and obvious error'],
+          ['What is the difference between an on-field review and a factual check?', 'A review sends the referee to the monitor; a factual call like offside is decided upstairs'],
+          ['What is semi-automated offside?', 'Limb-tracking that constructs the offside line automatically'],
+          ['When does handball become an offence automatically?', 'When the arm is in an unnaturally enlarged position, or the contact is deliberate'],
+          ['What is "advantage"?', 'Letting play continue because stopping it would reward the team that fouled'],
+          ['What restart follows a goalkeeper holding the ball too long?', 'An indirect free kick'],
+          ['Why can a referee not rescind a second yellow card via VAR?', 'VAR only reviews direct red cards, not two-yellow dismissals']
         ]
       }
     ]
@@ -893,456 +893,456 @@ export const SECTIONS = [
       {
         name: 'a Tennis Fan',
         questions: [
-          ['What do you call a score of zero in tennis?', 'Love'],
-          ['How many Grand Slam tournaments are there each year?', 'Four'],
-          ['What\'s it called when a player wins a set 6-0?', 'A "bagel"'],
-          ['What surface is the French Open played on?', 'Clay'],
-          ['What\'s a "let" in tennis?', 'A serve that clips the net but still lands in the correct box, replayed'],
-          ['Who is widely regarded as holding the record for most men\'s Grand Slam singles titles?', 'Novak Djokovic'],
-          ['What\'s it called when a player wins all four Grand Slams in the same calendar year?', 'A calendar Grand Slam'],
-          ['What\'s the tiebreak format played at 6-6 in most sets called?', 'A tiebreaker (or tiebreak)']
+          ['How does a standard tiebreak work?', 'First to seven points at 6-6, and you must win by two'],
+          ['What is the final-set format at Wimbledon now?', 'A 10-point tiebreak at six games all'],
+          ['What is a "let" on serve?', 'The serve clips the net but lands in — it is replayed, with no penalty'],
+          ['What is a "bagel"?', 'Winning a set 6-0'],
+          ['What happens if you foot-fault on a second serve?', 'It is a double fault — you lose the point'],
+          ['What is "deuce"?', 'Forty all — and you must then win two points in a row'],
+          ['Who has won the most Grand Slam singles titles in the men\'s game?', 'Novak Djokovic'],
+          ['What is a "break back point"?', 'A chance to recover a break of serve you have just lost']
         ]
       },
       {
         name: 'a Grand Slam Historian',
         questions: [
-          ['Which Grand Slam is played on grass?', 'Wimbledon'],
-          ['Which city hosts the US Open?', 'New York'],
-          ['Which Grand Slam is played on hard courts in Melbourne?', 'The Australian Open'],
-          ['Who holds the Open Era record for most men\'s Wimbledon singles titles, with 8?', 'Roger Federer'],
-          ['Who holds the Open Era record for most women\'s Grand Slam singles titles, with 23?', 'Serena Williams'],
-          ['Which is the earliest of the four Grand Slams played each year?', 'The Australian Open'],
-          ['Which Grand Slam is the last of the year, played in New York?', 'The US Open'],
-          ['What colour are the clay courts at the French Open (Roland Garros)?', 'Red/orange']
+          ['What is a Calendar Grand Slam?', 'Winning all four majors within the same calendar year'],
+          ['Who was the last man to do it?', 'Rod Laver, in 1969'],
+          ['What is a Golden Slam?', 'All four majors plus Olympic gold in a single year'],
+          ['Who is the only player to achieve a Golden Slam?', 'Steffi Graf, in 1988'],
+          ['Who holds the Open Era record for women\'s singles majors?', 'Serena Williams, with 23'],
+          ['Who holds the all-time women\'s record?', 'Margaret Court, with 24'],
+          ['What surface did the Australian Open switch to in 1988?', 'Hard court, from grass'],
+          ['Which major was played on grass until 1974?', 'The US Open']
         ]
       },
       {
         name: 'a Wimbledon Regular',
         questions: [
-          ['What\'s the strict dress code colour at Wimbledon?', 'All white'],
-          ['What\'s traditionally served with strawberries at Wimbledon?', 'Cream'],
-          ['What\'s the name of Wimbledon\'s main show court?', 'Centre Court'],
-          ['What\'s Wimbledon\'s VIP seating area known as?', 'The Royal Box'],
-          ['What\'s the grass-court Grand Slam officially called?', 'The Championships, Wimbledon'],
-          ['In which part of London is the All England Club located?', 'Wimbledon'],
-          ['What ball brand has long supplied Wimbledon?', 'Slazenger'],
-          ['Which Grand Slam added a retractable roof over its main court to fight rain delays?', 'Wimbledon, over Centre Court']
+          ['What is the one recent exception to the all-white rule?', 'Women have been allowed dark undershorts since 2023'],
+          ['What happened to Middle Sunday?', 'The traditional rest day ended — it has been a full play day since 2022'],
+          ['What is Henman Hill officially called?', 'Aorangi Terrace'],
+          ['Which grass is Centre Court sown with?', '100% perennial ryegrass'],
+          ['Which two courts have retractable roofs?', 'Centre Court and No.1 Court'],
+          ['What does the champion actually take home?', 'A replica — the original trophy stays at the All England Club'],
+          ['What is "The Queue"?', 'The formal overnight queueing system, with numbered queue cards'],
+          ['Why is the tournament played in whites at all?', 'A Victorian convention to hide sweat stains, never since dropped']
         ]
       },
       {
         name: 'a Tennis Rules Nerd',
         questions: [
-          ['What\'s a "double fault"?', 'Missing both first and second serve attempts, losing the point'],
-          ['What\'s "deuce"?', 'A tied score of 40-40 in a game'],
-          ['How many points are needed to win a standard game, without deuce?', 'Four'],
-          ['What\'s an "ace"?', 'A serve the opponent can\'t touch, winning the point outright'],
-          ['What\'s it called when players switch ends of the court?', 'A changeover'],
-          ['What\'s a "rally"?', 'A sequence of shots exchanged before the point ends'],
-          ['What\'s generally banned mid-match in traditional tennis rules?', 'On-court coaching'],
-          ['What\'s a "break of serve"?', 'Winning a game when your opponent was serving']
+          ['What happens if the ball strikes you, even outside the lines?', 'You lose the point'],
+          ['Can you reach over the net to play a ball?', 'Only if the ball has already bounced back over to the other side on its own'],
+          ['What is a "hindrance"?', 'Distracting your opponent — it can cost you the point'],
+          ['How long is the shot clock between points?', '25 seconds'],
+          ['What is a foot fault?', 'Touching the baseline or inside the court before striking the serve'],
+          ['If a serve hits the receiver before bouncing, who wins the point?', 'The server'],
+          ['How many challenges does a player traditionally get per set?', 'Three, plus an extra one in a tiebreak'],
+          ['What is the penalty progression for a code violation?', 'Warning, then point penalty, then game penalty, then default']
         ]
       },
       {
         name: 'a Tennis Tour Nerd',
         questions: [
-          ['What does "ATP" stand for, the men\'s tour body?', 'Association of Tennis Professionals'],
-          ['What does "WTA" stand for, the women\'s tour body?', 'Women\'s Tennis Association'],
-          ['What are the year-end events for each tour\'s top 8 ranked players called?', 'The ATP Finals and WTA Finals'],
-          ['What determines a player\'s tour ranking?', 'Points earned from tournament results'],
-          ['What\'s "match point"?', 'The point that, if won, ends the match'],
-          ['What\'s a "seed" in a tournament draw?', 'A top player positioned to avoid early meetings with other top players'],
-          ['What\'s an "unforced error"?', 'A mistake made without pressure from the opponent\'s shot'],
-          ['What technology largely replaced human line judges for close calls?', 'Electronic line-calling (e.g. Hawk-Eye)']
+          ['What are the ATP tiers below the Grand Slams?', 'Masters 1000, then 500, then 250, then Challengers'],
+          ['How many players qualify for the year-end Finals?', 'Eight'],
+          ['How are ranking points calculated?', 'A rolling 52-week total from a set number of best results'],
+          ['What does a protected ranking do?', 'Lets a player returning from long-term injury enter events on their old ranking'],
+          ['What is a "lucky loser"?', 'A player who lost in qualifying but gets in when someone withdraws'],
+          ['What is a wildcard?', 'A tournament-granted entry for a player without direct qualification'],
+          ['What is the Davis Cup?', "The men's international team competition"],
+          ['What is the Billie Jean King Cup?', "The women's equivalent of the Davis Cup"]
         ]
       },
       {
         name: 'a Cricket Fan',
         questions: [
-          ['How many players are on a cricket team on the field?', 'Eleven'],
-          ['What\'s it called when a bowler takes three wickets on three consecutive balls?', 'A hat-trick'],
-          ['What\'s the term for scoring 100 runs in an innings?', 'A century'],
-          ['How many balls make up a standard over?', 'Six'],
-          ['What\'s a "duck"?', 'Being dismissed for zero runs'],
-          ['What\'s the wooden structure a bowler aims at called?', 'The stumps (the wicket)'],
-          ['What does an "LBW" dismissal stand for?', 'Leg Before Wicket'],
-          ['What\'s the shortest major international format, played over 20 overs a side?', 'T20']
+          ['How many ways can a batter be dismissed?', 'Ten'],
+          ['What three things must be true for an LBW?', 'It pitched in line or outside off, struck the pad in line, and would have gone on to hit the stumps'],
+          ['What is the difference between a no-ball and a wide?', 'A no-ball is an illegal delivery; a wide is simply out of the batter\'s reach'],
+          ['How can you be out on a free hit?', 'Only run out — you cannot be bowled or caught'],
+          ['What is the follow-on margin in a Test?', 'A first-innings deficit of 200 runs'],
+          ['What is Duckworth-Lewis-Stern for?', 'Resetting targets in rain-affected limited-overs matches'],
+          ['What is the difference between a googly and a doosra?', "A googly is a leg-spinner's wrong'un; a doosra is an off-spinner's"],
+          ['What is a maiden over?', 'Six balls from which no runs are scored']
         ]
       },
       {
         name: 'a Cricket World Cup Historian',
         questions: [
+          ['How was the 2019 final actually decided?', 'A tied Super Over — England won on boundary count'],
+          ['What has changed about that rule since?', 'Super Overs are now repeated until there is a winner'],
           ['Which country has won the most Cricket World Cups?', 'Australia'],
-          ['Which country won the first Cricket World Cup, in 1975?', 'The West Indies'],
-          ['Which country hosted and won the 2011 Cricket World Cup?', 'India'],
-          ['Which country won the dramatic 2019 Cricket World Cup final at Lord\'s?', 'England'],
-          ['How often is the Cricket World Cup held?', 'Every four years'],
-          ['Which country won the 2023 Cricket World Cup, hosted by India?', 'Australia'],
-          ['What\'s the top prize in T20 international cricket called?', 'The ICC Men\'s T20 World Cup'],
-          ['Which two countries contest "The Ashes"?', 'England and Australia']
+          ['Which country won the first, in 1975?', 'The West Indies'],
+          ['What was historic about India\'s 2011 win?', 'They were the first side to win a World Cup final on home soil'],
+          ['Who won the 2023 World Cup, and where?', 'Australia, in India'],
+          ['Which side broke the West Indies\' grip on the trophy in 1983?', 'India'],
+          ['How often is the tournament held?', 'Every four years']
         ]
       },
       {
         name: 'a Cricket Terminology Nerd',
         questions: [
-          ['What\'s a "googly"?', 'A deceptive delivery that spins the opposite way to how it looks'],
-          ['What\'s a "maiden over"?', 'An over in which no runs are scored'],
-          ['What\'s a "boundary"?', 'A shot that reaches the edge of the field, worth 4 or 6 runs'],
-          ['What\'s a "yorker"?', 'A fast, full-length delivery aimed at the batter\'s feet'],
-          ['What\'s the "slip" fielding position mainly used for?', 'Catching edges near the wicketkeeper'],
-          ['What\'s a "declaration"?', 'A captain voluntarily ending their team\'s innings before all wickets fall'],
-          ['What\'s "sledging"?', 'Verbal needling or trash talk between players on the field'],
-          ['What does "DRS" stand for?', 'Decision Review System']
+          ['What is the "corridor of uncertainty"?', 'The line just outside off stump where the batter cannot decide whether to play or leave'],
+          ['What is reverse swing?', 'Late swing the opposite way, from an old ball bowled at pace'],
+          ['What is a yorker?', "A full delivery aimed at the base of the stumps or the batter's toes"],
+          ['What is "silly point"?', 'A close catching position very near the bat on the off side'],
+          ['What is a golden duck?', 'Out first ball without scoring'],
+          ['What is a nightwatchman?', 'A lower-order batter sent in late in the day to shield a specialist'],
+          ['What is a declaration?', 'A captain voluntarily closing their own innings'],
+          ['What is "the nurdle"?', 'Gently working the ball into a gap for a single']
         ]
       },
       {
         name: 'a Test Cricket Purist',
         questions: [
-          ['How many days can a Test match traditionally last?', 'Five'],
-          ['What colour ball is traditionally used in Test cricket?', 'Red'],
-          ['What\'s the term for a player who bats and bowls at a high level?', 'An all-rounder'],
-          ['Who holds the record for the highest individual score in a Test innings, 400 not out?', 'Brian Lara'],
-          ['What\'s a "follow-on"?', 'When a team batting second is forced to bat again immediately after a big first-innings deficit'],
-          ['What colour is traditionally worn in Test cricket kit?', 'White'],
-          ['What\'s the oldest recognised cricket trophy, contested between England and Australia?', 'The Ashes'],
-          ['What\'s a "nightwatchman"?', 'A lower-order batter sent in late in the day to protect a specialist batter']
+          ['How many overs must be bowled in a full day?', '90'],
+          ['After how many overs is a new ball available?', '80'],
+          ['What is the highest individual Test score?', '400 not out, by Brian Lara'],
+          ['Who has taken the most Test wickets?', 'Muttiah Muralitharan, with 800'],
+          ['What is the World Test Championship?', 'A two-year league cycle that culminates in a one-off final'],
+          ['What does the Ashes urn supposedly contain?', 'The ashes of a burnt bail'],
+          ['What is a "timeless Test"?', 'A Test played to a finish with no day limit — the last was in 1939'],
+          ['What is the follow-on threshold?', 'A first-innings deficit of 200 runs']
         ]
       },
       {
         name: 'an IPL / T20 Nerd',
         questions: [
-          ['What does "IPL" stand for?', 'Indian Premier League'],
-          ['What\'s a "Super Over"?', 'A one-over eliminator used to break a tie'],
-          ['What\'s the "Powerplay" in limited-overs cricket?', 'An early phase of overs with fielding restrictions'],
-          ['What\'s a "free hit"?', 'A delivery after a no-ball where the batter can\'t be dismissed by most methods'],
-          ['How many overs per side are bowled in T20 cricket?', 'Twenty'],
-          ['What\'s a "death over"?', 'An over near the end of the innings, typically high-scoring and high-pressure'],
-          ['What\'s an "all-rounder"?', 'A player skilled at both batting and bowling'],
-          ['What does "MoM" stand for, an award given after a match?', 'Man of the Match']
+          ['How many fielders may be outside the circle during the T20 Powerplay?', 'Two'],
+          ['And after the Powerplay?', 'Five'],
+          ['How long is the T20 Powerplay?', 'Six overs'],
+          ['What is the IPL impact player rule?', 'A substitute who can be brought on to bat or bowl mid-match'],
+          ['What is the maximum any one bowler may bowl in a T20?', 'Four overs'],
+          ['What is a Super Over?', 'A single over each, used to break a tie'],
+          ['What is "the death"?', 'The closing overs of an innings, where scoring peaks'],
+          ['What does a batting strike rate measure in T20?', 'Runs scored per 100 balls faced']
         ]
       },
       {
         name: 'a Rugby Fan',
         questions: [
-          ['How many players are on a rugby union team on the field?', 'Fifteen'],
-          ['How many points is a try worth?', 'Five'],
-          ['What\'s a "conversion"?', 'A kick after a try, worth 2 more points if successful'],
-          ['What\'s a "scrum"?', 'A contested restart where forwards bind together to compete for the ball'],
-          ['What\'s a "lineout"?', 'A restart where the ball is thrown in after going out of play (into touch)'],
-          ['What\'s it called when a team kicks the ball between the posts for 3 points during open play?', 'A drop goal'],
-          ['How many points is a penalty kick worth?', 'Three'],
-          ['What colour card sends a player off for the rest of the match?', 'Red']
+          ['How many points is a try, conversion, penalty and drop goal?', 'Five, two, three and three'],
+          ['What must a tackler do immediately after the tackle?', 'Release the player and roll away'],
+          ['Where is the offside line at a ruck?', 'The hindmost foot of the last player bound in'],
+          ['What is a "jackal"?', 'A player contesting for the ball over a tackled opponent'],
+          ['What is the difference between a ruck and a maul?', 'In a maul the ball carrier is still on their feet; a ruck is contested on the ground'],
+          ['What is the difference between a knock-on and a forward pass?', 'A knock-on goes forward off the hand or arm; a forward pass is thrown forward'],
+          ['What is the 20-minute red card?', 'A sent-off player can be replaced after 20 minutes, used in some competitions'],
+          ['Why kick for the corner instead of at goal?', 'To set up a driving maul from the lineout and go for seven points']
         ]
       },
       {
         name: 'a Rugby World Cup Historian',
         questions: [
-          ['Which country has won the most Rugby World Cups?', 'South Africa'],
-          ['Which country won the first Rugby World Cup, in 1987?', 'New Zealand'],
-          ['Which country hosted the 2023 Rugby World Cup?', 'France'],
-          ['Which country won the 2023 Rugby World Cup final?', 'South Africa'],
-          ['What\'s South Africa\'s national rugby team nicknamed?', 'The Springboks'],
-          ['What\'s New Zealand\'s national rugby team nicknamed?', 'The All Blacks'],
-          ['How often is the Rugby World Cup held?', 'Every four years'],
-          ['What trophy is awarded to the Rugby World Cup winners?', 'The Webb Ellis Cup']
+          ['Which country has won the most Rugby World Cups?', 'South Africa, with four'],
+          ['In which years did the Springboks win it?', '1995, 2007, 2019 and 2023'],
+          ['What was extraordinary about their 2023 knockout run?', 'They won all three knockout matches by a single point'],
+          ['Who captained the 1995 side?', 'Francois Pienaar'],
+          ['Who became the first black Springbok captain to lift it?', 'Siya Kolisi, in 2019'],
+          ['Which country won the first tournament, in 1987?', 'New Zealand'],
+          ['Which northern hemisphere side has won it?', 'England, in 2003'],
+          ['What is the trophy called?', 'The Webb Ellis Cup']
         ]
       },
       {
         name: 'a Six Nations Follower',
         questions: [
-          ['Which annual northern-hemisphere tournament features England, France, Ireland, Italy, Scotland, and Wales?', 'The Six Nations'],
-          ['Which southern-hemisphere tournament features South Africa, New Zealand, Australia, and Argentina?', 'The Rugby Championship'],
-          ['What\'s it called when a team wins every match in a single Six Nations tournament?', 'A Grand Slam'],
-          ['What\'s the trophy contested between England and Scotland in the Six Nations called?', 'The Calcutta Cup'],
-          ['What colour jersey does Ireland\'s national team wear?', 'Green'],
-          ['What\'s the term for winning the most points/matches in a Six Nations without a Grand Slam?', 'Winning the Championship'],
-          ['What\'s the name of the combined England/Ireland/Scotland/Wales team that tours the Southern Hemisphere?', 'The British & Irish Lions'],
-          ['How often does a British & Irish Lions tour take place?', 'Every four years']
+          ['What is a Grand Slam?', 'Winning all five of your matches in a single championship'],
+          ['What is the Triple Crown?', 'One home nation beating the other three'],
+          ['What is the wooden spoon?', 'Finishing last in the table'],
+          ['Which trophy do England and Scotland contest?', 'The Calcutta Cup'],
+          ['When did Italy join, making it six?', '2000'],
+          ['How do bonus points work?', 'One for four tries, one for losing by seven or fewer, and three extra for a Grand Slam'],
+          ['Which tournament is the southern hemisphere equivalent?', 'The Rugby Championship'],
+          ['How often do the British & Irish Lions tour?', 'Every four years']
         ]
       },
       {
         name: 'a Rugby Terminology Nerd',
         questions: [
-          ['What\'s a "maul"?', 'A phase where the ball carrier is held up by teammates in a moving pack, staying on their feet'],
-          ['What\'s a "ruck"?', 'A phase where players contest the ball on the ground after a tackle'],
-          ['What\'s a "knock-on"?', 'Illegally fumbling the ball forward, resulting in a scrum for the opposition'],
-          ['What\'s offside broadly about in rugby?', 'Being ahead of the ball, or the back foot of a ruck/maul, when not allowed to be involved'],
-          ['Which position typically wears the number 10 jersey as chief kicker and playmaker?', 'Fly-half'],
-          ['What\'s a hooker\'s main job in the scrum?', 'Striking for and hooking back the ball'],
-          ['What\'s a "high tackle"?', 'An illegal tackle making contact above the shoulders'],
-          ['What\'s the term for the two packs of forwards binding together to contest possession?', 'The scrum']
+          ['What is a "pod" in attacking shape?', 'A small group of forwards set up together as a carrying unit'],
+          ['What is a "garryowen"?', 'A high up-and-under kick, chased to contest in the air'],
+          ['What is a "grubber"?', 'A kick rolled along the ground behind the defence'],
+          ['What is the difference between the blindside and the openside?', 'The blindside is the narrow side of the pitch; the openside is the wide one'],
+          ['What number does the openside flanker usually wear?', 'Seven'],
+          ['What is a "crash ball"?', 'A hard, direct carry straight into contact'],
+          ['What are scrum penalties most often given for?', 'Collapsing, boring in, or not binding properly'],
+          ['What is a crooked feed?', 'Putting the ball into the scrum off-centre, favouring your own hooker']
         ]
       },
       {
         name: 'an Athletics Fan',
         questions: [
-          ['What\'s the most prestigious sprint event, run over 100 metres?', 'The 100m'],
-          ['Who holds the men\'s 100m and 200m world records?', 'Usain Bolt'],
-          ['What does "PB" stand for?', 'Personal Best'],
-          ['What event combines running, jumping, and throwing over two days for men?', 'The decathlon'],
-          ['How many events make up the heptathlon, usually contested by women?', 'Seven'],
-          ['What\'s a "false start" in sprinting?', 'Leaving the blocks before the starting signal'],
-          ['What\'s the standard length of an outdoor athletics track?', '400 metres'],
-          ['What field event involves clearing a bar using a pole?', 'Pole vault']
+          ['What is the penalty for a false start now?', 'Immediate disqualification — there is no warning'],
+          ['Why are starting blocks staggered in the outer lanes?', 'The outer lanes run a longer curve, so the stagger equalises the distance'],
+          ['What is the maximum legal tailwind for a sprint record?', '2.0 metres per second'],
+          ['What is the men\'s 100m world record?', '9.58 seconds, by Usain Bolt'],
+          ['How is a combined event like the decathlon actually won?', 'On points scored across every event, not on how many you win'],
+          ['How many events are in the decathlon and the heptathlon?', 'Ten over two days, and seven'],
+          ['How long is a standard outdoor track, measured in lane one?', '400 metres'],
+          ['What is the difference between a personal best and a season\'s best?', 'A lifetime best, versus the fastest you have run this season']
         ]
       },
       {
         name: 'an Olympics Athletics Historian',
         questions: [
-          ['Which country does sprint legend Usain Bolt represent?', 'Jamaica'],
-          ['Who holds the women\'s 100m and 200m world records, set in 1988?', 'Florence Griffith-Joyner'],
-          ['Which country hosted the 2012 Summer Olympics?', 'The United Kingdom (London)'],
-          ['Which country hosted the 2020 Olympics, actually held in 2021?', 'Japan (Tokyo)'],
-          ['Which country hosted the 2024 Olympics?', 'France (Paris)'],
-          ['What\'s the official marathon distance?', '26.2 miles (42.195 km)'],
-          ['Which British distance runner dominated the 5000m and 10000m through the 2010s?', 'Mo Farah'],
-          ['How often are the Summer Olympics held?', 'Every four years']
+          ['Who holds both the men\'s 100m and 200m world records?', 'Usain Bolt'],
+          ['Who holds the women\'s 100m and 200m records, set back in 1988?', 'Florence Griffith-Joyner'],
+          ['What happened to Ben Johnson in 1988?', 'He was stripped of 100m gold after a failed drug test'],
+          ['Who won four golds at the 1936 Berlin Olympics?', 'Jesse Owens'],
+          ['What was the 1968 Mexico City medal-stand protest?', 'Tommie Smith and John Carlos raising black-gloved fists'],
+          ['Who won the 5000m and 10000m double at two consecutive Olympics?', 'Mo Farah'],
+          ['Who first ran a marathon under two hours, and why does it not stand as a record?', 'Eliud Kipchoge — it was a staged event with rotating pacemakers, not a legal race'],
+          ['Where were the 2024 Olympics held?', 'Paris']
         ]
       },
       {
         name: 'a Field Events Nerd',
         questions: [
-          ['What field event involves throwing a heavy metal ball for distance?', 'Shot put'],
-          ['What\'s thrown in the "discus" event?', 'A weighted disc, usually with a metal rim'],
-          ['What\'s the event where a weighted ball on a wire is spun and thrown called?', 'Hammer throw'],
-          ['What\'s the "javelin"?', 'A spear-like implement thrown for distance'],
-          ['What\'s the key difference between long jump and triple jump?', 'Triple jump adds a hop and a step before the final jump'],
-          ['What\'s the modern high jump technique, going over backwards, called?', 'The Fosbury Flop'],
-          ['What\'s the sprint before takeoff in a jumping event called?', 'The run-up'],
-          ['What\'s measured in the long jump?', 'The distance from the takeoff board to the landing mark']
+          ['How many attempts do finalists get in the long jump?', 'Six'],
+          ['What makes a long jump a foul?', 'Taking off beyond the front edge of the board'],
+          ['What is the triple jump sequence?', 'Hop, step, jump — the same foot, then the other, then both'],
+          ['What is the Fosbury Flop?', 'Clearing the high jump bar backwards, head first'],
+          ['What does a men\'s senior shot weigh?', '7.26 kilograms'],
+          ['What happens if you leave the throwing circle from the front?', 'It is a foul'],
+          ['What is the "box" in pole vault?', 'The sunken slot at the end of the runway that the pole is planted into'],
+          ['How is a shot put measured?', 'From the inner edge of the stop board to the nearest mark made by the shot']
         ]
       },
       {
         name: 'a Distance Running Nerd',
         questions: [
-          ['What\'s the classic "metric mile" distance?', '1500 metres'],
-          ['How many laps of a standard track make up a 10,000m race?', '25'],
-          ['What\'s a "pacer" or "rabbit" in distance running?', 'A runner who sets an early fast pace for others, often dropping out before the finish'],
-          ['What\'s "negative splitting" in a race?', 'Running the second half faster than the first'],
-          ['What\'s the steeplechase known for, besides hurdles?', 'A water jump'],
-          ['Which runner set a huge marathon world record of 2:00:35 at the 2023 Chicago Marathon?', 'Kelvin Kiptum'],
-          ['Which two East African nations are famously dominant in distance running?', 'Kenya and Ethiopia'],
-          ['What\'s a "split" in distance running?', 'The time recorded at a set checkpoint during a race']
+          ['Why is the marathon 42.195 kilometres exactly?', 'The 1908 London course was lengthened so it finished in front of the royal box'],
+          ['What is a negative split?', 'Running the second half of the race faster than the first'],
+          ['How far is the steeplechase, and what does it include?', '3000 metres, with 28 barriers and seven water jumps'],
+          ['What is the difference between VO2 max and lactate threshold?', 'VO2 max is the ceiling on oxygen use; threshold is the pace you can hold before lactate accumulates'],
+          ['What is a tempo run?', 'A sustained effort at roughly threshold pace'],
+          ['Who ran 2:00:35 in Chicago in 2023?', 'Kelvin Kiptum'],
+          ['What is a pacemaker, or rabbit?', 'A runner setting the early pace who usually drops out before the finish'],
+          ['How many laps of a track is 10,000m?', '25']
         ]
       },
       {
         name: 'a Golf Fan',
         questions: [
-          ['What\'s it called when you finish a hole one shot under par?', 'A birdie'],
-          ['What\'s an "eagle"?', 'Two shots under par on a hole'],
-          ['What\'s a "bogey"?', 'One shot over par on a hole'],
-          ['What\'s "par"?', 'The expected number of shots a skilled golfer should take on a hole'],
-          ['How many holes make up a standard round of golf?', 'Eighteen'],
-          ['What\'s a "hole-in-one"?', 'Sinking the ball with a single shot from the tee'],
-          ['What\'s the area of very short grass around the hole called?', 'The green'],
-          ['What\'s a "handicap" in golf?', 'A numerical measure of a player\'s ability, used to adjust scores']
+          ['How many clubs may you carry?', 'Fourteen'],
+          ['What is the penalty for a lost ball?', 'Stroke and distance — one shot, and you replay from where you hit'],
+          ['What is a "shank"?', 'Striking the ball off the hosel, so it fires sideways'],
+          ['What is an albatross?', 'Three under par on a single hole'],
+          ['What is "the honour"?', 'The right to tee off first, earned by the best score on the previous hole'],
+          ['What is a provisional ball?', 'A second ball played in case the first turns out to be lost or out of bounds'],
+          ['What is "the turn"?', 'Moving from the ninth hole to the tenth'],
+          ['How long may you search for a ball?', 'Three minutes']
         ]
       },
       {
         name: 'a Major Championship Historian',
         questions: [
-          ['How many men\'s major championships are there each year?', 'Four'],
-          ['Name the four men\'s majors.', 'The Masters, the PGA Championship, the U.S. Open, and The Open Championship'],
-          ['Which major is always played at Augusta National?', 'The Masters'],
-          ['What colour jacket does the Masters champion receive?', 'Green'],
-          ['Which major is the oldest, first played in 1860?', 'The Open Championship'],
-          ['Who holds the record for most men\'s major championships won, with 18?', 'Jack Nicklaus'],
-          ['Which country is The Open Championship traditionally played in?', 'Scotland (the United Kingdom)'],
-          ['What trophy is awarded to The Open Championship winner?', 'The Claret Jug']
+          ['Who has won the most men\'s majors?', 'Jack Nicklaus, with 18'],
+          ['What was the "Tiger Slam"?', 'Holding all four majors at once across 2000 and 2001 — but not within one calendar year'],
+          ['Which is the only major played at the same course every year?', 'The Masters, at Augusta National'],
+          ['Which is the oldest major?', 'The Open Championship, first played in 1860'],
+          ['What does The Open winner receive?', 'The Claret Jug'],
+          ['What privilege does a Masters champion get besides the jacket?', 'Choosing the menu at the following year\'s Champions Dinner'],
+          ['How many holes is a major?', '72 — and each major breaks a tie differently'],
+          ['Who was the youngest player to complete the career Grand Slam?', 'Tiger Woods']
         ]
       },
       {
         name: 'a Ryder Cup Follower',
         questions: [
-          ['Which two sides compete in the Ryder Cup?', 'Europe and the United States'],
-          ['How often is the Ryder Cup held?', 'Every two years'],
-          ['What team formats, alongside singles, make up most Ryder Cup matches?', 'Fourball and foursomes'],
-          ['What format is the Ryder Cup scored in?', 'Match play, with points awarded per match won'],
-          ['Are Ryder Cup players professionals or amateurs?', 'Professionals'],
-          ['What\'s the trophy itself called?', 'The Ryder Cup'],
-          ['Which continent\'s golfers make up "Team Europe"?', 'Europe'],
-          ['Who was the English businessman the cup is named after?', 'Samuel Ryder']
+          ['How many points are needed to win the Ryder Cup?', '14½'],
+          ['What happens if it finishes 14-14?', 'The holders retain the trophy'],
+          ['What is the difference between foursomes and fourballs?', 'Foursomes is alternate shot with a single ball; in fourballs each player plays their own'],
+          ['What are the three formats used across the three days?', 'Foursomes, fourballs and singles'],
+          ['When did the Great Britain side become Europe?', '1979'],
+          ['What was the "War on the Shore"?', 'The notoriously acrimonious 1991 contest at Kiawah Island'],
+          ['What was the "Miracle at Medinah"?', 'Europe overturning a 10-6 final-day deficit in 2012'],
+          ['Are the players paid to appear?', 'No — they play unpaid, with the money going to charity']
         ]
       },
       {
         name: 'a Golf Rules & Terms Nerd',
         questions: [
-          ['What\'s a "mulligan"?', 'An informal do-over shot, not allowed under official rules'],
-          ['What\'s "the fairway"?', 'The mowed area of the course between tee and green'],
-          ['What\'s a "bunker"?', 'A sand hazard on the course'],
-          ['What\'s "the rough"?', 'Longer grass bordering the fairway, harder to play from'],
-          ['What\'s a "fourball" format?', 'A team format where each player plays their own ball and the best score counts'],
-          ['What\'s "stroke play"?', 'Scoring by the total number of shots taken over a round'],
-          ['What\'s "match play"?', 'A format where holes are won or lost, rather than strokes counted'],
-          ['What\'s a "caddie"?', 'A person who carries a player\'s clubs and gives advice during a round']
+          ['What are your options for an unplayable lie?', 'One penalty stroke, with three relief choices'],
+          ['What is the penalty for grounding your club in a bunker?', 'Two strokes in stroke play'],
+          ['What is a "gimme"?', 'A short putt conceded by your opponent — only legal in match play'],
+          ['What is Stableford scoring?', 'Points awarded per hole against a target score, rather than counting total strokes'],
+          ['What is the difference between a penalty area and a bunker?', 'A penalty area is water or marked ground, with different relief options and no ban on grounding the club'],
+          ['What is a stimpmeter for?', 'Measuring the speed of a green'],
+          ['What is "casual water" now called?', 'Temporary water'],
+          ['What is a mulligan?', 'An informal do-over that appears nowhere in the rules']
         ]
       },
       {
         name: 'a Basketball Fan',
         questions: [
-          ['How many players per team are on the court in basketball?', 'Five'],
-          ['How many points is a free throw worth?', 'One'],
-          ['How many points is a shot from beyond the three-point line worth?', 'Three'],
-          ['What\'s a "dunk"?', 'Forcefully scoring by putting the ball directly through the hoop with the hand(s)'],
-          ['What\'s a "triple-double"?', 'Reaching double digits in three statistical categories in one game'],
-          ['What\'s the top professional basketball league in the US called?', 'The NBA'],
-          ['What\'s a "rebound"?', 'Recovering the ball after a missed shot'],
-          ['How long is an NBA game, in regulation?', '48 minutes']
+          ['How long is the NBA shot clock?', '24 seconds'],
+          ['What does it reset to after an offensive rebound?', '14 seconds'],
+          ['How long is an NBA quarter?', '12 minutes'],
+          ['How far is the NBA three-point line at the top of the arc?', '23 feet 9 inches'],
+          ['What is the restricted area arc for?', 'Defenders standing inside it cannot draw a charging foul'],
+          ['What is an "and-one"?', 'Being fouled while scoring, and getting a free throw on top'],
+          ['What is a triple-double?', 'Double figures in three statistical categories in the same game'],
+          ['What is "the paint"?', 'The key — the rectangle directly under the basket']
         ]
       },
       {
         name: 'an NBA Historian',
         questions: [
-          ['Which team has won the most NBA championships?', 'The Boston Celtics'],
-          ['Who won six championships with the Chicago Bulls and is widely considered among the greatest ever?', 'Michael Jordan'],
-          ['Who holds the NBA\'s all-time regular-season scoring record?', 'LeBron James'],
-          ['What\'s the trophy awarded to the NBA champion called?', 'The Larry O\'Brien Trophy'],
-          ['What\'s the NBA\'s regular-season MVP trophy officially called?', 'The Maurice Podoloff Trophy'],
-          ['Which city\'s team is known as the Lakers?', 'Los Angeles'],
-          ['What\'s the league\'s annual mid-season showcase of top players called?', 'The NBA All-Star Game'],
-          ['Who is the NBA Finals MVP trophy named after?', 'Bill Russell']
+          ['Who scored 100 points in a single game?', 'Wilt Chamberlain, in 1962'],
+          ['Who holds the all-time regular-season scoring record?', 'LeBron James'],
+          ['Which team has won the most championships?', 'The Boston Celtics'],
+          ['What was the "Dream Team"?', 'The 1992 US Olympic side — the first to include NBA professionals'],
+          ['What was the "Malice at the Palace"?', 'The 2004 brawl between Pacers players and Pistons fans'],
+          ['Which franchise drafted Kobe Bryant before trading him away?', 'The Charlotte Hornets'],
+          ['Who is the Finals MVP award named after?', 'Bill Russell'],
+          ['What is the championship trophy called?', "The Larry O'Brien Trophy"]
         ]
       },
       {
         name: 'a Basketball Rules Nerd',
         questions: [
-          ['What\'s "travelling"?', 'Taking too many steps without dribbling the ball'],
-          ['What does a "shot clock" enforce?', 'A time limit for a team to attempt a shot'],
-          ['What\'s "goaltending"?', 'Illegally blocking a shot on its way down toward the basket'],
-          ['What\'s a "technical foul"?', 'A penalty for unsportsmanlike conduct, unrelated to physical play on the ball'],
-          ['What\'s a "double dribble"?', 'Dribbling with both hands at once, or stopping and restarting a dribble'],
-          ['What\'s the rectangular area near the basket commonly called?', 'The paint (or the key)'],
-          ['What\'s a "pick and roll"?', 'An offensive play where a player sets a screen, then moves toward the basket for a pass'],
-          ['How many personal fouls typically disqualify an NBA player from a game?', 'Six']
+          ['What is goaltending?', 'Interfering with a shot on its downward flight, or while it is on the rim'],
+          ['What is the difference between a charge and a block?', 'A charge is the attacker running into a defender who was already set; a block is the defender not being set'],
+          ['How many fouls before an NBA player fouls out?', 'Six'],
+          ['What is "the bonus"?', 'Once a team passes its foul limit for the quarter, every further foul gives free throws'],
+          ['How long do you have to advance the ball past halfway in the NBA?', 'Eight seconds'],
+          ['What is a backcourt violation?', 'Taking the ball back over halfway once you have crossed it'],
+          ['What is a three-second violation?', 'An attacking player standing in the paint for more than three seconds'],
+          ['What is a flagrant foul?', 'Unnecessary or excessive contact, punished more harshly than a common foul']
         ]
       },
       {
         name: 'a March Madness Nerd',
         questions: [
-          ['What\'s the popular nickname for the US men\'s college basketball championship tournament?', 'March Madness'],
-          ['How many teams make up the men\'s NCAA tournament bracket?', '68'],
-          ['What\'s a "Cinderella" team in the tournament?', 'A lower-seeded underdog team that makes a surprising deep run'],
-          ['What\'s the "Final Four"?', 'The last four teams remaining in the NCAA tournament'],
-          ['What organisation governs US college sports, including basketball?', 'The NCAA'],
-          ['What\'s a "bracket" in tournament terms?', 'The chart predicting or tracking the tournament\'s matchups and winners'],
-          ['What\'s a "one-and-done" player?', 'A player who leaves college for the pros after just one season'],
-          ['What\'s it called when a #16 seed beats a #1 seed, historically rare?', 'A major upset']
+          ['How many teams are in the men\'s bracket?', '68'],
+          ['What are the "First Four"?', 'The play-in games that cut the field from 68 to 64'],
+          ['How many times has a 16 seed beaten a 1 seed in the men\'s tournament?', 'Twice — UMBC in 2018 and Fairleigh Dickinson in 2023'],
+          ['What is a "Cinderella"?', 'A low seed making a surprising deep run'],
+          ['What is "bracketology"?', 'Predicting the field and the seeding before Selection Sunday'],
+          ['What is "one-and-done"?', 'Leaving for the NBA after a single college season'],
+          ['What is the Final Four?', 'The last four teams left standing'],
+          ['Which body governs US college sport?', 'The NCAA']
         ]
       },
       {
         name: 'a Boxing Fan',
         questions: [
-          ['How long is a standard professional boxing round?', 'Three minutes'],
-          ['What does "TKO" stand for?', 'Technical knockout — stopped by the referee or corner'],
-          ['How many judges typically score a professional bout?', 'Three'],
-          ['What scoring system are most professional rounds scored on?', 'The 10-point must system'],
-          ['What\'s the heaviest professional weight class?', 'Heavyweight'],
-          ['What does "the undercard" mean?', 'The supporting bouts staged before the main event'],
-          ['What\'s a "southpaw"?', 'A left-handed fighter, who leads with the right hand and foot'],
-          ['What\'s a "split decision"?', 'A win where the three judges don\'t all score the same fighter ahead']
+          ['What is the 10-point must system?', 'The round winner must be given 10, the loser 9 or fewer'],
+          ['What does a 10-8 round usually signal?', 'A knockdown, or total one-sided dominance'],
+          ['What is the difference between a TKO and a KO?', 'A TKO is stopped by the referee, corner or doctor; a KO is a count-out'],
+          ['Which are the four major sanctioning bodies?', 'The WBA, WBC, IBF and WBO'],
+          ['What is the difference between a unified and an undisputed champion?', 'Unified holds two or more belts; undisputed holds all four'],
+          ['What is a catchweight?', 'An agreed weight that sits outside the standard divisions'],
+          ['What is a southpaw?', 'A fighter in the reversed stance, leading with the right hand and foot'],
+          ['What is a split decision?', 'A win where the three judges do not all have the same fighter ahead']
         ]
       },
       {
         name: 'a Boxing Historian',
         questions: [
-          ['Which boxer famously called himself "The Greatest"?', 'Muhammad Ali'],
-          ['What was the 1974 Ali vs Foreman fight in Zaire called?', 'The Rumble in the Jungle'],
-          ['What was the 1975 Ali vs Frazier third fight called?', 'The Thrilla in Manila'],
-          ['Which heavyweight retired undefeated at 49-0 in the 1950s?', 'Rocky Marciano'],
-          ['Which boxer bit Evander Holyfield\'s ear during their 1997 rematch?', 'Mike Tyson'],
-          ['Which American retired 50-0, one past Marciano\'s mark?', 'Floyd Mayweather Jr.'],
-          ['What tactic did Ali use against Foreman, absorbing punches on the ropes?', 'The rope-a-dope'],
-          ['Which Filipino won world titles across eight different weight divisions?', 'Manny Pacquiao']
+          ['What was the Rumble in the Jungle?', 'Ali beating Foreman in Zaire in 1974'],
+          ['What was the Thrilla in Manila?', 'The brutal third Ali-Frazier fight, in 1975'],
+          ['What was "rope-a-dope"?', 'Ali absorbing punches on the ropes to drain Foreman before attacking'],
+          ['Who retired 49-0?', 'Rocky Marciano'],
+          ['Who retired 50-0, one past that mark?', 'Floyd Mayweather Jr'],
+          ['What happened in the 1997 Tyson-Holyfield rematch?', 'Tyson bit Holyfield\'s ear and was disqualified'],
+          ['In how many weight divisions did Manny Pacquiao win world titles?', 'Eight'],
+          ['Who was the youngest heavyweight champion?', 'Mike Tyson, at 20']
         ]
       },
       {
         name: 'an MMA Fan',
         questions: [
-          ['What does "MMA" stand for?', 'Mixed Martial Arts'],
-          ['What\'s the biggest MMA promotion in the world?', 'The UFC'],
-          ['What shape is the UFC\'s fighting area?', 'An octagon'],
-          ['How many rounds is a non-title UFC fight?', 'Three'],
           ['How many rounds is a UFC title fight?', 'Five'],
-          ['What\'s a "submission"?', 'A hold or choke that forces an opponent to tap out'],
-          ['Who is "GSP"?', 'Georges St-Pierre'],
-          ['Which Irish fighter became the UFC\'s first simultaneous two-division champion?', 'Conor McGregor']
+          ['Name three strikes banned under the unified rules.', 'Eye pokes, groin strikes, headbutts and strikes to the back of the head'],
+          ['What is a rear-naked choke?', 'A choke applied from behind, with the arm around the neck'],
+          ['What is "ground and pound"?', 'Striking from a dominant position on the ground'],
+          ['What is sprawling?', 'Throwing your legs back to defend a takedown attempt'],
+          ['What is a guillotine?', 'A front headlock choke'],
+          ['Who was the first simultaneous two-division UFC champion?', 'Conor McGregor'],
+          ['How many rounds is a non-title UFC fight?', 'Three']
         ]
       },
       {
         name: 'a Formula 1 Fan',
         questions: [
-          ['What does "DRS" stand for in Formula 1?', 'Drag Reduction System'],
-          ['Which two championships are contested each season?', 'The Drivers\' and Constructors\' Championships'],
-          ['What flag signals the end of a race?', 'The chequered flag'],
-          ['What does a red flag mean?', 'The session is stopped'],
+          ['When may a driver use DRS?', 'Only within one second of the car ahead, and only in a designated DRS zone'],
+          ['What is parc fermé?', 'The period from qualifying to the race when car setup cannot be changed'],
+          ['How many points does a race win score?', '25'],
+          ['What happened to the fastest-lap bonus point?', 'Scrapped from 2025 — teams were gaming it with late pit stops from outside the top ten'],
+          ['What is an "undercut"?', 'Pitting earlier than a rival to gain time on fresh tyres'],
+          ['What does a blue flag mean?', 'A faster car is lapping you — let it through'],
           ['Which two drivers share the record of seven world titles?', 'Michael Schumacher and Lewis Hamilton'],
-          ['What\'s "pole position"?', 'First place on the starting grid, earned in qualifying'],
-          ['Which glamorous race is run on public streets around a harbour?', 'The Monaco Grand Prix'],
-          ['What does a "box" call on team radio mean?', 'Come into the pits']
+          ['What does "box" mean on team radio?', 'Come into the pit lane this lap']
         ]
       },
       {
         name: 'a Cycling Fan',
         questions: [
-          ['What are the three Grand Tours?', 'The Tour de France, the Giro d\'Italia, and the Vuelta a España'],
-          ['What colour jersey does the Tour de France leader wear?', 'Yellow — the maillot jaune'],
-          ['What\'s the "peloton"?', 'The main bunch of riders in a race'],
-          ['What does the polka-dot jersey signify at the Tour?', 'King of the Mountains — the best climber'],
-          ['What\'s "drafting" or "slipstreaming"?', 'Riding close behind another rider to save energy'],
-          ['Which British rider won the Tour de France four times in the 2010s?', 'Chris Froome'],
-          ['What\'s a "domestique"?', 'A rider whose job is to support the team leader'],
-          ['What\'s a "time trial"?', 'A race against the clock, with riders starting individually']
+          ['What do the yellow, green and polka-dot jerseys signify at the Tour?', 'Overall leader, points leader, and King of the Mountains'],
+          ['What is the white jersey for?', 'The best young rider'],
+          ['What are the three Grand Tours?', "The Tour de France, the Giro d'Italia and the Vuelta a España"],
+          ['What is an "echelon"?', 'A diagonal formation riders form to shelter from a crosswind'],
+          ['What is a domestique?', 'A rider whose entire job is to serve the team leader'],
+          ['What is the "lanterne rouge"?', 'The rider placed last overall'],
+          ['What is the broom wagon?', 'The vehicle following the race to pick up riders who abandon'],
+          ['What does it mean to "bonk"?', 'To hit the wall from glycogen depletion']
         ]
       },
       {
         name: 'a Swimming Fan',
         questions: [
-          ['How long is an Olympic-size swimming pool?', '50 metres'],
-          ['What are the four competitive strokes?', 'Freestyle, backstroke, breaststroke, and butterfly'],
-          ['Who is the most decorated Olympian of all time?', 'Michael Phelps'],
-          ['How many Olympic gold medals did Michael Phelps win?', '23'],
-          ['What\'s a "medley" race?', 'A race using all four competitive strokes'],
-          ['Which South African beat Michael Phelps to gold in the 200m butterfly at London 2012?', 'Chad le Clos'],
-          ['What\'s a "flip turn" used for?', 'Turning quickly at the wall, mostly in freestyle and backstroke'],
-          ['What happens on a false start in a swimming final?', 'The swimmer is disqualified']
+          ['What is the stroke order in an individual medley?', 'Butterfly, backstroke, breaststroke, freestyle'],
+          ['And in a medley relay?', 'Backstroke, breaststroke, butterfly, freestyle'],
+          ['How far may you swim underwater off a wall?', '15 metres'],
+          ['What is the false start rule?', 'One false start and you are disqualified — there is no warning'],
+          ['How many Olympic golds did Michael Phelps win?', '23'],
+          ['Which South African beat Phelps to 200m butterfly gold at London 2012?', 'Chad le Clos'],
+          ['Why did so many 2009 world records stand for so long?', 'Polyurethane bodysuits were banned from 2010'],
+          ['How long is an Olympic pool?', '50 metres']
         ]
       },
       {
         name: 'a Snooker & Darts Fan',
         questions: [
-          ['How many red balls are on a snooker table at the start of a frame?', 'Fifteen'],
-          ['What\'s the highest possible break in standard snooker?', '147'],
-          ['What\'s the black ball worth in snooker?', 'Seven'],
-          ['Where is the World Snooker Championship traditionally held?', 'The Crucible Theatre in Sheffield'],
-          ['What\'s the highest score possible with three darts?', '180'],
-          ['What must you finish on to win a standard leg of darts?', 'A double'],
-          ['What\'s a "nine-darter"?', 'A perfect leg of 501 finished in nine darts'],
-          ['What\'s the highest score a single dart can score?', '60 — treble twenty']
+          ['How do you make a 147?', 'Fifteen reds each followed by a black, then all six colours in order'],
+          ['What are the colours worth, in ascending order?', 'Yellow 2, green 3, brown 4, blue 5, pink 6, black 7'],
+          ['What is a "free ball"?', 'After a foul snooker, you may nominate any ball as the one on'],
+          ['What is a snooker?', 'Leaving your opponent unable to hit the ball on directly'],
+          ['What is the highest possible checkout in darts?', '170 — treble 20, treble 20, bullseye'],
+          ['What must you finish on in darts?', 'A double, or the bullseye'],
+          ['What is a nine-darter?', 'A leg of 501 finished in the minimum nine darts'],
+          ['Where is the World Snooker Championship held?', 'The Crucible Theatre in Sheffield']
         ]
       },
       {
         name: 'a Netball Fan',
         questions: [
-          ['How many players per team are on court in netball?', 'Seven'],
-          ['Which two positions are allowed to shoot?', 'Goal Shooter and Goal Attack'],
-          ['What does "GK" stand for as a netball position?', 'Goal Keeper'],
-          ['Can you run with the ball in netball?', 'No — you must pass or shoot within three seconds'],
-          ['How many quarters is a netball match played over?', 'Four'],
-          ['What\'s South Africa\'s national netball team known as?', 'The Proteas'],
-          ['Which country is historically the most dominant in world netball?', 'Australia'],
-          ['From where must a shot be taken for it to count?', 'Inside the shooting circle']
+          ['How long do you have to pass or shoot?', 'Three seconds'],
+          ['What is the footwork rule?', 'You may not move your landing foot once you have the ball'],
+          ['What is obstruction?', 'Defending closer than three feet — 0.9 metres — from the player with the ball'],
+          ['Which two positions may shoot?', 'Goal Shooter and Goal Attack'],
+          ['Which position is allowed in every third of the court?', 'Centre'],
+          ['How many players per team are on court?', 'Seven'],
+          ['How many quarters, and how long is each?', 'Four, of 15 minutes'],
+          ['What is South Africa\'s national team called?', 'The Proteas']
         ]
       },
       {
         name: 'a Baseball Fan',
         questions: [
-          ['How many strikes make an out?', 'Three'],
-          ['How many innings are in a standard Major League game?', 'Nine'],
-          ['What\'s a "home run"?', 'A hit that lets the batter round all the bases and score, usually out of the park'],
-          ['What\'s the championship series of Major League Baseball called?', 'The World Series'],
-          ['How many players field per team?', 'Nine'],
-          ['What\'s a "grand slam" in baseball?', 'A home run with the bases loaded, scoring four runs'],
-          ['What\'s the pitcher\'s raised area called?', 'The mound'],
-          ['Which player broke Major League Baseball\'s colour barrier in 1947?', 'Jackie Robinson']
+          ['What is the infield fly rule for?', 'Stopping a cheap double play — the batter is automatically out on a catchable infield pop-up with runners on'],
+          ['What is an ERA?', 'Earned Run Average — earned runs allowed per nine innings'],
+          ['What is a balk?', 'An illegal pitcher movement with runners on base, which advances them'],
+          ['What is the difference between a no-hitter and a perfect game?', 'A perfect game allows no baserunners at all — not even a walk'],
+          ['What is the designated hitter?', 'A player who bats in place of the pitcher without fielding'],
+          ['What does batting average measure?', 'Hits divided by at-bats'],
+          ['What is a grand slam?', 'A home run with the bases loaded, scoring four runs'],
+          ['Who broke the colour barrier in 1947?', 'Jackie Robinson']
         ]
       }
     ]
