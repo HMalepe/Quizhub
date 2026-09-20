@@ -16,92 +16,92 @@ export const SECTIONS = [
       {
         name: '5th Grader',
         questions: [
-          ["What's 7 x 8?", '56'],
-          ["What's the largest planet in the solar system?", 'Jupiter'],
-          ['What is a synonym for "happy"?', 'Joyful, glad, or content'],
-          ['How many sides does a hexagon have?', 'Six'],
-          ['What’s the past tense of "run"?', 'Ran'],
-          ["What's the chemical formula for water?", 'H2O'],
-          ['What continent is Egypt in?', 'Africa'],
-          ["What's the capital of South Africa?", 'Pretoria, Cape Town, or Bloemfontein — it has three']
+          ['What is 7 × 8?', '56'],
+          ['What is 3/4 as a decimal?', '0.75'],
+          ['What is 15% of 60?', '9'],
+          ["What's the capital of Australia?", 'Canberra — not Sydney'],
+          ['What is the past participle of "swim"?', 'Swum'],
+          ['How many sides does a nonagon have?', 'Nine'],
+          ["What's the largest organ in the human body?", 'The skin'],
+          ['What is the perimeter of a rectangle 7cm by 3cm?', '20cm']
         ]
       },
       {
         name: '90s Kid',
         questions: [
-          ['What was the virtual pet everyone carried around called?', 'Tamagotchi'],
-          ['What console released the first "Pokémon" game?', 'Game Boy'],
-          ['What was MSN Messenger mainly used for?', 'Instant messaging with friends'],
-          ['What was a "mixtape"?', 'A custom compilation of songs, often recorded onto a cassette'],
-          ['What Nickelodeon show featured babies with big imaginations?', 'Rugrats'],
-          ['What dance craze had everyone doing the same arm movements in a line?', 'The Macarena'],
-          ['What did you insert to play music in a Walkman?', 'A cassette tape'],
-          ['What sound did you have to wait through before dial-up internet connected?', 'The dial-up modem screech']
+          ['What was the Konami Code?', 'Up, up, down, down, left, right, left, right, B, A'],
+          ['Which console launched before the PlayStation but lost the 90s format war?', 'The Sega Saturn'],
+          ['What was Napster shut down over?', 'Copyright infringement — music piracy'],
+          ['What did you need a pencil for, with a cassette?', 'Winding the chewed tape back in'],
+          ['What was a Discman notorious for when you walked?', 'Skipping'],
+          ['What happened to your internet when someone picked up the phone?', 'It disconnected — dial-up shared the phone line'],
+          ['What were the first two Pokémon versions released in Japan?', 'Red and Green'],
+          ['What did you do to a Tamagotchi that killed it fastest?', 'Ignored it — it needed feeding and cleaning constantly']
         ]
       },
       {
         name: 'Boomer',
         questions: [
-          ['What was the primary way to get news before the internet?', 'Newspapers, radio, and TV'],
-          ['What decade did the Beatles become famous?', 'The 1960s'],
-          ['What is a "rotary phone"?', 'A phone dialed by turning a numbered wheel'],
-          ['What event is "one small step for man" associated with?', 'The 1969 Moon landing'],
-          ['What was a "record player" used for?', 'Playing vinyl records'],
-          ['What was the Cold War primarily between?', 'The US and the Soviet Union'],
-          ['What is a "telegram"?', 'A short message sent electronically, historically via Morse code'],
-          ['What did you use to look up a phone number before the internet?', 'A phone book']
+          ['What was a "party line" on a telephone?', 'A shared line — neighbours could pick up and listen in'],
+          ['What was carbon paper for?', 'Making a copy as you typed or wrote'],
+          ['What was Sputnik?', 'The first artificial satellite, launched by the Soviet Union in 1957'],
+          ['What was the Cuban Missile Crisis about?', 'Soviet nuclear missiles placed in Cuba, in 1962'],
+          ['What was the "Iron Curtain"?', 'The divide between Soviet-controlled Eastern Europe and the West'],
+          ['What did a typewriter\'s carriage return lever do?', 'Moved the paper up and back to start the next line'],
+          ['What was the significance of Woodstock in 1969?', 'The defining festival of the counterculture'],
+          ['What did "long distance" mean on a phone bill?', 'Calls charged by the minute by distance — you kept them short']
         ]
       },
       {
         name: 'Gen Z',
         questions: [
-          ['What does "no cap" mean?', 'No lie, for real'],
-          ['What is "rizz"?', 'Charisma, especially in flirting'],
-          ['What does "it’s giving..." mean?', "It's expressing or resembling a certain vibe"],
-          ['What is a "finsta"?', 'A fake or second Instagram account for close friends'],
-          ['What does "delulu" mean?', 'Delusional, usually said jokingly'],
-          ['What platform is known for short-form vertical video?', 'TikTok'],
-          ['What does "the ick" mean?', 'A sudden turn-off toward someone'],
-          ['What is "brainrot"?', 'Content so absurd or repetitive it feels like it melts your brain']
+          ['What does "ate and left no crumbs" mean?', 'Did it flawlessly, with nothing to criticise'],
+          ['What\'s a "pick-me"?', 'Someone seeking approval by putting down their own group'],
+          ['What does "let him cook" mean?', "Leave them to it — they know what they're doing"],
+          ['What\'s a "beige flag"?', 'A quirk that\'s neither good nor bad, just odd'],
+          ['What does "mid" mean?', 'Mediocre — overrated'],
+          ['What does "cooked" mean?', 'Finished, done for, in trouble'],
+          ['What\'s "brainrot"?', 'Content so repetitive or absurd it feels like it melts your brain'],
+          ['What are "aura points"?', 'An imaginary score for how cool — or how mortifying — something you did was']
         ]
       },
       {
         name: 'Millennial',
         questions: [
-          ['What was "Limewire" mainly used for?', 'Downloading (often pirated) music'],
-          ['What was a common "away message" used for on AIM?', 'A custom status shown when you left the computer'],
-          ['What phone was famous for its slide-out keyboard?', 'The T-Mobile Sidekick'],
-          ['What was "Y2K" about?', 'Fear that computers would fail at the year 2000 rollover'],
-          ['What year was the first iPhone released?', '2007'],
-          ['What term, coined by millennials, means doing responsible grown-up tasks?', 'Adulting'],
-          ['What sitcom do millennials associate with "How you doin’"?', 'Friends'],
-          ['What was MySpace known for letting you rank?', 'Your "Top 8" friends']
+          ['What did a MySpace "Top 8" do to friendships?', 'Publicly ranked them — and started arguments'],
+          ['What did Limewire downloads notoriously come with?', 'Viruses and mislabelled files'],
+          ['What was Y2K feared to do?', 'Make computers fail at the year 2000 rollover'],
+          ['What was a "LAN party"?', "Hauling your PC to someone's house to play networked games"],
+          ['What was "planking"?', 'Lying rigid face-down in unlikely places for photos'],
+          ['What was the Harlem Shake video format?', 'One person dancing alone, then a cut to everyone going wild'],
+          ['What was an AIM "away message" actually used for?', 'Broadcasting song lyrics and passive-aggressive subtext'],
+          ['What did "pics or it didn\'t happen" replace?', 'Taking someone at their word']
         ]
       },
       {
         name: '2010s Kid',
         questions: [
-          ['What app was known for short, looping 6-second videos?', 'Vine'],
-          ['What game made "default dances" a cultural phenomenon?', 'Fortnite'],
-          ["What cause did the Ice Bucket Challenge raise awareness for?", "ALS (Lou Gehrig's disease)"],
-          ['What tool became essential for group photos around this time?', 'The selfie stick'],
-          ['What app popularized filters like dog ears on your face?', 'Snapchat'],
-          ['What was the "Harlem Shake" meme?', 'A viral dance/video format'],
-          ['What year did TikTok launch globally, merging with musical.ly?', '2018'],
-          ['What show/app made "Damn Daniel" go viral?', 'A video shared on Twitter, later tied to Vine culture']
+          ['How long was a Vine?', 'Six seconds, looping'],
+          ['What did the Ice Bucket Challenge raise money for?', 'ALS research'],
+          ['What was "the dress" argument about?', 'Whether it was blue and black or white and gold'],
+          ['What happened to Flappy Bird?', 'Its creator pulled it from the app stores at its peak'],
+          ['What was musical.ly before it became TikTok?', 'A lip-sync video app'],
+          ['What was "dabbing"?', 'A dance move — head dropped into the crook of the elbow'],
+          ['What was a "default dance"?', "Fortnite's standard-issue emote"],
+          ['What was the point of a Snapchat "streak"?', 'Sending something every day without breaking the chain']
         ]
       },
       {
         name: 'Someone From the 80s',
         questions: [
-          ['What is a "boombox"?', 'A large portable stereo/radio-cassette player'],
-          ['What was MTV originally known for?', 'Playing music videos'],
-          ["What's a Rubik's Cube?", 'A 3D twisty puzzle toy'],
-          ['What movie features a time-traveling DeLorean?', 'Back to the Future'],
-          ['What year was the Nintendo Entertainment System (NES) released in the US?', '1985'],
-          ['What was a VHS tape used for?', 'Recording and watching movies or shows'],
-          ['Who is known for the album "Thriller"?', 'Michael Jackson'],
-          ['What hairstyle trend defined much of 80s fashion and rock culture?', 'Big, teased hair']
+          ['What was Live Aid, in 1985?', 'A global charity concert for Ethiopian famine relief'],
+          ['What was the Challenger disaster?', 'The space shuttle broke apart shortly after launch in 1986'],
+          ['What year did the Berlin Wall fall?', '1989'],
+          ['What was a Walkman?', 'The first genuinely portable personal cassette player'],
+          ['What did "greed is good" come from?', 'The 1987 film Wall Street — the decade\'s excess in three words'],
+          ['What format war did VHS win, and against what?', 'Against Betamax'],
+          ['What was the Rubik\'s Cube asking you to do?', 'Return every face to a single solid colour'],
+          ['What did MTV play, around the clock, at launch?', 'Music videos']
         ]
       }
     ]
@@ -112,66 +112,66 @@ export const SECTIONS = [
       {
         name: 'a Woman in 2026',
         questions: [
-          ['What is "the ick"?', 'A sudden, irrational turn-off toward someone'],
-          ['What does "delulu" mean, used about a crush?', 'Delusional, usually said jokingly'],
-          ['What is "skin cycling"?', 'Rotating active skincare ingredients on a schedule to avoid irritation'],
-          ['What is a "situationship"?', 'An undefined relationship without a clear label'],
-          ['What is "girl dinner"?', 'A casual, often snack-based meal, usually eaten alone'],
-          ['What is "main character energy"?', 'Acting or feeling like the protagonist of your own life'],
-          ['What is "soft launching" a relationship?', 'Hinting at a new partner on social media without fully revealing them'],
-          ['What is "double cleansing"?', 'Cleansing twice — oil-based then water-based — to fully remove makeup and SPF']
+          ['What is the luteal phase?', 'The second half of the menstrual cycle, after ovulation'],
+          ['What\'s "cycle syncing"?', 'Adapting training, food and workload to menstrual cycle phases'],
+          ['What\'s the difference between chemical and mineral sunscreen?', 'Chemical absorbs UV; mineral sits on the skin and reflects it'],
+          ['What\'s "skin cycling"?', 'Rotating actives on a schedule — exfoliate, retinoid, then recovery nights'],
+          ['What\'s "slugging"?', 'Sealing the face overnight under an occlusive like petroleum jelly'],
+          ['What\'s "weaponised incompetence"?', "Doing a task badly on purpose so you're never asked again"],
+          ['What\'s a "situationship"?', 'A romantic arrangement nobody will define'],
+          ['Why do people take a retinoid at night and not in the morning?', 'It degrades in sunlight and raises sun sensitivity']
         ]
       },
       {
         name: 'a Man in 2026',
         questions: [
-          ['What does "sigma" mean online?', 'A lone-wolf, independent, high-status male archetype'],
-          ['What is "mewing"?', 'A jaw-exercise technique claimed to sharpen jawline definition'],
-          ['What is a "grindset"?', 'A mindset focused on relentless hustle and self-improvement'],
-          ['What is "looksmaxxing"?', 'Efforts, sometimes extreme, to maximize physical attractiveness'],
-          ['What is "NPC behavior"?', 'Acting robotic or unoriginal, like a background video game character'],
-          ['What supplement is most associated with gym culture for strength gains?', 'Creatine'],
-          ['What does "cooked" mean, used casually?', 'Doomed or in trouble'],
-          ['What is "delulu" as used ironically in self-belief content?', 'Confidently unrealistic self-belief, said jokingly']
+          ['What is "mewing"?', 'Pressing the tongue to the palate, claimed to sharpen the jawline'],
+          ['What\'s "looksmaxxing"?', 'Optimising your appearance, often to extremes'],
+          ['What does the "sigma male" claim to describe?', 'A lone wolf sitting outside the alpha/beta hierarchy'],
+          ['What\'s a "grindset"?', 'An obsessive hustle-and-discipline mindset'],
+          ['What\'s the "male loneliness epidemic" shorthand for?', 'Sharply declining close friendships among men'],
+          ['What\'s the Roman Empire meme about?', 'How often men supposedly think about it'],
+          ['What\'s "NPC behaviour"?', 'Acting on autopilot, like a non-player character'],
+          ['What\'s a "dad bod"?', 'A softened, unpolished physique that still reads as healthy']
         ]
       },
       {
         name: 'a Girl Dad',
         questions: [
-          ['Who popularized the term "girl dad" in mainstream culture?', 'Kobe Bryant'],
-          ['What is a "daddy-daughter dance"?', 'A formal father-daughter social event'],
-          ['What hairstyle skill do many girl dads learn?', 'Braiding or doing ponytails'],
-          ["What common social media trend involves daughters doing their dad's makeup?", 'Makeup/hair transformation videos'],
-          ['What event type often requires a dad to sit through hours of recital music?', 'A dance recital'],
-          ['What is a common "protective dad" trope about dating?', "Being overly cautious or intimidating toward a daughter's partners"],
-          ['What toy category is a common gift stereotype for young daughters?', 'Dolls'],
-          ['What activity is often associated with tea parties for young kids?', 'Pretend play with toy tea sets']
+          ['Which athlete made "girl dad" mainstream?', 'Kobe Bryant'],
+          ['What\'s the difference between a French and a Dutch braid?', 'A French braid crosses strands over; a Dutch crosses under, so it sits raised'],
+          ['At what age does puberty typically begin in girls?', 'Around 8 to 13'],
+          ['What is "period poverty"?', 'Not being able to afford menstrual products'],
+          ['What\'s the difference between praising effort and praising talent?', 'Effort builds a growth mindset; "you\'re so clever" makes children avoid hard things'],
+          ['What\'s "emotion coaching" as a parenting style?', 'Helping a child name and work through a feeling rather than dismissing it'],
+          ['What\'s the "second shift"?', 'The unpaid domestic work done after the paid working day'],
+          ['What does it mean to "hold the boundary" with a tantrum?', 'Keeping the limit in place while staying calm and connected']
         ]
       },
       {
         name: "Someone's Boyfriend",
         questions: [
-          ['What is considered a "green flag" in modern dating slang?', 'A positive trait signaling a healthy partner'],
-          ['What is a "red flag" in dating?', 'A warning sign of problematic behavior'],
-          ['What is "love bombing"?', 'Excessive early affection or gifts used to quickly win someone over'],
-          ['What are the "5 love languages"?', 'Words of affirmation, touch, gifts, quality time, and acts of service'],
-          ['What is a common "boyfriend duty" at a concert?', 'Holding the bag, filming for her, or getting drinks'],
-          ['What does it mean to be "attentive" in a relationship?', 'Noticing and remembering small details about your partner'],
-          ['What is "gaslighting"?', "Manipulating someone into doubting their own perception of reality"],
-          ['What is "situationship"?', 'An undefined relationship without a clear label']
+          ['What are the five love languages?', 'Words of affirmation, acts of service, receiving gifts, quality time, physical touch'],
+          ['What are Gottman\'s "Four Horsemen"?', 'Criticism, contempt, defensiveness and stonewalling'],
+          ['Which of the four most strongly predicts a breakup?', 'Contempt'],
+          ['What\'s "stonewalling"?', 'Shutting down and withdrawing mid-argument'],
+          ['What\'s a "bid for connection"?', "A small attempt at attention that you either turn toward or away from"],
+          ['What are the four attachment styles?', 'Secure, anxious, avoidant and disorganised'],
+          ['What\'s a "repair attempt" in a fight?', 'Anything that de-escalates and re-establishes connection'],
+          ['What\'s the difference between a boundary and an ultimatum?', 'A boundary is about what you will do; an ultimatum is about controlling what they do']
         ]
       },
       {
         name: 'a Bridesmaid',
         questions: [
-          ['What is a "bridal shower"?', 'A pre-wedding party celebrating the bride, usually with gifts'],
-          ['What is a "maid of honor"?', "The bride's chief bridesmaid or attendant"],
-          ['What is a "bachelorette party"?', 'A pre-wedding celebration for the bride with friends'],
-          ['What is a "bouquet toss"?', 'The bride throws her bouquet to unmarried guests — the catcher is said to marry next'],
-          ['What color should wedding guests traditionally avoid wearing?', 'White'],
-          ['Who typically chooses the bridesmaid dresses?', 'The bride'],
-          ['What is a "save the date"?', 'An early notice sent before the formal wedding invitation'],
-          ['What is traditionally given to bridesmaids as a thank-you?', 'Bridesmaid gifts, like jewelry or robes']
+          ['How does "something old, something new, something borrowed, something blue" actually end?', '"And a silver sixpence in her shoe"'],
+          ['What does the maid of honour hold during the ceremony?', "The bride's bouquet and the groom's ring"],
+          ['What is lobola?', 'Bride-price negotiated between the two families'],
+          ['What\'s a "white wedding" in South Africa, versus a traditional one?', 'The Western-style ceremony, often held in addition to the customary one'],
+          ['What\'s a "first look"?', 'A private moment where the couple see each other before the ceremony'],
+          ['What does RSVP stand for?', "Répondez s'il vous plaît — please reply"],
+          ['What\'s a "receiving line"?', 'The couple and family greeting every guest in turn'],
+          ['What is a hen party called in the United States?', 'A bachelorette party']
         ]
       }
     ]
@@ -182,79 +182,79 @@ export const SECTIONS = [
       {
         name: 'South African',
         questions: [
-          ["What are South Africa's three capital cities?", 'Pretoria (administrative), Cape Town (legislative), and Bloemfontein (judicial)'],
-          ['How many official languages does South Africa have?', '12, including South African Sign Language'],
-          ["What's the South African currency called?", 'Rand'],
-          ["Who was South Africa's first democratically elected president?", 'Nelson Mandela'],
-          ['What is a "braai"?', 'A South African barbecue'],
-          ["What's the nickname for the South African national rugby team?", 'The Springboks'],
-          ['What mountain overlooks Cape Town?', 'Table Mountain'],
-          ["What's biltong?", 'Dried, cured meat — a popular South African snack']
+          ['What do the six colours of the South African flag officially symbolise?', 'Nothing — only the Y shape has an assigned meaning: convergence, taking the road ahead in unity'],
+          ['Which language became the twelfth official language, and when?', 'South African Sign Language, in 2023'],
+          ['What happened on 16 June 1976?', 'The Soweto uprising'],
+          ['What was the Freedom Charter?', 'The 1955 statement of principles adopted by the Congress Alliance'],
+          ['Why were the Big Five named that?', 'They were considered the most dangerous animals to hunt on foot'],
+          ['What is the Tripartite Alliance?', 'The ANC, COSATU and the SACP'],
+          ['Which river forms much of the border with Namibia?', 'The Orange River'],
+          ['What does stage 6 load shedding mean in practice?', 'Around 6000MW being shed — several outages a day']
         ]
       },
       {
         name: 'American',
         questions: [
-          ['How many states are in the US?', '50'],
-          ['What document begins "We the People"?', 'The US Constitution'],
-          ["What's celebrated on July 4th?", 'Independence Day'],
-          ["What's the US currency?", 'The dollar'],
-          ['What food is Thanksgiving traditionally centered around?', 'Turkey'],
-          ["What's the nickname for the US flag?", 'Old Glory, or the Stars and Stripes'],
-          ['Who is on the $1 bill?', 'George Washington'],
-          ['What sport is the Super Bowl for?', 'American football']
+          ['How many amendments make up the Bill of Rights?', 'Ten'],
+          ['What does the Fifth Amendment protect against?', 'Being compelled to incriminate yourself'],
+          ['How many electoral votes win the presidency?', '270'],
+          ['What is a filibuster?', 'Extending Senate debate to block a vote'],
+          ['What does the 22nd Amendment do?', 'Limits a president to two terms'],
+          ['What is Juneteenth?', '19 June — marking the end of slavery in Texas in 1865'],
+          ['How does representation differ between the House and the Senate?', 'The House is by population; the Senate is two per state regardless of size'],
+          ['What is "gerrymandering"?', 'Drawing district boundaries to favour one party']
         ]
       },
       {
         name: 'British',
         questions: [
-          ['What’s British "tea time" traditionally?', 'An afternoon break with tea and light snacks'],
-          ['What is a "chippy"?', 'A fish and chip shop'],
-          ["What's the London Underground nicknamed?", 'The Tube'],
-          ['What’s "Boxing Day"?', 'The day after Christmas — a public holiday'],
-          ['What is a "biscuit" in British English?', 'What Americans would call a cookie'],
-          ["What's the currency of the UK?", 'The pound sterling'],
-          ['What word describes standing in an orderly line?', 'Queuing'],
-          ['Who lives at 10 Downing Street?', 'The UK Prime Minister']
+          ['What\'s the difference between the UK, Great Britain and the British Isles?', 'Great Britain is the island; the UK adds Northern Ireland; the British Isles adds the Republic of Ireland too'],
+          ['What does the Speaker of the Commons do?', 'Chairs debate and keeps order — and gives up party allegiance'],
+          ['What is a by-election?', 'A single-seat election held between general elections'],
+          ['What is the Barnett formula?', 'How funding is allocated to the devolved nations'],
+          ['What is "Received Pronunciation"?', 'The traditional standard accent — the old BBC voice'],
+          ['What does "pudding" mean in British usage?', 'The sweet course generally, not one specific dish'],
+          ['What is Prime Minister\'s Questions?', 'A weekly Commons session where the PM takes questions from MPs'],
+          ['What does it mean when Parliament is "prorogued"?', 'The session is formally ended, suspending business']
         ]
       },
       {
         name: 'Nigerian',
         questions: [
-          ["What's Nigeria's most widely spoken official language?", 'English'],
-          ['What is "jollof rice"?', 'A popular West African spiced rice dish'],
-          ["What's Nigeria's currency?", 'The Naira'],
-          ['What’s "Nollywood"?', "Nigeria's film industry"],
-          ["What are Nigeria's three largest ethnic groups?", 'Hausa, Yoruba, and Igbo'],
-          ['What genre has Nigerian artists like Burna Boy and Wizkid made globally popular?', 'Afrobeats'],
-          ['What’s "suya"?', 'Spicy grilled meat skewers, a popular Nigerian street food'],
-          ["What's Nigeria's capital city?", 'Abuja']
+          ["What are Nigeria's three largest ethnic groups?", 'Hausa, Yoruba and Igbo'],
+          ['What is "japa"?', 'Emigrating abroad for better prospects'],
+          ['What does "wahala" mean?', 'Trouble'],
+          ["What is Nigeria's capital — and what was it before?", 'Abuja; it was Lagos until 1991'],
+          ['What is Nollywood known for globally?', 'Being one of the largest film industries in the world by output'],
+          ['What is an "owambe"?', 'A big, lavish Yoruba party'],
+          ['What is suya?', 'Spiced, skewered grilled meat'],
+          ['What is Naija Pidgin?', 'Nigerian Pidgin English — a widely spoken lingua franca']
         ]
       },
       {
         name: 'Zulu',
         questions: [
-          ['Who founded the Zulu Kingdom in the early 19th century?', 'Shaka Zulu'],
-          ["What's the Zulu language called?", 'isiZulu'],
-          ['What philosophy, shared across Nguni cultures, emphasizes shared humanity?', 'Ubuntu'],
-          ["What's a sangoma?", 'A traditional healer and diviner'],
-          ['What ceremony involves thousands of unmarried women presenting reeds to the king?', 'The Umhlanga, or Reed Dance'],
-          ['What animal is a traditional symbol of wealth in Zulu culture?', 'Cattle'],
-          ['What South African region is the Zulu homeland?', 'KwaZulu-Natal'],
-          ['What high-kicking traditional dance is performed at weddings and celebrations?', 'Indlamu']
+          ['What happened at Isandlwana in 1879?', 'A Zulu army defeated a British force — one of the worst defeats in British colonial history'],
+          ['What does "sawubona" literally mean?', '"I see you"'],
+          ['What is ubuntu, in one line?', '"I am because we are" — personhood exists through other people'],
+          ['What is umqombothi?', 'Traditional sorghum beer'],
+          ['What is umkhosi womhlanga?', 'The Reed Dance — an annual ceremony before the king'],
+          ['What is an induna?', 'A headman or appointed leader'],
+          ['Who founded the Zulu Kingdom?', 'Shaka'],
+          ['What is ilobolo traditionally paid in?', 'Cattle']
         ]
       },
       {
-        name: 'a Tourist vs a Local',
+        name: 'a Frequent Traveller',
         questions: [
-          ['What do locals usually do that tourists often skip?', 'Ask locals for food recommendations instead of eating near landmarks'],
-          ['What’s a "tourist trap"?', 'An overpriced attraction or restaurant that targets visitors'],
-          ['What often gives away that someone is a tourist?', 'A map or phone constantly out, walking slowly, camera around the neck'],
-          ['What is "haggling"?', 'Negotiating a lower price, common in markets'],
-          ['What’s "jet lag"?', 'Fatigue and disorientation from crossing time zones quickly'],
-          ['What should you research before visiting a new country to blend in?', 'Basic local customs and etiquette'],
-          ['What transport tip do locals usually follow over single tickets?', 'Buying a local transit pass or card'],
-          ['What do locals typically avoid doing during peak tourist hours at attractions?', 'Visiting at all — they go during off-peak times']
+          ['What is the Schengen 90/180 rule?', '90 days in any rolling 180-day period across the whole Schengen area'],
+          ['What is the difference between a layover and a stopover?', 'A layover is a short same-trip connection; a stopover is a deliberate multi-day break'],
+          ['What is a transit visa for?', 'Passing through a country without formally entering it'],
+          ['What does travel insurance almost never cover?', 'Pre-existing conditions and anything that happened while intoxicated'],
+          ['What is "dynamic pricing" on flights?', 'Fares moving with demand, timing and sometimes your own search history'],
+          ['What is overtourism?', "Visitor numbers exceeding a place's capacity to absorb them"],
+          ['Why carry a local SIM instead of roaming?', 'Far cheaper data — at the cost of using your usual number'],
+          ['What is the point of checking a country\'s yellow fever certificate requirement?', 'Some countries refuse entry without it if you have come from a risk area']
         ]
       }
     ]
@@ -265,105 +265,105 @@ export const SECTIONS = [
       {
         name: 'a Doctor',
         questions: [
-          ["What's the Hippocratic Oath?", 'An ethical oath doctors traditionally take'],
-          ["What's a stethoscope used for?", 'Listening to heart and lung sounds'],
-          ['What does "BP" stand for in a medical context?', 'Blood pressure'],
-          ['What is a normal resting heart rate range for adults?', 'About 60–100 beats per minute'],
-          ['What does "ER" stand for?', 'Emergency Room'],
-          ['What does "GP" stand for?', 'General Practitioner'],
-          ['What organ pumps blood through the body?', 'The heart'],
-          ["What's an MRI used for?", 'Detailed internal imaging using magnetic fields']
+          ['What does a Glasgow Coma Scale of 15 mean?', 'Fully alert and oriented — the maximum score'],
+          ['What is the first-line drug in anaphylaxis, and by what route?', 'Intramuscular adrenaline, into the anterolateral thigh'],
+          ['What does "nil per os" mean on a chart?', 'Nothing by mouth'],
+          ['What does a raised troponin indicate?', 'Myocardial injury — damage to heart muscle'],
+          ["What are the three parts of Virchow's triad?", 'Stasis, endothelial injury and hypercoagulability'],
+          ['What is the target INR range for most patients on warfarin?', '2.0 to 3.0'],
+          ['What is a normal anion gap?', 'Roughly 8 to 12 mmol/L'],
+          ['What does "SOB" mean in clinical notes?', 'Shortness of breath']
         ]
       },
       {
         name: 'a Pharmacist',
         questions: [
-          ['What does "OTC" stand for?', 'Over-the-counter'],
-          ["What's a prescription?", 'A written order from a doctor for medication'],
-          ["What's the generic name for Panado or Tylenol?", 'Paracetamol, also called acetaminophen'],
-          ["What's a dispensary?", 'Where medicines are prepared and given out'],
-          ['What does "NSAID" stand for?', 'Non-Steroidal Anti-Inflammatory Drug'],
-          ['What should you always check before combining two medications?', 'Drug interactions'],
-          ["What's the main difference between a generic and a brand-name drug?", 'Same active ingredient, usually cheaper, different brand name'],
-          ['What’s a "controlled substance"?', 'A drug regulated due to potential for abuse or dependency']
+          ['What is a narrow therapeutic index drug — and name one?', 'One where the toxic dose sits close to the effective dose — warfarin, digoxin, lithium or phenytoin'],
+          ['What is first-pass metabolism?', 'Drug metabolised by the liver before it ever reaches systemic circulation'],
+          ['Which common antibiotic dangerously potentiates warfarin?', 'Metronidazole — co-trimoxazole does it too'],
+          ['Why is grapefruit juice a problem with certain statins?', 'It inhibits CYP3A4, so drug levels rise'],
+          ['What is the maximum daily paracetamol dose for a healthy adult?', '4 grams'],
+          ['What has to be proven to register a generic against the originator?', 'Bioequivalence'],
+          ['What is the key counselling point on alendronate?', 'Take it upright with water on an empty stomach, and stay upright for 30 minutes'],
+          ['What separates a Schedule 5 from a Schedule 6 medicine in South Africa?', 'An S6 script can never be repeated — S2 to S5 can be, for up to six months']
         ]
       },
       {
         name: 'a Software Developer',
         questions: [
-          ['What does "CSS" stand for?', 'Cascading Style Sheets'],
-          ['What’s a "bug" in programming?', 'An error in code'],
-          ['What’s "Git" used for?', 'Version control for code'],
-          ['What does "API" stand for?', 'Application Programming Interface'],
-          ['What language is primarily used for styling web pages?', 'CSS'],
-          ['What’s a "function" in programming?', 'A reusable block of code that performs a task'],
-          ['What’s "debugging"?', 'Finding and fixing errors in code'],
-          ["What's the difference between frontend and backend?", 'Frontend is what users see and interact with; backend is server-side logic and data']
+          ['What does it mean for an endpoint to be idempotent?', 'Calling it repeatedly has the same effect as calling it once'],
+          ['What is a race condition?', 'When the result depends on the unpredictable timing of concurrent operations'],
+          ['What does O(n log n) describe?', "An algorithm's time complexity — the shape of a good sorting algorithm"],
+          ['What is the difference between git merge and git rebase?', 'Merge keeps both histories and adds a commit; rebase replays your commits onto a new base'],
+          ['What is a memory leak?', 'Memory that is allocated and never released, so usage climbs over time'],
+          ['What does CI/CD actually do?', 'Builds, tests and deploys changes automatically on every push'],
+          ['What is technical debt?', 'Shortcuts taken now that cost more to undo later'],
+          ['What is the difference between authentication and authorisation?', 'Authentication is who you are; authorisation is what you may do']
         ]
       },
       {
         name: 'a Lawyer',
         questions: [
-          ['What’s "pro bono" work?', 'Legal work done for free, for the public good'],
-          ['What’s a "plaintiff"?', 'The person bringing a lawsuit'],
-          ['What’s a "defendant"?', 'The person being accused or sued'],
-          ['What is "objection" used for in court?', 'To challenge something said or done during a trial'],
-          ['What’s a "verdict"?', 'The formal decision or finding in a trial'],
-          ['What legal principle means someone is presumed not guilty until proven otherwise?', 'The presumption of innocence'],
-          ['What’s a "contract"?', 'A legally binding agreement between parties'],
-          ['What’s "cross-examination"?', 'Questioning a witness called by the opposing side']
+          ['What is the standard of proof in a criminal trial?', 'Beyond a reasonable doubt'],
+          ['What is the standard of proof in a civil trial?', 'A balance of probabilities'],
+          ['What is mens rea?', 'The guilty mind — the intent element of a crime'],
+          ['What does "sub judice" mean?', 'A matter still before the court, and so not to be publicly prejudged'],
+          ['What is hearsay evidence?', 'Second-hand evidence offered to prove the truth of what was said'],
+          ['What does prescription mean in law?', 'A claim lapsing after a set period of time'],
+          ['What is the difference between an attorney and an advocate in South Africa?', 'Attorneys deal directly with clients; advocates are briefed by attorneys and argue in the higher courts'],
+          ['What does it mean to be held "in contempt"?', 'Disobeying or disrespecting the authority of the court']
         ]
       },
       {
         name: 'a Chef',
         questions: [
-          ['What is "mise en place"?', 'Having all ingredients prepped and organized before cooking'],
-          ['What’s "deglazing"?', 'Adding liquid to a hot pan to lift browned bits for flavor'],
-          ["What's the difference between braising and roasting?", 'Braising uses liquid and low heat; roasting uses dry heat in an oven'],
-          ['What’s a "roux"?', 'A cooked mixture of fat and flour, used to thicken sauces'],
-          ['What’s "julienne"?', 'Cutting food into thin, matchstick-sized strips'],
-          ['What’s "al dente"?', 'Pasta cooked firm to the bite, not soft'],
-          ['What’s "searing"?', 'Browning food quickly at high heat'],
-          ['What are the five "mother sauces" in classic French cuisine?', 'Béchamel, velouté, espagnole, hollandaise, and tomato']
+          ['What are the five French mother sauces?', 'Béchamel, velouté, espagnole, hollandaise and tomato'],
+          ['What is the temperature "danger zone" for food?', 'Roughly 5 to 60°C'],
+          ['What is the ratio for a classic roux?', 'Equal parts fat and flour, by weight'],
+          ['What is a brunoise?', 'A very fine dice — around 3mm'],
+          ['What is carryover cooking?', 'Meat continuing to cook on residual heat after it leaves the pan or oven'],
+          ['What does "monter au beurre" mean?', 'Finishing a sauce by whisking in cold butter'],
+          ['What does "all day" mean called across the pass?', 'The running total of that item across every open ticket'],
+          ['What is the difference between a chef de partie and a commis?', 'The chef de partie runs a station; the commis is the junior working under them']
         ]
       },
       {
         name: 'a Teacher',
         questions: [
-          ['What’s a "lesson plan"?', 'A structured outline for teaching a class'],
-          ['What’s "differentiated instruction"?', 'Adapting teaching to different student needs and levels'],
-          ['What’s a "rubric"?', 'A scoring guide outlining assessment criteria'],
-          ['What’s "formative assessment"?', 'Ongoing checks for understanding during learning, before a final test'],
-          ['What’s a "syllabus"?', "An outline of a course's content and requirements"],
-          ['What is classroom management primarily about?', 'Maintaining an orderly, productive learning environment'],
-          ['What does "IEP" stand for?', 'Individualized Education Plan'],
-          ['What is a parent-teacher conference for?', "Discussing a student's progress with their parents"]
+          ['What is scaffolding in teaching?', 'Temporary support that is deliberately withdrawn as the learner becomes able'],
+          ['What is the zone of proximal development?', 'The gap between what a learner can do alone and what they can do with help'],
+          ['What is the difference between formative and summative assessment?', 'Formative checks learning in progress; summative measures it at the end'],
+          ["What is Bloom's taxonomy used for?", 'Classifying learning objectives, from recall up to creation'],
+          ['What three things does differentiation vary?', 'Content, process and product'],
+          ['What is moderation of marks?', 'Checking marking consistency between markers or schools'],
+          ['What is "wait time"?', 'The pause after asking a question before you take an answer — and most teachers leave far too little'],
+          ['What is an IEP?', 'An individualised education programme for a learner with additional needs']
         ]
       },
       {
         name: 'an Athlete',
         questions: [
-          ['What’s "VO2 max"?', 'A measure of the maximum oxygen the body can use during exercise'],
-          ['What’s "carb loading"?', 'Eating extra carbs before an endurance event to build energy stores'],
-          ['What does "DOMS" stand for?', 'Delayed Onset Muscle Soreness'],
-          ['What does "PR" mean in athletics?', 'Personal Record'],
-          ['What’s "interval training"?', 'Alternating high and low intensity exercise'],
-          ['What’s "plyometrics"?', 'Explosive, jump-based training exercises'],
-          ['What’s the purpose of a cool-down after exercise?', 'Gradually lowering heart rate and helping prevent injury'],
-          ['What’s "overtraining"?', "Training beyond the body's ability to recover, causing performance decline"]
+          ['What is the lactate threshold?', 'The intensity at which lactate accumulates faster than the body clears it'],
+          ['What is periodisation?', 'Structuring training into phases that build toward a peak'],
+          ['What is a taper?', 'Cutting training load before competition so you arrive fresh rather than fatigued'],
+          ['What is the difference between a concentric and an eccentric contraction?', 'Concentric shortens the muscle under load; eccentric lengthens it'],
+          ['When does DOMS usually peak?', '24 to 72 hours after the session'],
+          ['What does VO2 max measure?', 'The maximum rate at which your body can use oxygen'],
+          ['What is overtraining syndrome?', 'Performance falling because training load has outrun recovery'],
+          ['What does RPE stand for, and what is it for?', 'Rate of Perceived Exertion — gauging intensity by feel rather than by numbers']
         ]
       },
       {
         name: 'a Musician',
         questions: [
-          ['What’s a "time signature"?', 'It indicates how many beats are in each measure of music'],
-          ['What’s "perfect pitch"?', 'The ability to identify a musical note without a reference'],
-          ['What is a "key change," or modulation?', 'Shifting a song into a different musical key'],
-          ['What’s "a cappella"?', 'Singing without instrumental accompaniment'],
-          ['What is a "bridge" in a song?', 'A contrasting section connecting the verses and chorus'],
-          ['What does "BPM" stand for?', 'Beats Per Minute'],
-          ['Generally, how does a major key sound different from a minor key?', 'Major tends to sound brighter/happier; minor tends to sound darker/sadder'],
-          ['What’s "freestyling" in rap?', 'Improvised, unscripted rapping']
+          ['What notes make up a C major triad?', 'C, E and G'],
+          ['What is the relative minor of C major?', 'A minor'],
+          ['What is a ii–V–I?', 'The most common chord progression in jazz'],
+          ['How does 6/8 differ in feel from 3/4?', '6/8 is two groups of three — a compound lilt; 3/4 is three even beats'],
+          ['What is a tritone?', 'An interval of three whole tones — the old "devil\'s interval"'],
+          ['What does a capo on the second fret do to the key?', 'Raises everything by a whole tone'],
+          ['What is the circle of fifths for?', 'Showing how keys relate, and how many sharps or flats each carries'],
+          ['What does "rubato" instruct a player to do?', 'Flex the tempo expressively rather than hold it strictly']
         ]
       }
     ]
@@ -374,105 +374,105 @@ export const SECTIONS = [
       {
         name: 'a Foodie',
         questions: [
-          ['What’s "umami"?', 'The savory fifth basic taste'],
-          ['What’s "sous vide"?', 'Cooking food sealed in a bag in a precise-temperature water bath'],
-          ['What’s "farm-to-table"?', 'Sourcing ingredients directly from local farms'],
-          ['What’s a "tasting menu"?', 'A curated series of small courses at a restaurant'],
-          ['What’s "charcuterie"?', 'Cured meats, often served on a board with accompaniments'],
-          ['What’s "fermentation"?', 'A process using bacteria or yeast to transform food, like kimchi or bread'],
-          ['What’s "omakase"?', 'A Japanese dining style where the chef chooses the dishes'],
-          ['What’s a "Michelin star"?', 'A prestigious rating awarded to top restaurants']
+          ['What is the Maillard reaction?', 'Browning from amino acids and sugars reacting under heat — and it is not caramelisation'],
+          ['How does caramelisation differ from the Maillard reaction?', 'Caramelisation is sugar alone; Maillard needs protein as well'],
+          ['What does sous vide control that a pan cannot?', 'Exact core temperature, edge to edge'],
+          ['What is nixtamalisation?', 'Treating maize with an alkali — it frees the niacin and makes masa possible'],
+          ['What is the difference between stock and broth?', 'Stock is bones and collagen for body; broth is meat and seasoning, drinkable as is'],
+          ['What compound is responsible for umami?', 'Glutamate'],
+          ['What does a Michelin green star recognise?', 'Sustainability, rather than cooking'],
+          ['What does omakase leave to the chef?', 'Everything — you eat what they decide to serve']
         ]
       },
       {
         name: 'a Gym Bro',
         questions: [
-          ['What does "PR" stand for?', 'Personal Record'],
-          ['What’s "leg day"?', 'A workout day focused on lower body muscles'],
-          ['What’s "progressive overload"?', 'Gradually increasing weight or reps to build strength over time'],
-          ['What are "macros"?', 'Macronutrients — protein, carbs, and fats'],
-          ['What’s a "spotter"?', 'Someone who assists and safeguards during heavy lifts'],
-          ['What does "DOMS" stand for?', 'Delayed Onset Muscle Soreness'],
-          ['What’s the difference between "bulking" and "cutting"?', 'Bulking is eating a surplus to gain muscle; cutting is eating a deficit to lose fat'],
-          ['What’s creatine commonly used for?', 'A supplement to boost strength and muscle performance']
+          ['What is progressive overload?', 'Gradually increasing demand so the body is forced to adapt'],
+          ['What rep ranges suit hypertrophy versus pure strength?', 'Roughly 6 to 12 for hypertrophy; 1 to 5 heavier for strength'],
+          ['What does creatine actually do?', 'Regenerates ATP, improving short bursts of high-intensity output'],
+          ['What is time under tension?', 'The total time the muscle is loaded during a set'],
+          ['What is a drop set?', 'Going to failure, cutting the weight and immediately continuing'],
+          ['What does RPE mean to a lifter?', 'Rate of Perceived Exertion — how many reps you left in the tank'],
+          ['What is a deload week for?', 'A planned lighter week so you recover and come back stronger'],
+          ['Why do people take protein spread across the day rather than in one hit?', 'Muscle protein synthesis responds better to repeated doses than one large one']
         ]
       },
       {
         name: 'a Gamer',
         questions: [
-          ['What does "FPS" stand for as a genre?', 'First-Person Shooter'],
-          ['What’s "respawn"?', 'Reappearing in a game after dying'],
-          ['What does "NPC" stand for?', 'Non-Playable Character'],
-          ['What’s "speedrunning"?', 'Completing a game as fast as possible'],
-          ['What’s "lag"?', 'A delay between input and game response, usually from a connection issue'],
-          ['What’s a "loot box"?', 'A purchasable in-game item containing random rewards'],
-          ['What does "MMO" stand for?', 'Massively Multiplayer Online'],
-          ['What does "GG" mean?', '"Good Game" — said at the end of a match']
+          ['What is frame pacing, as opposed to frame rate?', 'How consistent the gap between frames is — uneven pacing feels bad even at a high average'],
+          ['What is input lag?', 'The delay between a control input and the response on screen'],
+          ['What is server tick rate?', 'How many times per second the server updates game state'],
+          ['What is a "soulslike"?', 'A punishing, stamina-managed action RPG in the Dark Souls mould'],
+          ['What is rubber-banding in a racing game?', 'AI speed adjusting to keep the race artificially close'],
+          ['What does "crunch" mean in the games industry?', 'Sustained mandatory overtime before a release'],
+          ['What is a battle pass?', 'A tiered seasonal reward track you progress through or pay to skip'],
+          ['What does RNG stand for?', 'Random number generation — the luck element']
         ]
       },
       {
         name: 'a Swiftie',
         questions: [
-          ["What's Taylor Swift's self-titled debut album year?", '2006'],
-          ['What is a "Taylor’s Version" album?', 'A re-recording of one of her earlier albums, made to own her masters'],
-          ['What album features the song "Anti-Hero"?', 'Midnights'],
-          ["What's the nickname for Taylor Swift's fanbase?", 'Swifties'],
-          ['What friendship-bracelet trend is associated with her concerts?', 'Fans trading handmade friendship bracelets'],
-          ['What album featured "Love Story"?', 'Fearless'],
-          ['What pastel color palette is associated with the "Lover" era?', 'Pink and blue'],
-          ['What is the name of her record-breaking world tour that began in 2023?', 'The Eras Tour']
+          ['Why did Taylor Swift re-record her albums?', 'To own her masters, after the originals were sold without her'],
+          ['Which was the first "Taylor\'s Version" released?', "Fearless (Taylor's Version)"],
+          ['What is a "vault track"?', 'A song written during the original era but never released, added to the re-recording'],
+          ['Which album marked the full move from country to pop?', '1989'],
+          ['What is the significance of the number 13 to Swift?', 'Her lucky number — her birthday, and a running motif throughout her career'],
+          ['What does "era" mean to a Swiftie?', "An album's entire aesthetic, sound and period"],
+          ['How was the Eras Tour set structured?', 'In segments, one per album era'],
+          ['What made the 10-minute "All Too Well" notable?', 'It was the full original version of the fan favourite, finally released']
         ]
       },
       {
         name: 'a Marvel Fan',
         questions: [
-          ['What does "MCU" stand for?', 'Marvel Cinematic Universe'],
-          ["Who is Iron Man's alter ego?", 'Tony Stark'],
-          ["What's Thor's hammer called?", 'Mjolnir'],
-          ['What did Thanos collect to wipe out half of all life?', 'The Infinity Stones'],
-          ['What are Marvel movies famous for including after the credits?', 'A post-credits scene teasing future films'],
-          ['What company owns Marvel Studios?', 'Disney'],
-          ["What's Spider-Man's civilian name?", 'Peter Parker'],
-          ['Who is considered the first Avenger, chronologically in-universe?', 'Captain America, Steve Rogers']
+          ['Name the six Infinity Stones.', 'Space, Mind, Reality, Power, Time and Soul'],
+          ['What is the TVA?', 'The Time Variance Authority'],
+          ['What is the Sacred Timeline?', 'The single permitted timeline the TVA polices'],
+          ['What is the in-universe name for the snap?', 'The Blip — also called the Decimation'],
+          ['What is the difference between vibranium and adamantium?', 'Vibranium is Wakandan and absorbs energy; adamantium is the indestructible alloy bonded to Wolverine'],
+          ['Who is Kang?', 'A time-travelling conqueror who exists as countless variants'],
+          ['Which two artists co-created most of the core Marvel roster with Stan Lee?', 'Jack Kirby and Steve Ditko'],
+          ['What is "Phase Four"?', 'The post-Endgame slate of MCU films and series']
         ]
       },
       {
         name: 'a True Crime Fan',
         questions: [
-          ['What’s a "cold case"?', 'An unsolved crime with no recent leads'],
-          ['What type of evidence is most commonly used to identify suspects today?', 'DNA evidence'],
-          ['What technically defines a "serial killer"?', 'Someone who kills multiple victims in separate events over time'],
-          ['What’s an "alibi"?', 'Evidence or testimony proving someone was elsewhere during a crime'],
-          ['What’s "profiling" in a criminal investigation?', 'Analyzing behavior and evidence to infer characteristics of a suspect'],
-          ['What is evidence gathered at a crime scene generally called?', 'Forensic evidence'],
-          ['What media format became hugely popular for covering true crime cases in depth?', 'Podcasts'],
-          ['What’s a "cold case unit"?', 'A police division dedicated to reinvestigating unsolved cases']
+          ['What is the difference between modus operandi and signature?', 'MO is how the crime gets done; signature is the psychological need being satisfied'],
+          ['What is linkage blindness?', 'Failing to connect related crimes across different jurisdictions'],
+          ['What is the "CSI effect"?', 'Juries expecting a forensic certainty that real casework rarely delivers'],
+          ['What is the Reid technique?', 'A confrontational interrogation method widely criticised for producing false confessions'],
+          ['What separates a serial killer from a spree killer?', 'A serial killer has a cooling-off period between offences; a spree killer does not'],
+          ['What is touch DNA?', 'Trace DNA left behind by skin cells on contact'],
+          ['What is victimology in an investigation?', 'Studying the victim to understand why they in particular were chosen'],
+          ['Why do innocent people confess?', 'Coercive interrogation, exhaustion, and believing they can sort it out later']
         ]
       },
       {
         name: 'a Wine Person',
         questions: [
-          ['What’s "tannin"?', 'A compound, especially in red wine, that causes a dry, bitter sensation'],
-          ['What’s "terroir"?', "The environmental factors — soil, climate — that shape a wine's character"],
-          ['How does red wine production differ from white, broadly?', 'Red ferments with the grape skins; white typically does not'],
-          ['What’s a "sommelier"?', 'A trained wine expert or steward'],
-          ['What’s "decanting"?', 'Pouring wine into a separate vessel to let it aerate'],
-          ["What does a wine's \"vintage\" refer to?", 'The year the grapes were harvested'],
-          ['What creates the bubbles in traditional-method sparkling wine?', 'A second fermentation inside the bottle'],
-          ['What three grapes is Champagne traditionally made from?', 'Chardonnay, Pinot Noir, and Pinot Meunier']
+          ['What is malolactic fermentation?', 'Converting sharp malic acid into softer lactic acid — the buttery note in Chardonnay'],
+          ['What does "corked" actually mean?', 'TCA contamination — a wet cardboard smell, nothing to do with bits of cork'],
+          ['What is the traditional method in sparkling wine?', 'The second fermentation happening inside the bottle'],
+          ['What is Pinotage a cross of?', 'Pinot Noir and Cinsaut'],
+          ['What is the difference between Brut and Extra Brut?', 'Brut is under 12g/l residual sugar; Extra Brut is under 6'],
+          ['What does terroir actually cover?', 'Soil, climate, aspect and local practice — everything of place that shapes the wine'],
+          ['What do "legs" on the glass indicate?', 'Alcohol and sugar content — not quality'],
+          ['Which South African region is most associated with Chenin Blanc?', 'The Western Cape — Stellenbosch and Swartland in particular']
         ]
       },
       {
         name: 'a Car Guy',
         questions: [
-          ['What does "RPM" stand for?', 'Revolutions Per Minute'],
-          ['What’s a "turbocharger"?', 'A device that forces more air into the engine for more power'],
-          ['What does "0-60" measure?', 'The time it takes a car to accelerate from 0 to 60 mph'],
-          ['What’s "horsepower"?', "A unit measuring an engine's power"],
-          ['How does a manual transmission differ from an automatic?', 'Manual requires the driver to shift gears; automatic shifts on its own'],
-          ['What’s "torque"?', 'A measure of rotational force, affecting acceleration and towing power'],
-          ['What’s a "hybrid" car?', 'A vehicle combining a combustion engine with an electric motor'],
-          ['What does "AWD" stand for?', 'All-Wheel Drive']
+          ['What is the difference between torque and horsepower?', 'Torque is rotational force; power is torque times engine speed — how fast the work gets done'],
+          ['Where does turbo lag come from?', 'Waiting for exhaust flow to spin the turbine up'],
+          ['How does a supercharger differ from a turbocharger?', 'A supercharger is driven by the engine itself; a turbo is driven by exhaust gas'],
+          ['What is a limited-slip differential for?', 'Sending torque to the wheel with grip instead of the one spinning'],
+          ['What is the difference between understeer and oversteer?', 'Understeer is the front pushing wide; oversteer is the rear stepping out'],
+          ['What does "naturally aspirated" mean?', 'No forced induction — no turbo or supercharger'],
+          ['What does a dual-clutch gearbox do that a torque converter does not?', 'Pre-selects the next gear on a second clutch, so shifts are near-instant'],
+          ['What is double-declutching for?', 'Matching gearbox speeds in a transmission without synchromesh']
         ]
       }
     ]
@@ -483,66 +483,66 @@ export const SECTIONS = [
       {
         name: 'a Parent',
         questions: [
-          ['What’s "tummy time" for?', 'Helping infants build neck and shoulder strength'],
-          ['What toddler phase involves frequent "no"?', 'The terrible twos'],
-          ['What’s "co-sleeping"?', 'A baby sleeping in the same bed or room as parents'],
-          ['What’s a "growth spurt"?', 'A period of rapid physical growth in children'],
-          ['What’s "sleep training"?', 'Teaching an infant to fall and stay asleep independently'],
-          ['What guidance do experts generally give about screen time for young kids?', 'Limiting it'],
-          ['What’s a common first food when babies start solids?', 'Rice cereal or pureed fruits and vegetables'],
-          ['What’s "potty training"?', 'Teaching a toddler to use the toilet']
+          ['What is the "fourth trimester"?', 'The first three months after birth'],
+          ['When is the notorious sleep regression?', 'Around four months'],
+          ['What is parallel play?', 'Toddlers playing alongside each other rather than with each other'],
+          ['What is the "witching hour"?', 'The evening stretch of inconsolable newborn crying'],
+          ['When does object permanence develop?', 'From around eight months — which is also when separation anxiety starts'],
+          ['What is the recommended sleep position for an infant?', 'On the back, every single sleep'],
+          ['What does gentle parenting actually require?', 'Holding a firm limit while validating the feeling behind the behaviour'],
+          ['What is responsive feeding?', "Feeding to the baby's cues rather than to a fixed schedule"]
         ]
       },
       {
         name: 'Married',
         questions: [
-          ['What’s a "prenup"?', 'A prenuptial agreement made before marriage'],
-          ['What is traditionally celebrated every year on the wedding date?', 'An anniversary'],
-          ['What’s a "honeymoon"?', 'A vacation taken by newlyweds after the wedding'],
-          ['What phrase from traditional vows means committing through hardship?', '"In sickness and in health"'],
-          ['What’s a "joint account"?', 'A shared bank account between spouses'],
-          ['What material is traditionally given for a first wedding anniversary?', 'Paper'],
-          ['What phrase from traditional vows signals lifelong commitment?', '"Till death do us part"'],
-          ['What’s a "vow renewal"?', 'A ceremony where a married couple reaffirms their vows']
+          ['What does "in community of property" mean in South Africa?', 'The default regime — a single joint estate, and shared debts'],
+          ['What is an antenuptial contract?', 'A contract signed before the wedding excluding community of property'],
+          ['What is the accrual system?', 'Sharing the growth of each estate during the marriage, but not what each brought in'],
+          ['What is a customary marriage, legally?', 'A marriage under customary law — legally recognised and registerable'],
+          ['What is spousal privilege?', 'A spouse generally cannot be compelled to testify against the other'],
+          ['What is the difference between a divorce and an annulment?', 'A divorce ends a valid marriage; an annulment declares there never was one'],
+          ['What is maintenance?', 'Court-ordered financial support after a separation'],
+          ['What ratio of positive to negative interactions did Gottman find in stable couples?', 'About five to one']
         ]
       },
       {
         name: 'Someone in Their 20s',
         questions: [
-          ['What is a "quarter-life crisis"?', 'A period of uncertainty or anxiety about life direction, often in your 20s'],
-          ['What does "adulting" mean?', 'Doing responsible, grown-up tasks'],
-          ['What financial milestone do many aim for in their 20s?', 'Building credit or saving for a first home'],
-          ['What does "FOMO" stand for?', 'Fear Of Missing Out'],
-          ['What’s a "starter apartment"?', 'A first, usually smaller or more affordable, apartment'],
-          ['What is "networking" mainly used for professionally?', 'Building relationships and contacts for career opportunities'],
-          ['What’s a "side hustle"?', 'Extra income-earning work outside a main job'],
-          ['What is a credit score used to assess?', 'How trustworthy someone is for loans and credit']
+          ['What is lifestyle creep?', 'Spending rising to swallow every raise'],
+          ['How much should an emergency fund cover?', 'Three to six months of expenses'],
+          ['What is the single most important variable in compound interest?', 'Time — starting early beats contributing more later'],
+          ['What is a TFSA in South Africa?', 'A tax-free savings account, with annual and lifetime contribution limits'],
+          ['What is quiet quitting?', 'Doing your job exactly as described and nothing beyond it'],
+          ['What quietly damages a credit record most often?', 'Missed payments on small accounts — store cards and phone contracts'],
+          ['What is a situationship?', 'A romantic arrangement nobody will define'],
+          ['What does "pay yourself first" mean?', 'Moving savings off the top on payday, before you spend anything']
         ]
       },
       {
-        name: 'a College Student',
+        name: 'a University Student',
         questions: [
-          ['What does "GPA" stand for?', 'Grade Point Average'],
-          ['What’s a "syllabus" used for?', "Outlining a course's structure and requirements"],
-          ['What are "office hours"?', 'Scheduled time when professors are available for student questions'],
-          ['What cheap, easy meal is a classic student stereotype?', 'Ramen noodles'],
-          ['What’s a "dorm"?', 'On-campus student housing'],
-          ['What’s "cramming"?', 'Intense last-minute studying before an exam'],
-          ['What’s a "major"?', "A student's primary field of study"],
-          ['What’s "finals week"?', 'The period of final exams at the end of a term']
+          ['What mark is usually a distinction at a South African university?', '75% and above'],
+          ['What is NSFAS?', "South Africa's National Student Financial Aid Scheme"],
+          ['What is academic exclusion?', 'Being barred from re-registering after repeated failure'],
+          ['What is the difference between a dissertation and a thesis in South African usage?', "A dissertation is master's level; a thesis is doctoral"],
+          ['What is a "credit" in a degree structure?', 'A unit of notional learning hours attached to a module'],
+          ['What software do most universities run submissions through?', 'Turnitin'],
+          ['What is a supplementary exam?', 'A second attempt, usually offered for marks just below the pass'],
+          ['What does cum laude signify?', 'With distinction — an honours designation carried on the degree itself']
         ]
       },
       {
         name: 'Retired',
         questions: [
-          ['What’s a "pension"?', 'Regular payments received after retirement, often from a former employer'],
-          ['What is a commonly cited retirement age in many countries?', 'Around 65'],
-          ['What does "downsizing" in retirement usually mean?', 'Moving to a smaller home'],
-          ['What’s a "retirement fund"?', 'Savings or investments set aside for after work life'],
-          ['What hobbies are commonly stereotyped with retirement?', 'Gardening, golf, or travel'],
-          ['What’s an "empty nester"?', 'A parent whose children have moved out'],
-          ['What’s a "bucket list"?', 'Things someone wants to do before they die'],
-          ['What’s a "retirement village"?', 'A residential community designed for retirees']
+          ['What is the difference between a living annuity and a life annuity?', 'A living annuity stays invested and you draw from it; a life annuity buys guaranteed income for life'],
+          ['What is the "two-pot" retirement system?', 'Splitting contributions into a savings pot you can access and a retirement pot that stays preserved'],
+          ['What is the 4% rule?', 'Drawing roughly 4% a year so the capital is likely to outlast you'],
+          ['What is longevity risk?', 'Outliving your money'],
+          ['What is sequence of returns risk?', 'Poor market returns early in retirement doing damage you never recover from'],
+          ['What is the SASSA older persons grant?', 'The South African state old-age grant'],
+          ['What happens to a living annuity when you die?', 'The remaining capital passes to your nominated beneficiaries'],
+          ['Why is inflation the retiree\'s real enemy?', 'A fixed income loses purchasing power every year it does not grow']
         ]
       }
     ]
@@ -553,79 +553,79 @@ export const SECTIONS = [
       {
         name: 'Book Smart',
         questions: [
-          ['What does the Pythagorean theorem calculate?', 'The relationship between the sides of a right triangle'],
-          ['What’s a "metaphor"?', 'A figure of speech that directly compares two unlike things'],
-          ["What's photosynthesis?", 'The process plants use to convert light into energy'],
-          ['Who wrote "Romeo and Juliet"?', 'William Shakespeare'],
-          ["What's the boiling point of water at sea level, in Celsius?", '100°C'],
-          ['What’s a "noun"?', 'A word for a person, place, thing, or idea'],
-          ['What’s called the "powerhouse of the cell"?', 'The mitochondria'],
-          ["What's the capital of France?", 'Paris']
+          ['What is an unreliable narrator?', 'A narrator whose account the reader cannot trust'],
+          ['What does "in medias res" mean?', 'Starting the story in the middle of the action'],
+          ['What is the difference between denotation and connotation?', 'Denotation is the literal meaning; connotation is everything it drags along with it'],
+          ['What does "begging the question" properly mean?', 'Assuming the conclusion inside the premise'],
+          ['What is a syllogism?', 'A deductive argument built from two premises and a conclusion'],
+          ['What is the difference between deduction and induction?', 'Deduction goes from a general rule to a specific case; induction generalises from specific cases'],
+          ['What is the Socratic method?', 'Teaching by relentless questioning rather than by telling'],
+          ['What is a red herring, in an argument?', 'A deliberate distraction from the actual issue']
         ]
       },
       {
         name: 'Street Smart',
         questions: [
-          ["What's a common sign you're being scammed?", 'A deal that seems too good to be true, or pressure to act immediately'],
-          ['What’s "situational awareness"?', 'Being conscious of your surroundings and potential risks'],
-          ['What common tactic do pickpockets use?', 'Distraction, like bumping into you or asking for directions'],
-          ['What is the value of negotiating a price instead of accepting the first offer?', 'You often end up paying less'],
-          ['What’s a "con artist"?', 'Someone who deceives people for personal gain'],
-          ['What is "reading the room"?', 'Sensing the mood and dynamics of a social situation'],
-          ['What is a good habit when walking alone at night?', 'Staying aware and sticking to well-lit areas'],
-          ['What’s a common rule about sharing personal information with strangers?', 'Avoid sharing sensitive details unnecessarily']
+          ['What is a SIM swap fraud?', 'Taking over your phone number so they receive your banking OTPs'],
+          ['What is smishing?', 'Phishing carried out over SMS'],
+          ['What is social engineering?', 'Manipulating people rather than systems to get access'],
+          ['What is card skimming, and what do you do about it?', 'Cloning your card at the machine — freeze the card, dispute the transactions, have it reissued'],
+          ['What is the clearest sign of a fake marketplace seller?', 'Pushing you off the platform to pay directly'],
+          ['What is tailgating, in building security?', 'Following someone through a controlled door without badging in yourself'],
+          ['What is the safest response to being mugged?', 'Hand it over — property is replaceable'],
+          ['What is a "pigeon drop"?', 'A con where the mark puts up their own money to share in found cash that never existed']
         ]
       },
       {
         name: 'a History Buff',
         questions: [
-          ['What year did World War II end?', '1945'],
-          ['Who was the first President of the United States?', 'George Washington'],
-          ['What ancient civilization built the pyramids of Giza?', 'The ancient Egyptians'],
-          ['What year did the Berlin Wall fall?', '1989'],
-          ['Who was known as the "Iron Lady"?', 'Margaret Thatcher'],
-          ['What empire did Julius Caesar rise to power in?', 'The Roman Republic, transitioning into the Roman Empire'],
-          ["What year did South Africa hold its first democratic election?", '1994'],
-          ['What era was primarily known for a revival of art, culture, and learning in Europe?', 'The Renaissance']
+          ['What directly triggered the First World War?', 'The assassination of Archduke Franz Ferdinand in Sarajevo in 1914'],
+          ['What did the Treaty of Versailles impose on Germany?', 'Reparations, territorial losses and formal war guilt'],
+          ['What was the Berlin Conference of 1884–85?', 'Where the European powers carved up Africa between themselves'],
+          ['What was the Marshall Plan?', 'American aid to rebuild Western Europe after the Second World War'],
+          ['What was Sykes-Picot?', 'A secret Anglo-French agreement to divide Ottoman territory'],
+          ['What was the Mfecane?', 'A period of widespread war and migration across southern Africa in the early 1800s'],
+          ['What conventionally marks the end of the Western Roman Empire?', 'The deposition of Romulus Augustulus in 476'],
+          ['What happened at the Cape in 1652?', 'Jan van Riebeeck landed and established a Dutch supply station']
         ]
       },
       {
         name: 'Good at Geography',
         questions: [
-          ["What's commonly cited as the world's longest river?", 'The Nile'],
-          ["What's the smallest country in the world?", 'Vatican City'],
-          ['What continent is the Sahara Desert located on?', 'Africa'],
-          ["What's the capital of Australia?", 'Canberra — not Sydney'],
-          ["What's the tallest mountain in the world?", 'Mount Everest'],
-          ["What's the largest ocean?", 'The Pacific Ocean'],
-          ['What country currently has the largest population in the world?', 'India'],
-          ["What's the smallest continent by land area?", 'Australia']
+          ['Which two countries border the most others?', 'China and Russia — fourteen each'],
+          ['What is the difference between Holland and the Netherlands?', 'Holland is two provinces of the Netherlands, not the whole country'],
+          ['What is the largest landlocked country in the world?', 'Kazakhstan'],
+          ['Which line of latitude crosses northern South Africa?', 'The Tropic of Capricorn'],
+          ['What is the deepest known point in the ocean?', 'The Challenger Deep, in the Mariana Trench'],
+          ['What is the capital of Turkey?', 'Ankara — not Istanbul'],
+          ['Which strait separates Africa from Europe?', 'The Strait of Gibraltar'],
+          ['Which African country famously resisted colonisation?', 'Ethiopia']
         ]
       },
       {
         name: 'Financially Literate',
         questions: [
-          ['What’s "compound interest"?', 'Interest calculated on both the initial amount and accumulated interest'],
-          ['What’s a "credit score" used for?', 'Assessing how likely someone is to repay debt'],
-          ['What’s an "emergency fund"?', 'Savings set aside for unexpected expenses'],
-          ["What's the difference between a stock and a bond?", 'A stock is ownership in a company; a bond is a loan to a company or government'],
-          ['What’s "diversification" in investing?', 'Spreading investments across assets to reduce risk'],
-          ['What’s "inflation"?', 'The general rise in prices over time, which reduces purchasing power'],
-          ['What’s a "budget"?', 'A plan for managing income and expenses'],
-          ['What’s an "index fund"?', 'A fund that tracks a market index, like the S&P 500']
+          ['What is the difference between a nominal and a real return?', 'Real return is adjusted for inflation — nominal is not'],
+          ['What is the repo rate?', 'The rate at which the central bank lends to commercial banks, which sets the cost of borrowing'],
+          ['What is the difference between an ETF and a unit trust?', 'An ETF trades on an exchange through the day; a unit trust prices once daily'],
+          ['What is a TER?', 'Total Expense Ratio — what a fund costs you each year'],
+          ['What triggers capital gains tax?', 'Disposing of an asset at a profit'],
+          ['What is dollar-cost averaging?', 'Investing a fixed amount at regular intervals regardless of the price'],
+          ['What does "liquidity" mean?', 'How fast an asset converts to cash without losing value'],
+          ['What is the rule of 72?', 'Divide 72 by the annual return to estimate the years needed to double your money']
         ]
       },
       {
         name: 'a Science Nerd',
         questions: [
-          ["What does Newton's First Law of Motion state?", 'An object stays at rest or in motion unless acted on by a force'],
-          ['What does "DNA" stand for?', 'Deoxyribonucleic acid'],
-          ["What's the speed of light, roughly?", 'About 300,000 km per second'],
-          ["What's an atom's nucleus made up of?", 'Protons and neutrons'],
-          ['What theory explains the origin of the universe?', 'The Big Bang theory'],
-          ["What's photosynthesis?", 'The process plants use to convert sunlight into energy'],
-          ["What's the periodic table organized by?", 'Atomic number'],
-          ["What's gravity?", 'The force that attracts objects with mass toward each other']
+          ['What does the second law of thermodynamics state?', 'The entropy of an isolated system never decreases'],
+          ['What does "theory" mean in science, as opposed to everyday speech?', 'A well-tested explanatory framework — not a guess'],
+          ['What does CRISPR do?', 'Targeted gene editing, guided to a sequence by RNA'],
+          ['What is a mole?', '6.022 × 10²³ particles — Avogadro\'s number'],
+          ['What is the difference between fission and fusion?', 'Fission splits heavy nuclei; fusion joins light ones'],
+          ['What is a half-life?', 'The time taken for half a quantity of a radioactive isotope to decay'],
+          ['What is the job of mRNA?', 'Carrying the instruction from DNA to the ribosome so protein can be built'],
+          ['How does the uncertainty principle differ from the observer effect?', 'Observer effect: measuring disturbs the system. Uncertainty: a hard limit on knowing both properties at once']
         ]
       }
     ]
@@ -636,66 +636,66 @@ export const SECTIONS = [
       {
         name: 'an AI',
         questions: [
-          ['What does "AI" stand for?', 'Artificial Intelligence'],
-          ['What’s a "large language model"?', 'An AI trained on massive text data to generate and understand language'],
-          ['What’s "machine learning"?', 'A method where systems learn patterns from data rather than explicit programming'],
-          ['What’s a "neural network" loosely modeled on?', "The human brain's structure of interconnected neurons"],
-          ['What is an AI "hallucination"?', 'When an AI generates confident but incorrect or made-up information'],
-          ['What’s "training data"?', 'The data used to teach an AI model'],
-          ['What’s a "chatbot"?', 'A program designed to simulate conversation'],
-          ['What’s "prompt engineering"?', 'Crafting inputs to get better outputs from an AI model']
+          ['What is a token, to a language model?', 'A chunk of text, roughly a word-piece — the unit it actually predicts'],
+          ['What is a context window?', 'How much text the model can take into account at once'],
+          ['What does "temperature" control?', 'How much randomness is allowed when sampling the next token'],
+          ['What is RAG?', 'Retrieval-augmented generation — fetching documents to ground the answer'],
+          ['What is the difference between fine-tuning and prompting?', 'Fine-tuning changes the weights; prompting only changes the input'],
+          ['What is an embedding?', 'A numeric vector representing meaning, so similar things sit close together'],
+          ['What is a hallucination?', 'Confident output that is not grounded in anything real'],
+          ['What is the alignment problem?', "Getting a system's objectives to actually match human intent"]
         ]
       },
       {
         name: 'a Lie Detector',
         questions: [
-          ['What does a polygraph actually measure?', 'Physiological signals like heart rate, breathing, and skin conductivity'],
-          ['Are polygraph results generally admissible in court?', 'No — most courts consider them unreliable'],
-          ['What’s a "baseline question" used for in a polygraph test?', 'Establishing a normal physiological response for comparison'],
-          ['What’s a "micro-expression"?', 'A brief, involuntary facial expression revealing true emotion'],
-          ['What common physiological response tends to increase when someone lies, per polygraph theory?', 'Heart rate and skin conductivity (sweating)'],
-          ['What decade were modern polygraph tests developed in?', 'The 1920s'],
-          ['What’s the main scientific criticism of lie detector accuracy?', "A high rate of false positives and negatives — it's not considered reliable"],
-          ['What technique do some people try to use to "beat" a polygraph?', 'Countermeasures like controlled breathing']
+          ['What does a polygraph actually measure?', 'Arousal — heart rate, respiration and skin conductance. Not lying'],
+          ['Why are polygraph results generally inadmissible?', 'They measure stress rather than deception, and produce too many false positives'],
+          ['What is the control question technique?', 'Comparing responses to the relevant questions against deliberately troubling control questions'],
+          ['What is the biggest myth about liars and eye contact?', 'That liars look away — many deliberately hold more eye contact than usual'],
+          ['What is a micro-expression?', 'An involuntary facial expression lasting a fraction of a second'],
+          ['What is statement analysis?', 'Examining the exact wording of an account for evasion and distancing'],
+          ['What are polygraph "countermeasures"?', 'Deliberate physical or mental acts used to distort the readings'],
+          ['How does confirmation bias corrupt an interrogation?', 'Everything the suspect does gets read as confirming the guilt already assumed']
         ]
       },
       {
         name: 'Fluent in Slang',
         questions: [
-          ['What does "no cap" mean?', 'No lie, seriously'],
-          ['What does "bet" mean, used as a response?', 'Okay, agreed'],
-          ['What does "slay" mean?', 'To do something exceptionally well'],
-          ['What does "sus" mean?', 'Suspicious'],
-          ['What does "lowkey" mean?', 'Somewhat, or secretly'],
-          ['What does "bussin’" mean?', 'Really good — usually said about food'],
-          ['What does "ghosting" mean?', 'Suddenly cutting off all communication with someone'],
-          ['What does "simp" mean?', 'Someone excessively attentive or submissive toward someone they like']
+          ['What does "delulu" mean?', 'Delusional — usually self-aware and said as a joke'],
+          ['What does "ate" mean?', 'Performed flawlessly'],
+          ['What does "clocked" mean?', 'Noticed, or called out'],
+          ['What does "cheugy" describe?', 'Trying too hard with trends that have already passed'],
+          ['What does "opp" mean?', 'An enemy or rival'],
+          ['What does "glazing" mean?', 'Praising someone far too much'],
+          ['What does "the ick" mean?', 'A sudden, irrational turn-off toward someone'],
+          ['What does "iykyk" stand for?', 'If you know, you know']
         ]
       },
       {
         name: 'Someone Who Actually Watches the News',
         questions: [
-          ['What body sets interest rates in South Africa?', 'The South African Reserve Bank (SARB)'],
-          ['What’s "inflation," as commonly reported?', 'The rate at which prices rise over time'],
-          ['What international body issues major global climate reports?', 'The IPCC — Intergovernmental Panel on Climate Change'],
-          ['What’s a "recession" in economic terms?', 'A significant decline in economic activity, often measured as two straight quarters of GDP contraction'],
-          ['What term describes scheduled power outages, familiar in South Africa?', 'Load shedding'],
-          ['What global body is the United Nations Security Council part of?', 'The United Nations'],
-          ['What US institution is commonly cited as setting the benchmark interest rate?', 'The Federal Reserve'],
-          ['What’s "GDP" short for?', 'Gross Domestic Product']
+          ['Who sets the repo rate in South Africa?', "The Reserve Bank's Monetary Policy Committee"],
+          ['What is the difference between a recession and a depression?', 'A recession is two quarters of contraction; a depression is far deeper and longer, with no fixed definition'],
+          ['What is quantitative easing?', 'A central bank buying assets to push money into the economy'],
+          ['What does the IPCC do?', 'Assesses and reports the scientific consensus on climate change'],
+          ['What is the difference between a ceasefire and an armistice?', 'A ceasefire pauses the fighting; an armistice formally ends it'],
+          ['What is a vote of no confidence?', 'A parliamentary motion to remove a sitting leader'],
+          ['What is the UN Security Council veto?', 'Any one of the five permanent members can block a resolution outright'],
+          ['What is a "caretaker" or interim government?', 'One holding office temporarily, expected not to make major decisions']
         ]
       },
       {
         name: 'an Adult (Basic Life Admin)',
         questions: [
-          ['What’s a "credit score" used for?', 'Determining creditworthiness for loans'],
-          ['What is the purpose of an emergency fund?', 'Covering unexpected expenses without going into debt'],
-          ['What’s a "lease"?', 'A legal agreement to rent property for a set period'],
-          ['What’s "tax season" generally about?', 'The period for filing annual income tax returns'],
-          ['What is a "debit order" or direct debit?', 'An automatic, recurring payment from your bank account'],
-          ['What is the point of renters or home insurance?', 'Financial protection against loss or damage to belongings or property'],
-          ['What’s a "warranty"?', 'A guarantee covering repair or replacement of a product for a set period'],
-          ['What’s "budgeting"?', 'Planning income and expenses to manage money effectively']
+          ['What is an excess on an insurance claim?', 'The portion you pay yourself before cover kicks in'],
+          ['What is the difference between a medical aid and a hospital plan?', 'A hospital plan only covers in-hospital costs — day-to-day is on you'],
+          ['What is the difference between a debit order and a stop order?', 'A debit order is pulled by the provider; a stop order is pushed by your own bank'],
+          ['What is prescribed debt in South Africa?', 'Debt that has become too old to be legally enforced — three years for most'],
+          ['What is UIF for?', 'Income support if you lose your job, or during maternity leave'],
+          ['What actually goes into a credit score?', 'Payment history, how much credit you use, account age and recent enquiries'],
+          ['What happens if you fall behind on a bond?', 'Arrears and penalties, a listing against your credit record, and eventually repossession'],
+          ['What is the difference between gross and net pay?', 'Net is what lands in your account after tax and deductions']
         ]
       }
     ]
