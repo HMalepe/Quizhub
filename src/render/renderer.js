@@ -1,7 +1,7 @@
 import { CANVAS, COLORS, FLASH_RGB, TYPE, TIMING } from '../core/config.js';
 import { drawWrapped, drawFitted } from './text.js';
 import { getCachedImage } from './imageCache.js';
-import { IMAGE_QUESTION_PREFIX } from '../core/logoBank.js';
+import { IMAGE_QUESTION_PREFIX, parseImageQuestion } from '../core/picturePacks.js';
 
 /**
  * Composites every frame: camera into the bottom zone, quiz overlay into the
@@ -250,13 +250,14 @@ export class Renderer {
    * for the answer. Live takes always draw the answer in white; green / orange
    * / red is applied later from the recap marks when the download is generated.
    *
-   * A "Guess the brand"-style question carries an image instead of text —
-   * see `logoBank.js` for the `img:` prefix that marks one. Same slot, same
+   * A picture-round question carries an image instead of text — see
+   * `picturePacks.js` for the `img:` prefix that marks one. Same slot, same
    * box, just drawImage instead of drawFitted.
    */
   drawQuestionText(question) {
     if (question.startsWith(IMAGE_QUESTION_PREFIX)) {
-      this.drawQuestionImage(question.slice(IMAGE_QUESTION_PREFIX.length));
+      const { url, prompt } = parseImageQuestion(question);
+      this.drawQuestionImage(url, prompt);
       return;
     }
     const { ctx, W, topH } = this;
@@ -274,22 +275,31 @@ export class Renderer {
   }
 
   /**
-   * Contain-fits the logo into the same box `drawQuestionText` would have
-   * used, centered. `getCachedImage` is synchronous and returns null while a
-   * fresh logo is still loading — that frame just shows the box empty rather
-   * than blocking the draw loop on a fetch. `main.js` preloads the images for
-   * a chosen logo quiz before Start, so in practice this only matters on the
-   * very first paint.
+   * Contain-fits the picture into the same slot `drawQuestionText` would have
+   * used, centered, with the pack's prompt ("Who is this?") as a dim line
+   * above it. A pack without a prompt gets the taller box the logos round
+   * always had, so nothing shifts for a round that doesn't need the line.
+   *
+   * `getCachedImage` is synchronous and returns null while a fresh picture is
+   * still loading — that frame draws the prompt without the image rather than
+   * blocking the draw loop on a fetch. `main.js` preloads a chosen pack before
+   * Start, so in practice this only matters on the very first paint.
    */
-  drawQuestionImage(url) {
+  drawQuestionImage(url, prompt) {
+    const { ctx, W, topH } = this;
+
+    if (prompt) {
+      ctx.fillStyle = COLORS.inkDim;
+      drawFitted(ctx, prompt, W / 2, topH * 0.24, W * 0.78, topH * 0.09, TYPE.questionFit, 38);
+    }
+
     const img = getCachedImage(url);
     if (!img) return;
 
-    const { ctx, W, topH } = this;
     const boxW = W * 0.7;
-    const boxH = topH * 0.34;
+    const boxH = topH * (prompt ? 0.26 : 0.34);
     const boxX = (W - boxW) / 2;
-    const boxY = topH * 0.2;
+    const boxY = topH * (prompt ? 0.3 : 0.2);
 
     const scale = Math.min(boxW / img.naturalWidth, boxH / img.naturalHeight);
     const dw = img.naturalWidth * scale;

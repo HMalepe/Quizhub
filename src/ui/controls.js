@@ -1,5 +1,5 @@
 import { MARK_RESULTS } from '../core/config.js';
-import { imageUrlFromQuestion } from '../core/logoBank.js';
+import { imageUrlFromQuestion } from '../core/picturePacks.js';
 
 /**
  * Wires DOM controls to the app. Holds no quiz logic of its own — it reads
@@ -132,12 +132,34 @@ export class Controls {
     customOpt.textContent = 'My Questions (custom)';
     customGroup.appendChild(customOpt);
 
-    const logosOpt = document.createElement('option');
-    logosOpt.value = '__logos';
-    logosOpt.textContent = 'My Logos (guess the brand)';
-    customGroup.appendChild(logosOpt);
-
     select.appendChild(customGroup);
+  }
+
+  /**
+   * Adds the picture rounds to the picker. Separate from `populateCategories`
+   * because packs are read from a manifest at runtime, so they arrive after
+   * the built-in sections are already on screen.
+   * @param {Array<{value: string, label: string}>} packs
+   */
+  addPicturePacks(packs) {
+    if (!packs.length) return;
+    const select = this.el.categorySelect;
+
+    // Re-adding replaces rather than stacks, so a second call can't duplicate
+    // the group (and keeps this safe to call again if the index is refetched).
+    const existing = select.querySelector('optgroup[data-packs]');
+    if (existing) existing.remove();
+
+    const group = document.createElement('optgroup');
+    group.label = 'Picture Rounds';
+    group.dataset.packs = 'true';
+    packs.forEach(({ value, label }) => {
+      const opt = document.createElement('option');
+      opt.value = value;
+      opt.textContent = label;
+      group.appendChild(opt);
+    });
+    select.appendChild(group);
   }
 
   /** Reflects an in-code category change (e.g. after editing/resetting custom questions). */

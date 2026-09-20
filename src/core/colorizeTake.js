@@ -13,7 +13,7 @@ import { CANVAS, ENCODING } from './config.js';
 import { ensureAacEncoder } from './recorder.js';
 import { Renderer } from '../render/renderer.js';
 import { getSting, mixStingInto, stingHits } from './stings.js';
-import { imageUrlFromQuestion } from './logoBank.js';
+import { imageUrlFromQuestion } from './picturePacks.js';
 import { preloadImages } from '../render/imageCache.js';
 
 /**

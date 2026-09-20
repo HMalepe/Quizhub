@@ -3,7 +3,7 @@ import './ui/styles.css';
 import { CANVAS, STORAGE_KEYS } from './core/config.js';
 import { loadQuestions, shuffled } from './core/questions.js';
 import { SECTIONS, CATEGORY_BANK } from './core/categoryBank.js';
-import { loadLogoQuiz, imageUrlFromQuestion } from './core/logoBank.js';
+import { loadPackIndex, loadPack, imageUrlFromQuestion } from './core/picturePacks.js';
 import { preloadImages } from './render/imageCache.js';
 import { QuizMachine } from './core/quizMachine.js';
 import { Camera, describeCameraError, describeCameraQuality } from './core/camera.js';
@@ -83,10 +83,14 @@ renderer.onAfterDraw = () => recorder.captureFrame();
 const diagnostics = new RecordingDiagnostics({ recorder, camera, renderer });
 diagnostics.onUpdate = (report) => controls.showDiagnostics(report);
 
+/** Picture rounds, keyed by the `__pack:<id>` value their <option> carries. */
+const picturePacks = new Map();
+
 function quizDisplayName(value) {
   if (!value) return '';
   if (value === '__custom') return 'My Questions';
-  if (value === '__logos') return 'Guess the Brand';
+  const pack = picturePacks.get(value);
+  if (pack) return pack.name;
   return `Can You Pass as ${value}`;
 }
 
@@ -113,20 +117,22 @@ const controls = new Controls({
   onCategoryChange: async (value) => {
     if (!value) return;
 
-    if (value === '__logos') {
-      const logoQuestions = await loadLogoQuiz();
-      if (!logoQuestions.length) {
+    const pack = picturePacks.get(value);
+    if (pack) {
+      const packQuestions = await loadPack(pack);
+      if (!packQuestions.length) {
         alert(
-          'No logos added yet. Drop an image in public/logos/ and list it in ' +
-          'public/logos/manifest.json, then redeploy — see public/logos/README.md.'
+          `No pictures in the "${pack.name}" round yet. Drop images in ` +
+          `public/packs/${pack.dir}/ and list them in that folder's manifest.json, ` +
+          'then redeploy — see public/packs/README.md.'
         );
         controls.setCategorySelectValue('');
         return;
       }
       // Preload before Start so the first paint of question 1 isn't blank —
       // getCachedImage() is synchronous and returns null until a URL loads.
-      await preloadImages(logoQuestions.map(([q]) => imageUrlFromQuestion(q)));
-      questions = shuffled(logoQuestions);
+      await preloadImages(packQuestions.map(([q]) => imageUrlFromQuestion(q)));
+      questions = shuffled(packQuestions);
     } else {
       questions = value === '__custom' ? loadQuestions() : shuffled(CATEGORY_BANK[value]);
     }
@@ -275,6 +281,15 @@ document.addEventListener('visibilitychange', () => {
 controls.populateCategories(SECTIONS);
 latestState = machine.snapshot();
 controls.syncPhase(latestState);
+
+// Picture rounds come from a manifest rather than the bundle, so the picker
+// gets them once the index lands. Only the registry is fetched here — a pack's
+// own images wait until that round is actually chosen.
+void loadPackIndex().then((packs) => {
+  if (!packs.length) return;
+  for (const pack of packs) picturePacks.set(`__pack:${pack.id}`, pack);
+  controls.addPicturePacks(packs.map((p) => ({ value: `__pack:${p.id}`, label: p.name })));
+});
 
 // Text layout is cached by measured width, and the webfonts load async —
 // anything measured before they arrive was measured in the fallback face.

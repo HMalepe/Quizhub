@@ -159,33 +159,43 @@ These look like omissions but are intentional. Check here before changing them.
     generate-time (the last clap / gasp / buzzer previewed on that recap
     row; tap the same mark again to cycle) — never during the live take.
 
-16. **Logo questions are user-supplied, not bundled.** "My Logos (guess the
-    brand)" reads whatever you've listed in `public/logos/manifest.json` —
-    the repo ships one placeholder (`sample-acme.svg`, not a real brand), not
-    real trademarked crests/logos. Both this repo and its Vercel deployment
-    are public, so anything checked in here would be sitting in the open
-    regardless of who actually plays the quiz — drop your own images into
-    `public/logos/` instead (see `public/logos/README.md`). Don't add a
-    built-in library of real club crests/brand marks without asking; that's
-    a redistribution decision, not a coding one.
+16. **Picture-round images are user-supplied, not bundled.** A picture round
+    (logos, celebrities, footballers, animals, food, landmarks, cars, album
+    covers) is a folder under `public/packs/` plus a `manifest.json`, listed
+    in `public/packs/index.json`. Adding a round needs no code change — a
+    folder and an index entry is the whole thing.
 
-    A logo question is still a `[question, answer]` tuple — the question
-    string is just `img:/logos/whatever.svg` instead of text.
-    `logoBank.js` owns the `img:` prefix convention and
-    `imageUrlFromQuestion()`/`loadLogoQuiz()`; `renderer.js` is the one place
-    that checks for the prefix (`drawQuestionText` branches to
-    `drawQuestionImage`), so `quizMachine.js` and `colorizeTake.js`'s
-    `overlayStateAt` needed no changes — the question phase, the reveal
-    phase, and the generate-time re-render (which reuses
-    `renderer.drawOverlayZone`) all draw the logo for free.
+    Every round ships **empty** except flags and one logo placeholder. This
+    repo and its Vercel deployment are both public URLs, so any image
+    committed here is published to the open internet regardless of who
+    actually plays the quiz — and celebrity photos, brand marks, club crests,
+    album art and most food/wildlife photography all belong to somebody.
+    Don't source and commit a library of them; that's a redistribution
+    decision, not a coding one. Flags are the one exception and ship
+    populated: national flags carry no copyright and those SVGs are drawn in
+    this repo, not copied. See `public/packs/README.md`.
+
+    A picture question is still a `[question, answer]` tuple — the question
+    string is `img:<url>` or `img:<url>|<prompt>`, where the prompt ("Who is
+    this?") comes from the pack and is drawn as a dim line above the image.
+    `picturePacks.js` owns that encoding (`parseImageQuestion()`,
+    `imageUrlFromQuestion()`, `loadPackIndex()`, `loadPack()`);
+    `renderer.js` is the one place that checks for the prefix
+    (`drawQuestionText` branches to `drawQuestionImage`), so
+    `quizMachine.js` and `colorizeTake.js`'s `overlayStateAt` needed no
+    changes — the question phase, the reveal phase, and the generate-time
+    re-render (which reuses `renderer.drawOverlayZone`) all draw the picture
+    for free. A pack with no prompt gets the taller image box the logos round
+    originally had, so adding the prompt line didn't move anything for a
+    round that doesn't set one.
 
     `render/imageCache.js` is a synchronous-read cache: the draw loop and
     `colorizeTake.js`'s per-sample `process` callback both run without
-    `await`, so a logo has to already be loaded before either can draw it.
+    `await`, so a picture has to already be loaded before either can draw it.
     `preloadImages()` is awaited once in `main.js` right after picking the
-    category (before Start) and again defensively at the top of
-    `colorizeOnce` in `colorizeTake.js` — don't rely on the first preload
-    surviving to generate time.
+    round (before Start) and again defensively at the top of `colorizeOnce`
+    in `colorizeTake.js` — don't rely on the first preload surviving to
+    generate time.
 
 ## Architecture
 
@@ -208,8 +218,9 @@ src/
 │   ├── colorizeTake.js   Re-encodes a take with recap marks as green/orange/red
 │   │                     and mixes a per-question clap / gasp / buzzer onto reveals.
 │   ├── stings.js         Recap preview + generate mix. Same mark again cycles the bank.
-│   ├── logoBank.js       "Guess the brand" — reads public/logos/manifest.json,
-│   │                     the `img:` question-prefix convention.
+│   ├── picturePacks.js   Picture rounds — reads public/packs/index.json and
+│   │                     each pack's manifest; owns the `img:url|prompt`
+│   │                     question-prefix convention.
 │   └── recorder.js       WebCodecs/Mediabunny recorder + MediaRecorder fallback.
 ├── render/
 │   ├── text.js          Canvas text wrapping and auto-fit, with a layout
@@ -334,9 +345,13 @@ rather than user-taggable rows, so a separate lookup module fit better than
 teaching `questions.js` about categories. The textarea format is unchanged;
 "My Questions" still means whatever the user pasted in Settings.
 
-The "Other" optgroup also has `__logos` ("My Logos (guess the brand)"),
-which resolves through `logoBank.js`'s `loadLogoQuiz()` instead of
-`CATEGORY_BANK`/`localStorage` — see decision #16 above for why those
-questions are image URLs read from `public/logos/manifest.json` rather than
-a bundled bank. Picking it with an empty manifest alerts and resets the
-select rather than calling `setQuestions()` with nothing.
+A separate "Picture Rounds" optgroup holds one `__pack:<id>` option per entry
+in `public/packs/index.json`. Those resolve through `picturePacks.js`'s
+`loadPack()` instead of `CATEGORY_BANK`/`localStorage` — see decision #16
+above for why their images are user-supplied. The group is added by
+`Controls.addPicturePacks()` rather than `populateCategories()`, because the
+index is fetched at runtime and lands after the built-in sections are already
+on screen. Only the index is fetched at startup; a pack's own images wait
+until that round is picked. Picking a round with an empty manifest alerts with
+the folder to fill and resets the select, rather than calling `setQuestions()`
+with nothing.
