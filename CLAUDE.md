@@ -165,15 +165,28 @@ These look like omissions but are intentional. Check here before changing them.
     in `public/packs/index.json`. Adding a round needs no code change — a
     folder and an index entry is the whole thing.
 
-    Every round ships **empty** except flags and one logo placeholder. This
-    repo and its Vercel deployment are both public URLs, so any image
-    committed here is published to the open internet regardless of who
-    actually plays the quiz — and celebrity photos, brand marks, club crests,
-    album art and most food/wildlife photography all belong to somebody.
-    Don't source and commit a library of them; that's a redistribution
-    decision, not a coding one. Flags are the one exception and ship
-    populated: national flags carry no copyright and those SVGs are drawn in
-    this repo, not copied. See `public/packs/README.md`.
+    **Every round that needs photographs ships empty.** This repo and its
+    Vercel deployment are both public URLs, so any image committed here is
+    published to the open internet regardless of who actually plays the quiz
+    — and celebrity photos, brand marks, club crests, album art and most
+    food/wildlife photography all belong to somebody. Don't source and commit
+    a library of them; that's a redistribution decision, not a coding one.
+
+    What *does* ship populated is everything that can be **drawn** rather than
+    photographed, because a drawing made here carries no one else's rights:
+    flags (45 — national flags carry no copyright), road signs (12 —
+    standardised geometry), currency symbols, shapes, geometry problems and
+    playing cards. All of those SVGs were generated for this repo, not copied.
+    That's the dividing line for any new round: if it can be drawn accurately,
+    draw it; if it needs a photo, scaffold it empty. Don't approximate
+    something that needs to be exact — a hand-drawn animal or landmark would
+    be ambiguous to answer, which is worse than an empty round.
+
+    The drawn packs use `COLORS.ink` on a transparent background so they
+    composite onto the dark overlay natively; road signs keep their real
+    colours because a sign is its colours. Nothing in this app ever renders a
+    pack image on a light background — both the canvas overlay and the recap
+    list are dark. See `public/packs/README.md`.
 
     A picture question is still a `[question, answer]` tuple — the question
     string is `img:<url>` or `img:<url>|<prompt>`, where the prompt ("Who is

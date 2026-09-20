@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 620" width="1600" height="620">
+  <path d="M 485 150 L 740 470 H 230 Z" fill="none" stroke="#F3EEE6" stroke-width="14" />
+  <text x="485" y="260" font-family='Helvetica, Arial, sans-serif' font-size="70" font-weight="600" fill="#F3EEE6" text-anchor="middle" dominant-baseline="central">60°</text>
+  <text x="335" y="420" font-family='Helvetica, Arial, sans-serif' font-size="70" font-weight="600" fill="#F3EEE6" text-anchor="middle" dominant-baseline="central">60°</text>
+  <text x="645" y="420" font-family='Helvetica, Arial, sans-serif' font-size="86" font-weight="600" fill="#F3EEE6" text-anchor="middle" dominant-baseline="central">x</text>
+  <text x="1180" y="310" font-family='Helvetica, Arial, sans-serif' font-size="72" font-weight="700" fill="#8F8A82" text-anchor="middle" dominant-baseline="central">x = ?</text>
+</svg>

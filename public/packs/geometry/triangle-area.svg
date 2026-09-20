@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 620" width="1600" height="620">
+  <path d="M 230 470 H 740 L 485 170 Z" fill="none" stroke="#F3EEE6" stroke-width="14" />
+  <path d="M 485 170 V 470" fill="none" stroke="#F3EEE6" stroke-width="7" stroke-dasharray="20 16"/>
+  <text x="485" y="540" font-family='Helvetica, Arial, sans-serif' font-size="86" font-weight="600" fill="#F3EEE6" text-anchor="middle" dominant-baseline="central">10</text>
+  <text x="570" y="330" font-family='Helvetica, Arial, sans-serif' font-size="86" font-weight="600" fill="#F3EEE6" text-anchor="middle" dominant-baseline="central">6</text>
+  <text x="1180" y="310" font-family='Helvetica, Arial, sans-serif' font-size="72" font-weight="700" fill="#8F8A82" text-anchor="middle" dominant-baseline="central">AREA = ?</text>
+</svg>

@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 620" width="1600" height="620">
+  <circle cx="490" cy="310" r="195" fill="none" stroke="#F3EEE6" stroke-width="14"/>
+  <path d="M 490 310 H 685" fill="none" stroke="#F3EEE6" stroke-width="12" />
+  <circle cx="490" cy="310" r="14" fill="#F3EEE6"/>
+  <text x="590" y="255" font-family='Helvetica, Arial, sans-serif' font-size="86" font-weight="600" fill="#F3EEE6" text-anchor="middle" dominant-baseline="central">7</text>
+  <text x="1180" y="310" font-family='Helvetica, Arial, sans-serif' font-size="72" font-weight="700" fill="#8F8A82" text-anchor="middle" dominant-baseline="central">DIAMETER = ?</text>
+</svg>

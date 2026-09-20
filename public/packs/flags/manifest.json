@@ -1,10 +1,182 @@
 [
-  { "file": "japan.svg", "answer": "Japan" },
-  { "file": "france.svg", "answer": "France" },
-  { "file": "italy.svg", "answer": "Italy" },
-  { "file": "nigeria.svg", "answer": "Nigeria" },
-  { "file": "germany.svg", "answer": "Germany" },
-  { "file": "ukraine.svg", "answer": "Ukraine" },
-  { "file": "sweden.svg", "answer": "Sweden" },
-  { "file": "switzerland.svg", "answer": "Switzerland" }
+  {
+    "file": "japan.svg",
+    "answer": "Japan"
+  },
+  {
+    "file": "france.svg",
+    "answer": "France"
+  },
+  {
+    "file": "italy.svg",
+    "answer": "Italy"
+  },
+  {
+    "file": "nigeria.svg",
+    "answer": "Nigeria"
+  },
+  {
+    "file": "germany.svg",
+    "answer": "Germany"
+  },
+  {
+    "file": "ukraine.svg",
+    "answer": "Ukraine"
+  },
+  {
+    "file": "sweden.svg",
+    "answer": "Sweden"
+  },
+  {
+    "file": "switzerland.svg",
+    "answer": "Switzerland"
+  },
+  {
+    "file": "belgium.svg",
+    "answer": "Belgium"
+  },
+  {
+    "file": "ireland.svg",
+    "answer": "Ireland"
+  },
+  {
+    "file": "romania.svg",
+    "answer": "Romania"
+  },
+  {
+    "file": "mali.svg",
+    "answer": "Mali"
+  },
+  {
+    "file": "ivory-coast.svg",
+    "answer": "Ivory Coast"
+  },
+  {
+    "file": "peru.svg",
+    "answer": "Peru"
+  },
+  {
+    "file": "netherlands.svg",
+    "answer": "The Netherlands"
+  },
+  {
+    "file": "russia.svg",
+    "answer": "Russia"
+  },
+  {
+    "file": "hungary.svg",
+    "answer": "Hungary"
+  },
+  {
+    "file": "bulgaria.svg",
+    "answer": "Bulgaria"
+  },
+  {
+    "file": "lithuania.svg",
+    "answer": "Lithuania"
+  },
+  {
+    "file": "estonia.svg",
+    "answer": "Estonia"
+  },
+  {
+    "file": "gabon.svg",
+    "answer": "Gabon"
+  },
+  {
+    "file": "austria.svg",
+    "answer": "Austria"
+  },
+  {
+    "file": "poland.svg",
+    "answer": "Poland"
+  },
+  {
+    "file": "indonesia.svg",
+    "answer": "Indonesia"
+  },
+  {
+    "file": "spain.svg",
+    "answer": "Spain"
+  },
+  {
+    "file": "colombia.svg",
+    "answer": "Colombia"
+  },
+  {
+    "file": "thailand.svg",
+    "answer": "Thailand"
+  },
+  {
+    "file": "denmark.svg",
+    "answer": "Denmark"
+  },
+  {
+    "file": "finland.svg",
+    "answer": "Finland"
+  },
+  {
+    "file": "norway.svg",
+    "answer": "Norway"
+  },
+  {
+    "file": "iceland.svg",
+    "answer": "Iceland"
+  },
+  {
+    "file": "bangladesh.svg",
+    "answer": "Bangladesh"
+  },
+  {
+    "file": "vietnam.svg",
+    "answer": "Vietnam"
+  },
+  {
+    "file": "china.svg",
+    "answer": "China"
+  },
+  {
+    "file": "turkey.svg",
+    "answer": "Turkey"
+  },
+  {
+    "file": "pakistan.svg",
+    "answer": "Pakistan"
+  },
+  {
+    "file": "tunisia.svg",
+    "answer": "Tunisia"
+  },
+  {
+    "file": "india.svg",
+    "answer": "India"
+  },
+  {
+    "file": "greece.svg",
+    "answer": "Greece"
+  },
+  {
+    "file": "czechia.svg",
+    "answer": "The Czech Republic"
+  },
+  {
+    "file": "israel.svg",
+    "answer": "Israel"
+  },
+  {
+    "file": "morocco.svg",
+    "answer": "Morocco"
+  },
+  {
+    "file": "jamaica.svg",
+    "answer": "Jamaica"
+  },
+  {
+    "file": "united-kingdom.svg",
+    "answer": "The United Kingdom"
+  },
+  {
+    "file": "united-states.svg",
+    "answer": "The United States"
+  }
 ]

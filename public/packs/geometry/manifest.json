@@ -1,0 +1,42 @@
+[
+  {
+    "file": "rect-area.svg",
+    "answer": "40"
+  },
+  {
+    "file": "rect-perimeter.svg",
+    "answer": "20"
+  },
+  {
+    "file": "triangle-area.svg",
+    "answer": "30"
+  },
+  {
+    "file": "square-perimeter.svg",
+    "answer": "36"
+  },
+  {
+    "file": "right-angle.svg",
+    "answer": "90 degrees"
+  },
+  {
+    "file": "straight-line.svg",
+    "answer": "50 degrees"
+  },
+  {
+    "file": "triangle-angles.svg",
+    "answer": "45 degrees"
+  },
+  {
+    "file": "circle-diameter.svg",
+    "answer": "14"
+  },
+  {
+    "file": "full-circle.svg",
+    "answer": "360 degrees"
+  },
+  {
+    "file": "equilateral.svg",
+    "answer": "60 degrees"
+  }
+]

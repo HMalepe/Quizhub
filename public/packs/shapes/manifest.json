@@ -1,0 +1,50 @@
+[
+  {
+    "file": "triangle.svg",
+    "answer": "A triangle (equilateral)"
+  },
+  {
+    "file": "square.svg",
+    "answer": "A square"
+  },
+  {
+    "file": "rectangle.svg",
+    "answer": "A rectangle"
+  },
+  {
+    "file": "pentagon.svg",
+    "answer": "A pentagon"
+  },
+  {
+    "file": "hexagon.svg",
+    "answer": "A hexagon"
+  },
+  {
+    "file": "heptagon.svg",
+    "answer": "A heptagon"
+  },
+  {
+    "file": "octagon.svg",
+    "answer": "An octagon"
+  },
+  {
+    "file": "circle.svg",
+    "answer": "A circle"
+  },
+  {
+    "file": "ellipse.svg",
+    "answer": "An ellipse (an oval)"
+  },
+  {
+    "file": "rhombus.svg",
+    "answer": "A rhombus"
+  },
+  {
+    "file": "trapezium.svg",
+    "answer": "A trapezium (a trapezoid in US English)"
+  },
+  {
+    "file": "parallelogram.svg",
+    "answer": "A parallelogram"
+  }
+]
