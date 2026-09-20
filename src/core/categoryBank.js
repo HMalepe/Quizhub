@@ -1,6 +1,6 @@
 /**
- * "Can You Pass As..." — 86 identity-check trivia categories, grouped into
- * 10 sections, 8 questions each (688 total). Sourced from the uploaded
+ * "Can You Pass As..." — 115 identity-check trivia categories, grouped into
+ * 14 sections, 8 questions each (920 total). Sourced from the uploaded
  * question set and kept in the same [question, answer] pair shape that
  * `questions.js` already uses everywhere else, so a chosen category can be
  * fed straight into `machine.setQuestions()`.
@@ -832,6 +832,58 @@ export const SECTIONS = [
           ['Which studio develops Football Manager?', 'Sports Interactive'],
           ['What is the in-game mode where you handle transfers, tactics, and training called?', 'Career/manager mode']
         ]
+      },
+      {
+        name: 'a Women\'s Football Fan',
+        questions: [
+          ['Which country won the 2023 FIFA Women\'s World Cup?', 'Spain'],
+          ['Which country has won the most Women\'s World Cups?', 'The United States, with four'],
+          ['What does "WSL" stand for in English women\'s football?', 'The Women\'s Super League'],
+          ['Which two countries co-hosted the 2023 Women\'s World Cup?', 'Australia and New Zealand'],
+          ['Which American won both the Golden Boot and Golden Ball at the 2019 Women\'s World Cup?', 'Megan Rapinoe'],
+          ['What\'s the top club competition in European women\'s football?', 'The UEFA Women\'s Champions League'],
+          ['Which country won the 2022 Women\'s Euros on home soil?', 'England'],
+          ['What does "NWSL" stand for?', 'The National Women\'s Soccer League, in the United States']
+        ]
+      },
+      {
+        name: 'an African Football Fan',
+        questions: [
+          ['What does "AFCON" stand for?', 'The Africa Cup of Nations'],
+          ['Which country has won the most AFCON titles?', 'Egypt, with seven'],
+          ['What\'s South Africa\'s top-flight football league commonly called?', 'The PSL — the Premier Soccer League'],
+          ['Which two Soweto clubs contest South Africa\'s biggest derby?', 'Kaizer Chiefs and Orlando Pirates'],
+          ['What is the Kaizer Chiefs vs Orlando Pirates fixture known as?', 'The Soweto Derby'],
+          ['Which African country reached the World Cup semi-finals in 2022, a first for the continent?', 'Morocco'],
+          ['Which Liberian forward is the only African to win the Ballon d\'Or, in 1995?', 'George Weah'],
+          ['Which South African club won the CAF Champions League in 2016?', 'Mamelodi Sundowns']
+        ]
+      },
+      {
+        name: 'a Football Kit Nerd',
+        questions: [
+          ['What\'s a "third kit"?', 'A club\'s alternative strip beyond its home and away kits'],
+          ['Why does a team wear a "clash" or away kit?', 'To avoid a colour clash with the opposing team'],
+          ['What does a star above a national team\'s crest usually signify?', 'A World Cup title won'],
+          ['How many stars sit above Brazil\'s crest?', 'Five'],
+          ['What colours are Juventus\'s traditional home stripes?', 'Black and white'],
+          ['Which German club is famously associated with yellow and black?', 'Borussia Dortmund'],
+          ['Which sportswear brand uses the "swoosh" logo?', 'Nike'],
+          ['Which brand\'s three stripes are a football kit staple?', 'Adidas']
+        ]
+      },
+      {
+        name: 'a VAR & Referee Rules Nerd',
+        questions: [
+          ['What does "VAR" stand for?', 'Video Assistant Referee'],
+          ['Which four decision types can VAR review?', 'Goals, penalties, direct red cards, and mistaken identity'],
+          ['What signal does a referee make before consulting the pitchside monitor?', 'Drawing a rectangle — a "TV screen" — in the air'],
+          ['What happens when a player receives two yellow cards in one match?', 'They become a red card and the player is sent off'],
+          ['What\'s "advantage"?', 'Letting play continue after a foul because the fouled team benefits from doing so'],
+          ['What\'s added at the end of each half to account for delays?', 'Stoppage time (added or injury time)'],
+          ['What\'s the offside rule, in one line?', 'An attacker is ahead of the second-last defender when the ball is played to them'],
+          ['What broadly counts as a handball offence?', 'Deliberately touching the ball with hand or arm, or doing so with an unnaturally enlarged body shape']
+        ]
       }
     ]
   },
@@ -1174,6 +1226,351 @@ export const SECTIONS = [
           ['What\'s a "bracket" in tournament terms?', 'The chart predicting or tracking the tournament\'s matchups and winners'],
           ['What\'s a "one-and-done" player?', 'A player who leaves college for the pros after just one season'],
           ['What\'s it called when a #16 seed beats a #1 seed, historically rare?', 'A major upset']
+        ]
+      },
+      {
+        name: 'a Boxing Fan',
+        questions: [
+          ['How long is a standard professional boxing round?', 'Three minutes'],
+          ['What does "TKO" stand for?', 'Technical knockout — stopped by the referee or corner'],
+          ['How many judges typically score a professional bout?', 'Three'],
+          ['What scoring system are most professional rounds scored on?', 'The 10-point must system'],
+          ['What\'s the heaviest professional weight class?', 'Heavyweight'],
+          ['What does "the undercard" mean?', 'The supporting bouts staged before the main event'],
+          ['What\'s a "southpaw"?', 'A left-handed fighter, who leads with the right hand and foot'],
+          ['What\'s a "split decision"?', 'A win where the three judges don\'t all score the same fighter ahead']
+        ]
+      },
+      {
+        name: 'a Boxing Historian',
+        questions: [
+          ['Which boxer famously called himself "The Greatest"?', 'Muhammad Ali'],
+          ['What was the 1974 Ali vs Foreman fight in Zaire called?', 'The Rumble in the Jungle'],
+          ['What was the 1975 Ali vs Frazier third fight called?', 'The Thrilla in Manila'],
+          ['Which heavyweight retired undefeated at 49-0 in the 1950s?', 'Rocky Marciano'],
+          ['Which boxer bit Evander Holyfield\'s ear during their 1997 rematch?', 'Mike Tyson'],
+          ['Which American retired 50-0, one past Marciano\'s mark?', 'Floyd Mayweather Jr.'],
+          ['What tactic did Ali use against Foreman, absorbing punches on the ropes?', 'The rope-a-dope'],
+          ['Which Filipino won world titles across eight different weight divisions?', 'Manny Pacquiao']
+        ]
+      },
+      {
+        name: 'an MMA Fan',
+        questions: [
+          ['What does "MMA" stand for?', 'Mixed Martial Arts'],
+          ['What\'s the biggest MMA promotion in the world?', 'The UFC'],
+          ['What shape is the UFC\'s fighting area?', 'An octagon'],
+          ['How many rounds is a non-title UFC fight?', 'Three'],
+          ['How many rounds is a UFC title fight?', 'Five'],
+          ['What\'s a "submission"?', 'A hold or choke that forces an opponent to tap out'],
+          ['Who is "GSP"?', 'Georges St-Pierre'],
+          ['Which Irish fighter became the UFC\'s first simultaneous two-division champion?', 'Conor McGregor']
+        ]
+      },
+      {
+        name: 'a Formula 1 Fan',
+        questions: [
+          ['What does "DRS" stand for in Formula 1?', 'Drag Reduction System'],
+          ['Which two championships are contested each season?', 'The Drivers\' and Constructors\' Championships'],
+          ['What flag signals the end of a race?', 'The chequered flag'],
+          ['What does a red flag mean?', 'The session is stopped'],
+          ['Which two drivers share the record of seven world titles?', 'Michael Schumacher and Lewis Hamilton'],
+          ['What\'s "pole position"?', 'First place on the starting grid, earned in qualifying'],
+          ['Which glamorous race is run on public streets around a harbour?', 'The Monaco Grand Prix'],
+          ['What does a "box" call on team radio mean?', 'Come into the pits']
+        ]
+      },
+      {
+        name: 'a Cycling Fan',
+        questions: [
+          ['What are the three Grand Tours?', 'The Tour de France, the Giro d\'Italia, and the Vuelta a España'],
+          ['What colour jersey does the Tour de France leader wear?', 'Yellow — the maillot jaune'],
+          ['What\'s the "peloton"?', 'The main bunch of riders in a race'],
+          ['What does the polka-dot jersey signify at the Tour?', 'King of the Mountains — the best climber'],
+          ['What\'s "drafting" or "slipstreaming"?', 'Riding close behind another rider to save energy'],
+          ['Which British rider won the Tour de France four times in the 2010s?', 'Chris Froome'],
+          ['What\'s a "domestique"?', 'A rider whose job is to support the team leader'],
+          ['What\'s a "time trial"?', 'A race against the clock, with riders starting individually']
+        ]
+      },
+      {
+        name: 'a Swimming Fan',
+        questions: [
+          ['How long is an Olympic-size swimming pool?', '50 metres'],
+          ['What are the four competitive strokes?', 'Freestyle, backstroke, breaststroke, and butterfly'],
+          ['Who is the most decorated Olympian of all time?', 'Michael Phelps'],
+          ['How many Olympic gold medals did Michael Phelps win?', '23'],
+          ['What\'s a "medley" race?', 'A race using all four competitive strokes'],
+          ['Which South African beat Michael Phelps to gold in the 200m butterfly at London 2012?', 'Chad le Clos'],
+          ['What\'s a "flip turn" used for?', 'Turning quickly at the wall, mostly in freestyle and backstroke'],
+          ['What happens on a false start in a swimming final?', 'The swimmer is disqualified']
+        ]
+      },
+      {
+        name: 'a Snooker & Darts Fan',
+        questions: [
+          ['How many red balls are on a snooker table at the start of a frame?', 'Fifteen'],
+          ['What\'s the highest possible break in standard snooker?', '147'],
+          ['What\'s the black ball worth in snooker?', 'Seven'],
+          ['Where is the World Snooker Championship traditionally held?', 'The Crucible Theatre in Sheffield'],
+          ['What\'s the highest score possible with three darts?', '180'],
+          ['What must you finish on to win a standard leg of darts?', 'A double'],
+          ['What\'s a "nine-darter"?', 'A perfect leg of 501 finished in nine darts'],
+          ['What\'s the highest score a single dart can score?', '60 — treble twenty']
+        ]
+      },
+      {
+        name: 'a Netball Fan',
+        questions: [
+          ['How many players per team are on court in netball?', 'Seven'],
+          ['Which two positions are allowed to shoot?', 'Goal Shooter and Goal Attack'],
+          ['What does "GK" stand for as a netball position?', 'Goal Keeper'],
+          ['Can you run with the ball in netball?', 'No — you must pass or shoot within three seconds'],
+          ['How many quarters is a netball match played over?', 'Four'],
+          ['What\'s South Africa\'s national netball team known as?', 'The Proteas'],
+          ['Which country is historically the most dominant in world netball?', 'Australia'],
+          ['From where must a shot be taken for it to count?', 'Inside the shooting circle']
+        ]
+      },
+      {
+        name: 'a Baseball Fan',
+        questions: [
+          ['How many strikes make an out?', 'Three'],
+          ['How many innings are in a standard Major League game?', 'Nine'],
+          ['What\'s a "home run"?', 'A hit that lets the batter round all the bases and score, usually out of the park'],
+          ['What\'s the championship series of Major League Baseball called?', 'The World Series'],
+          ['How many players field per team?', 'Nine'],
+          ['What\'s a "grand slam" in baseball?', 'A home run with the bases loaded, scoring four runs'],
+          ['What\'s the pitcher\'s raised area called?', 'The mound'],
+          ['Which player broke Major League Baseball\'s colour barrier in 1947?', 'Jackie Robinson']
+        ]
+      }
+    ]
+  },
+  {
+    section: 'South African Knowledge Checks',
+    categories: [
+      {
+        name: 'a Bokke Supporter',
+        questions: [
+          ['How many Rugby World Cups have the Springboks won?', 'Four'],
+          ['In which years did South Africa win the Rugby World Cup?', '1995, 2007, 2019, and 2023'],
+          ['Who captained the Springboks to the 1995 World Cup title?', 'Francois Pienaar'],
+          ['Who became the first Black Springbok captain to lift the World Cup, in 2019?', 'Siya Kolisi'],
+          ['Which president famously wore a Springbok jersey at the 1995 final?', 'Nelson Mandela'],
+          ['What are the Springboks\' traditional jersey colours?', 'Green and gold'],
+          ['Who was Springbok head coach for the 2019 World Cup win?', 'Rassie Erasmus'],
+          ['Which team did South Africa beat in the 2019 World Cup final?', 'England']
+        ]
+      },
+      {
+        name: 'a Braai Master',
+        questions: [
+          ['What\'s "boerewors"?', 'A traditional spiced South African sausage, usually cooked in a coil'],
+          ['Which public holiday doubles as National Braai Day?', 'Heritage Day, on 24 September'],
+          ['What\'s "pap"?', 'A stiff maize-meal porridge, the classic braai side'],
+          ['What\'s "chakalaka"?', 'A spicy vegetable relish served with pap or bread'],
+          ['What\'s a "potjie"?', 'A three-legged cast-iron pot used to slow-cook stew over coals'],
+          ['What\'s a "sosatie"?', 'Marinated meat skewers, often with apricot and curry flavours'],
+          ['What\'s a "braai broodjie"?', 'A toasted sandwich grilled over the coals — usually cheese, tomato and onion'],
+          ['Why do braai purists insist on wood over briquettes?', 'Wood burns down to coals with more smoke flavour']
+        ]
+      },
+      {
+        name: 'a Joburg or Cape Town Local',
+        questions: [
+          ['What are Johannesburg\'s common nicknames?', 'Joburg, Jozi, or eGoli'],
+          ['What does "eGoli" mean?', '"Place of gold"'],
+          ['What\'s Cape Town\'s well-known nickname?', 'The Mother City'],
+          ['What\'s Johannesburg\'s main international airport called?', 'OR Tambo International'],
+          ['What\'s the strong south-easterly wind in Cape Town nicknamed?', 'The Cape Doctor'],
+          ['What does "taxi" usually mean in everyday South African usage?', 'A minibus taxi'],
+          ['Which Johannesburg township is the most historically famous?', 'Soweto'],
+          ['Which island off Cape Town held Nelson Mandela as a prisoner?', 'Robben Island']
+        ]
+      },
+      {
+        name: 'Fluent in SA Slang',
+        questions: [
+          ['What does "howzit" mean?', 'Hello, or how\'s it going'],
+          ['What does "lekker" mean?', 'Nice, good, or enjoyable'],
+          ['What does "eish" express?', 'Surprise, frustration, or sympathy'],
+          ['What does "just now" mean in South Africa?', 'Sometime soon — but definitely not immediately'],
+          ['What does "now now" mean?', 'Very soon — sooner than "just now"'],
+          ['What\'s a "robot" in South African English?', 'A traffic light'],
+          ['What does "sharp sharp" mean?', 'Okay, cool, or goodbye — an all-purpose agreement'],
+          ['What\'s a "bakkie"?', 'A pickup truck']
+        ]
+      }
+    ]
+  },
+  {
+    section: 'Music & Entertainment',
+    categories: [
+      {
+        name: 'a Hip-Hop Head',
+        questions: [
+          ['Which city is widely credited as the birthplace of hip-hop?', 'New York City — specifically the Bronx'],
+          ['What are the four traditional elements of hip-hop?', 'MCing, DJing, breakdancing, and graffiti'],
+          ['What does "MC" stand for?', 'Master of Ceremonies'],
+          ['What\'s a "freestyle"?', 'Improvised rapping, often completely unwritten'],
+          ['What\'s a "diss track"?', 'A song attacking a rival artist'],
+          ['Which rapper released "The Marshall Mathers LP"?', 'Eminem'],
+          ['What\'s "a bar" in rap terms?', 'A single line or measure of lyrics'],
+          ['Which two regions defined hip-hop\'s biggest 1990s rivalry?', 'The East Coast and the West Coast']
+        ]
+      },
+      {
+        name: 'an Amapiano Fan',
+        questions: [
+          ['Which country did amapiano originate in?', 'South Africa'],
+          ['What does "amapiano" mean in isiZulu?', '"The pianos"'],
+          ['What\'s the deep, signature bass sound of amapiano called?', 'The log drum'],
+          ['Which two genres is amapiano most directly descended from?', 'Kwaito and deep house'],
+          ['In which decade did amapiano break out globally?', 'The 2020s'],
+          ['Which South African province is amapiano\'s heartland?', 'Gauteng'],
+          ['Which instrument\'s melodies give the genre its name?', 'The piano'],
+          ['What\'s "private school" amapiano?', 'A jazzier, more melodic strand of the genre']
+        ]
+      },
+      {
+        name: 'a K-Pop Stan',
+        questions: [
+          ['What does "K-pop" stand for?', 'Korean pop'],
+          ['Which K-pop group became the first to top the US Billboard 200?', 'BTS'],
+          ['What\'s a "bias" in K-pop fandom?', 'Your favourite member of a group'],
+          ['What\'s a "comeback"?', 'A group\'s new release and its promotional cycle'],
+          ['What is BTS\'s fandom officially called?', 'ARMY'],
+          ['Which girl group broke through globally with "Ddu-Du Ddu-Du"?', 'BLACKPINK'],
+          ['What\'s a "lightstick"?', 'An official illuminated fan accessory waved at concerts'],
+          ['What\'s a "maknae"?', 'The youngest member of a group']
+        ]
+      },
+      {
+        name: 'a Reality TV Addict',
+        questions: [
+          ['What\'s a "confessional" in reality TV?', 'A to-camera interview where a cast member comments on events'],
+          ['Which show sends singles to a villa to couple up?', 'Love Island'],
+          ['Which show is the "rose ceremony" from?', 'The Bachelor'],
+          ['Which competition show features drag queens competing for a crown?', 'RuPaul\'s Drag Race'],
+          ['What does a "reunion" episode usually involve?', 'The cast revisiting the season\'s conflicts face to face'],
+          ['Which family\'s show ran for 20 seasons on E!?', 'The Kardashians — Keeping Up with the Kardashians'],
+          ['What\'s "manufactured" or producer-driven drama?', 'Conflict encouraged or engineered by the production team'],
+          ['Which survival show strands contestants competing through tribal councils?', 'Survivor']
+        ]
+      },
+      {
+        name: 'a Film Buff',
+        questions: [
+          ['What are the Academy Awards more commonly called?', 'The Oscars'],
+          ['Which film became the first non-English language winner of Best Picture, in 2020?', 'Parasite'],
+          ['What\'s a "director\'s cut"?', 'A version of a film edited to the director\'s preference rather than the studio\'s'],
+          ['Who directed "Jaws", "E.T." and "Jurassic Park"?', 'Steven Spielberg'],
+          ['What\'s the "fourth wall"?', 'The invisible barrier between the story and the audience'],
+          ['What\'s a "MacGuffin"?', 'An object that drives the plot but barely matters in itself'],
+          ['Which franchise opens with "A long time ago in a galaxy far, far away"?', 'Star Wars'],
+          ['What are "practical effects"?', 'Effects achieved physically on set rather than digitally']
+        ]
+      }
+    ]
+  },
+  {
+    section: 'Tech & Internet',
+    categories: [
+      {
+        name: 'a Crypto Bro',
+        questions: [
+          ['What was the first cryptocurrency?', 'Bitcoin'],
+          ['What name does Bitcoin\'s pseudonymous creator go by?', 'Satoshi Nakamoto'],
+          ['What does "HODL" mean?', 'Hold on for dear life — refusing to sell'],
+          ['What\'s a "blockchain"?', 'A distributed, append-only ledger of transactions'],
+          ['What\'s "DeFi" short for?', 'Decentralised finance'],
+          ['What\'s an "NFT"?', 'A non-fungible token — a unique on-chain record of ownership'],
+          ['What\'s a crypto "wallet"?', 'Software or hardware holding the keys to your coins'],
+          ['What\'s "mining" in Bitcoin terms?', 'Using computing power to validate transactions and earn new coins']
+        ]
+      },
+      {
+        name: 'a Startup Founder',
+        questions: [
+          ['What\'s an "MVP" in startup terms?', 'Minimum Viable Product'],
+          ['What\'s a "seed round"?', 'An early funding round, before Series A'],
+          ['What\'s "runway"?', 'How long a company can operate before it runs out of money'],
+          ['What\'s a "pivot"?', 'Changing a startup\'s core direction or product'],
+          ['What\'s "product-market fit"?', 'When a product genuinely satisfies strong market demand'],
+          ['What\'s "churn"?', 'The rate at which customers stop using the product'],
+          ['What\'s a "term sheet"?', 'A non-binding outline of proposed investment terms'],
+          ['What\'s "burn rate"?', 'How fast a company spends its cash each month']
+        ]
+      },
+      {
+        name: 'Terminally Online',
+        questions: [
+          ['What\'s "doomscrolling"?', 'Compulsively reading bad news online'],
+          ['What does "touch grass" mean?', 'Go outside — get off the internet'],
+          ['What\'s a "ratio" on social media?', 'When replies vastly outnumber likes, signalling a bad take'],
+          ['What\'s "subtweeting"?', 'Referring to someone without naming or tagging them'],
+          ['What\'s "engagement bait"?', 'Content designed purely to provoke replies and shares'],
+          ['What do people mean by "the algorithm"?', 'The recommendation system deciding what you see'],
+          ['What\'s a "parasocial" relationship?', 'A one-sided bond a viewer feels with a creator who doesn\'t know them'],
+          ['What\'s "lurking"?', 'Reading a community without ever posting']
+        ]
+      },
+      {
+        name: 'a Cybersecurity Nerd',
+        questions: [
+          ['What\'s "phishing"?', 'Tricking someone into handing over credentials with a fake message'],
+          ['What does "2FA" stand for?', 'Two-factor authentication'],
+          ['What\'s "ransomware"?', 'Malware that encrypts your files and demands payment to release them'],
+          ['What\'s a "zero-day"?', 'A vulnerability unknown to the vendor, with no patch available yet'],
+          ['What\'s "social engineering"?', 'Manipulating people rather than systems to gain access'],
+          ['What does "VPN" stand for?', 'Virtual Private Network'],
+          ['What\'s a "firewall"?', 'A system that controls network traffic according to rules'],
+          ['What does "encryption at rest" mean?', 'Keeping stored data encrypted, not just data in transit']
+        ]
+      }
+    ]
+  },
+  {
+    section: 'Money & Business',
+    categories: [
+      {
+        name: 'a Stock Market Trader',
+        questions: [
+          ['What\'s a "bull market"?', 'A sustained period of rising prices'],
+          ['What\'s a "bear market"?', 'A sustained fall, usually 20% or more off the high'],
+          ['What\'s a "dividend"?', 'A share of company profits paid out to shareholders'],
+          ['What does "IPO" stand for?', 'Initial Public Offering'],
+          ['What\'s the "JSE"?', 'The Johannesburg Stock Exchange'],
+          ['What\'s a "portfolio"?', 'The full collection of investments someone holds'],
+          ['What\'s "the S&P 500"?', 'An index tracking 500 large US listed companies'],
+          ['What\'s "short selling"?', 'Betting a price will fall, by selling borrowed shares first']
+        ]
+      },
+      {
+        name: 'an Entrepreneur',
+        questions: [
+          ['What\'s "cash flow"?', 'The money actually moving in and out of a business'],
+          ['What\'s a "profit margin"?', 'Profit expressed as a percentage of revenue'],
+          ['What\'s "overhead"?', 'Ongoing operating costs not tied directly to making a product'],
+          ['What\'s the difference between "B2B" and "B2C"?', 'Business-to-business versus business-to-consumer'],
+          ['What does "scaling" a business mean?', 'Growing revenue faster than costs'],
+          ['What\'s a "value proposition"?', 'The clear reason a customer should choose your product'],
+          ['What\'s "bootstrapping"?', 'Funding a business from revenue and personal money rather than investors'],
+          ['What\'s "ROI" short for?', 'Return on Investment']
+        ]
+      },
+      {
+        name: 'a Real Estate Investor',
+        questions: [
+          ['What\'s "rental yield"?', 'Annual rent as a percentage of the property\'s value'],
+          ['What\'s a "bond" in South African property terms?', 'A home loan — a mortgage'],
+          ['What\'s "capital appreciation"?', 'The increase in a property\'s value over time'],
+          ['What are "levies" in a sectional title scheme?', 'Monthly fees covering shared maintenance and services'],
+          ['What\'s "transfer duty"?', 'A government tax paid when a property changes ownership'],
+          ['What\'s "LTV" short for?', 'Loan-to-Value ratio'],
+          ['What does "positive cash flow" mean on a rental?', 'The rent exceeds the bond repayment and running costs'],
+          ['What\'s "location, location, location" shorthand for?', 'The idea that position drives property value above all else']
         ]
       }
     ]
