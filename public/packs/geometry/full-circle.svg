@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 620" width="1600" height="620">
+  <circle cx="490" cy="310" r="200" fill="none" stroke="#F3EEE6" stroke-width="14"/>
+  <path d="M 490 310 H 690 M 490 310 V 110" fill="none" stroke="#F3EEE6" stroke-width="12" />
+  <text x="1180" y="310" font-family='Helvetica, Arial, sans-serif' font-size="72" font-weight="700" fill="#8F8A82" text-anchor="middle" dominant-baseline="central">FULL TURN = ?</text>
+</svg>

@@ -1,0 +1,50 @@
+[
+  {
+    "file": "dollar.svg",
+    "answer": "The dollar — US dollar"
+  },
+  {
+    "file": "pound.svg",
+    "answer": "The British pound"
+  },
+  {
+    "file": "euro.svg",
+    "answer": "The euro"
+  },
+  {
+    "file": "yen.svg",
+    "answer": "The Japanese yen (also the Chinese yuan)"
+  },
+  {
+    "file": "rupee.svg",
+    "answer": "The Indian rupee"
+  },
+  {
+    "file": "ruble.svg",
+    "answer": "The Russian ruble"
+  },
+  {
+    "file": "won.svg",
+    "answer": "The South Korean won"
+  },
+  {
+    "file": "naira.svg",
+    "answer": "The Nigerian naira"
+  },
+  {
+    "file": "shekel.svg",
+    "answer": "The Israeli shekel"
+  },
+  {
+    "file": "baht.svg",
+    "answer": "The Thai baht"
+  },
+  {
+    "file": "lira.svg",
+    "answer": "The Turkish lira"
+  },
+  {
+    "file": "rand.svg",
+    "answer": "The South African rand"
+  }
+]

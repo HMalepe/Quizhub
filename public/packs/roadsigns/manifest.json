@@ -1,0 +1,50 @@
+[
+  {
+    "file": "stop.svg",
+    "answer": "Stop"
+  },
+  {
+    "file": "yield.svg",
+    "answer": "Yield — give way to other traffic"
+  },
+  {
+    "file": "no-entry.svg",
+    "answer": "No entry"
+  },
+  {
+    "file": "speed-60.svg",
+    "answer": "Speed limit — 60 km/h"
+  },
+  {
+    "file": "no-parking.svg",
+    "answer": "No parking"
+  },
+  {
+    "file": "no-stopping.svg",
+    "answer": "No stopping"
+  },
+  {
+    "file": "one-way.svg",
+    "answer": "One way"
+  },
+  {
+    "file": "parking.svg",
+    "answer": "Parking"
+  },
+  {
+    "file": "hospital.svg",
+    "answer": "Hospital"
+  },
+  {
+    "file": "level-crossing.svg",
+    "answer": "Railway level crossing ahead"
+  },
+  {
+    "file": "no-left-turn.svg",
+    "answer": "No left turn"
+  },
+  {
+    "file": "roundabout.svg",
+    "answer": "Roundabout ahead — traffic circle"
+  }
+]

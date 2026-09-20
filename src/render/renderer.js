@@ -296,10 +296,10 @@ export class Renderer {
     const img = getCachedImage(url);
     if (!img) return;
 
-    const boxW = W * 0.7;
-    const boxH = topH * (prompt ? 0.26 : 0.34);
+    const boxW = W * 0.78;
+    const boxH = topH * (prompt ? 0.3 : 0.34);
     const boxX = (W - boxW) / 2;
-    const boxY = topH * (prompt ? 0.3 : 0.2);
+    const boxY = topH * (prompt ? 0.28 : 0.2);
 
     const scale = Math.min(boxW / img.naturalWidth, boxH / img.naturalHeight);
     const dw = img.naturalWidth * scale;

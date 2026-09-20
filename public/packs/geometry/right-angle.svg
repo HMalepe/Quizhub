@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 620" width="1600" height="620">
+  <path d="M 300 150 V 480 H 730" fill="none" stroke="#F3EEE6" stroke-width="16" />
+  <path d="M 300 405 H 375 V 480" fill="none" stroke="#F3EEE6" stroke-width="10" />
+  <text x="1180" y="310" font-family='Helvetica, Arial, sans-serif' font-size="72" font-weight="700" fill="#8F8A82" text-anchor="middle" dominant-baseline="central">DEGREES?</text>
+</svg>

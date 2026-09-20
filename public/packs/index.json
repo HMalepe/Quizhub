@@ -1,6 +1,11 @@
 [
   { "id": "logos", "dir": "logos", "name": "Logos — guess the brand", "prompt": "What brand is this?" },
   { "id": "flags", "dir": "flags", "name": "Flags — name the country", "prompt": "Which country's flag is this?" },
+  { "id": "roadsigns", "dir": "roadsigns", "name": "Road signs — can you still pass?", "prompt": "What does this road sign mean?" },
+  { "id": "currency", "dir": "currency", "name": "Currency symbols — name the money", "prompt": "Which currency is this?" },
+  { "id": "shapes", "dir": "shapes", "name": "Shapes — name the shape", "prompt": "What shape is this?" },
+  { "id": "geometry", "dir": "geometry", "name": "Geometry — work it out", "prompt": "Work it out" },
+  { "id": "cards", "dir": "cards", "name": "Playing cards — name the card", "prompt": "Name this card" },
   { "id": "celebs", "dir": "celebs", "name": "Celebrities — name the face", "prompt": "Who is this?" },
   { "id": "footballers", "dir": "footballers", "name": "Footballers — name the player", "prompt": "Name the player" },
   { "id": "animals", "dir": "animals", "name": "Animals — name the animal", "prompt": "What animal is this?" },

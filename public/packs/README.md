@@ -4,10 +4,20 @@ Each folder here is one picture round in the category picker: a set of images
 plus a `manifest.json` saying what each one's answer is. `index.json` is the
 registry of rounds the picker offers.
 
-The rounds that ship populated are **logos** (one placeholder) and **flags**
-(eight). Every other folder — celebrities, footballers, animals, food,
-landmarks, cars, album covers — is an empty round waiting for your images.
-Picking an empty round tells you which folder to fill.
+Six rounds ship populated, all drawn in this repo as SVG rather than sourced
+from anywhere: **flags** (45), **road signs** (12), **currency symbols** (12),
+**shapes** (12), **geometry** (10) and **playing cards** (10), plus one
+placeholder in **logos**.
+
+The rest — celebrities, footballers, animals, food, landmarks, cars, album
+covers — are empty rounds waiting for your images, because they need
+photographs and photographs belong to whoever took them. Picking an empty
+round tells you which folder to fill.
+
+The drawn packs use the app's own ink on a transparent background so they sit
+on the dark overlay natively. Road signs keep their real colours, since a sign
+is its colours. If you add your own images to those packs, bear in mind they're
+only ever shown on a dark background.
 
 ## Adding pictures to a round
 

@@ -1,0 +1,42 @@
+[
+  {
+    "file": "hearts.svg",
+    "answer": "Hearts"
+  },
+  {
+    "file": "diamonds.svg",
+    "answer": "Diamonds"
+  },
+  {
+    "file": "clubs.svg",
+    "answer": "Clubs"
+  },
+  {
+    "file": "spades.svg",
+    "answer": "Spades"
+  },
+  {
+    "file": "ace-spades.svg",
+    "answer": "The Ace of Spades"
+  },
+  {
+    "file": "king-hearts.svg",
+    "answer": "The King of Hearts"
+  },
+  {
+    "file": "queen-diamonds.svg",
+    "answer": "The Queen of Diamonds"
+  },
+  {
+    "file": "jack-clubs.svg",
+    "answer": "The Jack of Clubs"
+  },
+  {
+    "file": "seven-hearts.svg",
+    "answer": "The Seven of Hearts"
+  },
+  {
+    "file": "ten-spades.svg",
+    "answer": "The Ten of Spades"
+  }
+]
