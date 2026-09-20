@@ -13,6 +13,8 @@ import { CANVAS, ENCODING } from './config.js';
 import { ensureAacEncoder } from './recorder.js';
 import { Renderer } from '../render/renderer.js';
 import { getSting, mixStingInto, stingHits } from './stings.js';
+import { imageUrlFromQuestion } from './logoBank.js';
+import { preloadImages } from '../render/imageCache.js';
 
 /**
  * Rebuilds the overlay snapshot that should be on screen at `time` seconds
@@ -82,6 +84,13 @@ function fileResult(file) {
 }
 
 async function colorizeOnce({ blob, questions, timeline, marks, quizTitle, onProgress }) {
+  // The per-sample `process` callback below draws synchronously — it can't
+  // await a logo image mid-conversion. `main.js` already preloads these
+  // before Start, but don't lean on that state surviving to generate time;
+  // make it true here too.
+  const logoUrls = questions.map(([q]) => imageUrlFromQuestion(q)).filter(Boolean);
+  if (logoUrls.length) await preloadImages(logoUrls);
+
   const input = new Input({
     source: new BlobSource(blob),
     formats: ALL_FORMATS

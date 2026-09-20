@@ -159,6 +159,34 @@ These look like omissions but are intentional. Check here before changing them.
     generate-time (the last clap / gasp / buzzer previewed on that recap
     row; tap the same mark again to cycle) — never during the live take.
 
+16. **Logo questions are user-supplied, not bundled.** "My Logos (guess the
+    brand)" reads whatever you've listed in `public/logos/manifest.json` —
+    the repo ships one placeholder (`sample-acme.svg`, not a real brand), not
+    real trademarked crests/logos. Both this repo and its Vercel deployment
+    are public, so anything checked in here would be sitting in the open
+    regardless of who actually plays the quiz — drop your own images into
+    `public/logos/` instead (see `public/logos/README.md`). Don't add a
+    built-in library of real club crests/brand marks without asking; that's
+    a redistribution decision, not a coding one.
+
+    A logo question is still a `[question, answer]` tuple — the question
+    string is just `img:/logos/whatever.svg` instead of text.
+    `logoBank.js` owns the `img:` prefix convention and
+    `imageUrlFromQuestion()`/`loadLogoQuiz()`; `renderer.js` is the one place
+    that checks for the prefix (`drawQuestionText` branches to
+    `drawQuestionImage`), so `quizMachine.js` and `colorizeTake.js`'s
+    `overlayStateAt` needed no changes — the question phase, the reveal
+    phase, and the generate-time re-render (which reuses
+    `renderer.drawOverlayZone`) all draw the logo for free.
+
+    `render/imageCache.js` is a synchronous-read cache: the draw loop and
+    `colorizeTake.js`'s per-sample `process` callback both run without
+    `await`, so a logo has to already be loaded before either can draw it.
+    `preloadImages()` is awaited once in `main.js` right after picking the
+    category (before Start) and again defensively at the top of
+    `colorizeOnce` in `colorizeTake.js` — don't rely on the first preload
+    surviving to generate time.
+
 ## Architecture
 
 ```
@@ -180,10 +208,14 @@ src/
 │   ├── colorizeTake.js   Re-encodes a take with recap marks as green/orange/red
 │   │                     and mixes a per-question clap / gasp / buzzer onto reveals.
 │   ├── stings.js         Recap preview + generate mix. Same mark again cycles the bank.
+│   ├── logoBank.js       "Guess the brand" — reads public/logos/manifest.json,
+│   │                     the `img:` question-prefix convention.
 │   └── recorder.js       WebCodecs/Mediabunny recorder + MediaRecorder fallback.
 ├── render/
 │   ├── text.js          Canvas text wrapping and auto-fit, with a layout
 │   │                    cache (invalidated once web fonts load).
+│   ├── imageCache.js    Synchronous-read logo image cache (draw loop and
+│   │                    colorize can't await).
 │   └── renderer.js      The rAF draw loop + stall watchdog. Composites
 │                        camera + overlay.
 └── ui/
@@ -301,3 +333,10 @@ second pipe field) — the 400 built-in questions are curated, named batches
 rather than user-taggable rows, so a separate lookup module fit better than
 teaching `questions.js` about categories. The textarea format is unchanged;
 "My Questions" still means whatever the user pasted in Settings.
+
+The "Other" optgroup also has `__logos` ("My Logos (guess the brand)"),
+which resolves through `logoBank.js`'s `loadLogoQuiz()` instead of
+`CATEGORY_BANK`/`localStorage` — see decision #16 above for why those
+questions are image URLs read from `public/logos/manifest.json` rather than
+a bundled bank. Picking it with an empty manifest alerts and resets the
+select rather than calling `setQuestions()` with nothing.
