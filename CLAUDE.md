@@ -247,8 +247,8 @@ src/
 │   ├── questions.js      Default bank, parse/stringify, shuffle, localStorage.
 │   ├── quizMachine.js    Phase state machine. No DOM, no canvas — pure logic.
 │   ├── camera.js         getUserMedia wrapper (front cam + mic) + errors.
-│   ├── categoryBank.js   "Can You Pass As..." — 128 built-in categories (15
-│   │                     sections × ~3-35 categories, 8 Qs each, 1024 total).
+│   ├── categoryBank.js   "Can You Pass As..." — 131 built-in categories (15
+│   │                     sections × ~3-35 categories, 8 Qs each, 1048 total).
 │   ├── wakeLock.js      Holds the screen awake while recording.
 │   ├── recordingDiagnostics.js  Polls every layer during a take; names the
 │   │                     first one that stops. Read it before theorising.
@@ -364,7 +364,7 @@ If asked to add these, here's where they'd go:
 ## Category picker
 
 Built-in categories live in `core/categoryBank.js` as `SECTIONS` (15 sections,
-grouping 128 "Can You Pass as..." categories, 8 questions each — 1024 total).
+grouping 131 "Can You Pass as..." categories, 8 questions each — 1048 total).
 `main.js` builds a flat `CATEGORY_BANK` name → questions lookup from it.
 
 The `#categorySelect` dropdown lives on the start overlay (shown right after
