@@ -2,7 +2,7 @@ import './ui/styles.css';
 
 import { CANVAS, STORAGE_KEYS } from './core/config.js';
 import { loadQuestions, shuffled } from './core/questions.js';
-import { SECTIONS, CATEGORY_BANK } from './core/categoryBank.js';
+import { SECTIONS, CATEGORY_BANK, STANDALONE_TITLES } from './core/categoryBank.js';
 import { loadPackIndex, loadPack, imageUrlFromQuestion } from './core/picturePacks.js';
 import { preloadImages } from './render/imageCache.js';
 import { QuizMachine } from './core/quizMachine.js';
@@ -91,6 +91,8 @@ function quizDisplayName(value) {
   if (value === '__custom') return 'My Questions';
   const pack = picturePacks.get(value);
   if (pack) return pack.name;
+  // A Hot Take's name is already the whole prompt — don't wrap it.
+  if (STANDALONE_TITLES.has(value)) return value;
   return `Can You Pass as ${value}`;
 }
 
@@ -138,7 +140,7 @@ const controls = new Controls({
     }
 
     machine.setQuestions(questions);
-    machine.setQuizTitle(quizDisplayName(value));
+    machine.setQuizTitle(quizDisplayName(value), STANDALONE_TITLES.has(value) ? 'HOT TAKE' : '');
   },
 
   onShuffle: () => {

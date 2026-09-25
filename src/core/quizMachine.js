@@ -23,6 +23,7 @@ export class QuizMachine {
     this.index = 0;
     this.phase = 'idle'; // 'idle' | 'title' | 'question' | 'reveal' | 'review'
     this.quizTitle = '';
+    this.quizKicker = '';
     this.marks = [];
     this.stingPicks = [];
     this.flashUntil = 0;
@@ -43,8 +44,14 @@ export class QuizMachine {
     else this._emit();
   }
 
-  setQuizTitle(title) {
+  /**
+   * @param {string} title
+   * @param {string} [kicker] Overrides the label above the title card. Hot
+   *   Takes set this, because their title is a question, not a role to pass as.
+   */
+  setQuizTitle(title, kicker) {
     this.quizTitle = title || '';
+    this.quizKicker = kicker || '';
     this._emit();
   }
 
@@ -64,6 +71,7 @@ export class QuizMachine {
     return {
       phase: this.phase,
       quizTitle: this.quizTitle,
+      quizKicker: this.quizKicker,
       index: this.index,
       total: this.questions.length,
       question: this.current[0],
@@ -81,6 +89,7 @@ export class QuizMachine {
     this.index = 0;
     this.phase = 'idle';
     this.quizTitle = '';
+    this.quizKicker = '';
     this.flashUntil = 0;
     this._lastAdvanceAt = 0;
     this._resetMarks();

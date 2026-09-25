@@ -222,7 +222,7 @@ export class Renderer {
     const { ctx, W, topH } = this;
     const raw = (state.quizTitle || '').trim() || 'Trivia Reel';
     const prefix = 'Can You Pass as ';
-    const kicker = raw.startsWith(prefix) ? 'CAN YOU PASS AS' : 'QUIZ';
+    const kicker = state.quizKicker || (raw.startsWith(prefix) ? 'CAN YOU PASS AS' : 'QUIZ');
     const name = raw.startsWith(prefix) ? raw.slice(prefix.length) : raw;
 
     this.drawKicker(kicker, COLORS.amber);
