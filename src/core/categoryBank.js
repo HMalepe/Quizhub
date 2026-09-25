@@ -1,6 +1,6 @@
 /**
- * "Can You Pass As..." — 131 identity-check trivia categories, grouped into
- * 16 sections, 8 questions each (1048 total). Sourced from the uploaded
+ * "Can You Pass As..." — 134 identity-check trivia categories, grouped into
+ * 16 sections, 8 questions each (1072 total). Sourced from the uploaded
  * question set and kept in the same [question, answer] pair shape that
  * `questions.js` already uses everywhere else, so a chosen category can be
  * fed straight into `machine.setQuestions()`.
@@ -172,6 +172,45 @@ export const SECTIONS = [
           ['What does RSVP stand for?', "Répondez s'il vous plaît — please reply"],
           ['What\'s a "receiving line"?', 'The couple and family greeting every guest in turn'],
           ['What is a hen party called in the United States?', 'A bachelorette party']
+        ]
+      },
+      {
+        name: 'a Gay Man',
+        questions: [
+          ['What do "top", "bottom" and "vers" describe?', 'Preferred roles in sex — versatile means comfortable either way'],
+          ['What is a "bear"?', 'A larger, hairier gay man — a whole subculture, with its own flag and events'],
+          ['What is a "twink"?', 'A young, slim, typically smooth gay man'],
+          ['What is PrEP?', 'Pre-exposure prophylaxis — medication taken to prevent HIV infection'],
+          ['What does "U=U" mean?', "Undetectable equals untransmittable — someone on effective treatment cannot pass HIV on"],
+          ['What is "masc4masc", and why is it criticised?', 'Seeking masculine-presenting men — criticised as internalised femmephobia'],
+          ['What is "chosen family"?', "The friends who become your family when the one you were born into doesn't show up"],
+          ['What is "camp"?', 'A deliberately theatrical, exaggerated sensibility — style as knowing excess']
+        ]
+      },
+      {
+        name: 'a Lesbian',
+        questions: [
+          ['What is the "U-Haul" joke?', '"What does a lesbian bring to a second date? A U-Haul" — moving in far too fast'],
+          ['What is the difference between butch and femme?', 'Masculine and feminine presentation within lesbian culture'],
+          ['What is "futch"?', 'Sitting between femme and butch on that spectrum'],
+          ['What is "comphet"?', 'Compulsory heterosexuality — the social default that makes women assume they must be straight'],
+          ['What is the "lesbian masterdoc"?', 'A widely circulated document helping women work out whether attraction to men was ever real'],
+          ['What is a "gold star" lesbian, and why is the term contested?', 'One who has never slept with a man — criticised as gatekeeping and biphobic'],
+          ['What is "lesbian bed death"?', 'The stereotype that long-term lesbian couples stop having sex — much disputed'],
+          ['Where do the words "lesbian" and "sapphic" come from?', 'Sappho, the poet of the island of Lesbos']
+        ]
+      },
+      {
+        name: 'Fluent in Queer History',
+        questions: [
+          ['What is a "lavender marriage"?', "A marriage of convenience that conceals one or both partners' homosexuality"],
+          ['What happened at Stonewall in 1969?', 'A police raid on a New York gay bar met with days of resistance — the spark for Pride'],
+          ['Who were Marsha P. Johnson and Sylvia Rivera?', 'Trans activists central to Stonewall and the movement that followed'],
+          ['What was Polari?', 'A coded slang used by gay men in Britain while homosexuality was still illegal'],
+          ['What was Section 28?', 'A 1988 UK law banning the "promotion" of homosexuality in schools, repealed in 2003'],
+          ['What was a world first about South Africa\'s post-apartheid constitution?', 'It was the first to explicitly outlaw discrimination on the basis of sexual orientation'],
+          ['When did South Africa legalise same-sex marriage?', '2006 — the first country in Africa to do so'],
+          ['What does the pink triangle commemorate?', 'Gay men imprisoned in Nazi camps — later reclaimed as a symbol of resistance']
         ]
       }
     ]
