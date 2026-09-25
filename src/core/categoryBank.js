@@ -1,6 +1,6 @@
 /**
- * "Can You Pass As..." — 131 identity-check trivia categories, grouped into
- * 15 sections, 8 questions each (1048 total). Sourced from the uploaded
+ * "Can You Pass As..." — 134 identity-check trivia categories, grouped into
+ * 16 sections, 8 questions each (1072 total). Sourced from the uploaded
  * question set and kept in the same [question, answer] pair shape that
  * `questions.js` already uses everywhere else, so a chosen category can be
  * fed straight into `machine.setQuestions()`.
@@ -1787,8 +1787,69 @@ export const SECTIONS = [
         ]
       }
     ]
+  },
+  {
+    /**
+     * Opinion rounds, not knowledge rounds. The category name is the whole
+     * prompt ("Better Than Xabi Alonso?"), each question is just a name, and
+     * the answer slot carries that player's receipts — so the beat on camera
+     * is gut reaction first, then the honours that either back you up or make
+     * you climb down. Right / Close / Wrong read as yes / debatable / no when
+     * you mark the recap, and colour the download the same way.
+     */
+    section: 'Hot Takes',
+    categories: [
+      {
+        name: 'Better Than Xabi Alonso?',
+        questions: [
+          ['Luka Modrić', "A Ballon d'Or, six Champions Leagues and a World Cup final"],
+          ['Andrés Iniesta', 'Scored the World Cup winning goal, plus four Champions Leagues and two Euros'],
+          ['Steven Gerrard', 'Istanbul, an FA Cup and a UEFA Cup — and never a league title'],
+          ['Paul Scholes', "Eleven league titles and two Champions Leagues — and never a Ballon d'Or"],
+          ['Toni Kroos', "Six Champions Leagues and a World Cup — and never a Ballon d'Or either"],
+          ['Claude Makélélé', 'A Champions League, titles in three countries, and a position named after him'],
+          ["N'Golo Kanté", 'A World Cup, a Champions League, and back-to-back league titles with different clubs'],
+          ['Kevin De Bruyne', 'A Treble, and a share of the Premier League single-season assist record']
+        ]
+      },
+      {
+        name: 'Better Than Didier Drogba?',
+        questions: [
+          ['Samuel Eto\'o', 'Three Champions Leagues, four African Player of the Year awards, two trebles'],
+          ['Thierry Henry', 'An Invincible season, four Golden Boots, a World Cup and a Champions League'],
+          ['Sergio Agüero', "Manchester City's all-time top scorer — and the most famous goal in Premier League history"],
+          ['Robert Lewandowski', "Broke the Bundesliga season record, a Treble, and five goals in nine minutes"],
+          ['Wayne Rooney', "Manchester United's all-time top scorer, five league titles and a Champions League"],
+          ['Luis Suárez', 'Two European Golden Shoes, a Champions League and a treble at Barcelona'],
+          ['Zlatan Ibrahimović', 'League titles in four different countries and over 500 career goals'],
+          ['Mohamed Salah', 'A Champions League, Premier League titles and a shelf of Golden Boots']
+        ]
+      },
+      {
+        name: 'Better Than Iker Casillas?',
+        questions: [
+          ['Gianluigi Buffon', 'A World Cup and a decade of Serie A titles — and never a Champions League'],
+          ['Manuel Neuer', 'A World Cup, two Champions Leagues, and he reinvented what a keeper does'],
+          ['Lev Yashin', "The only goalkeeper ever to win the Ballon d'Or"],
+          ['Oliver Kahn', 'The only goalkeeper to win the World Cup Golden Ball'],
+          ['Peter Schmeichel', "Denmark's Euro 92 shock, and the goal at the other end of the 1999 Treble"],
+          ['Edwin van der Sar', 'Champions Leagues with two different clubs, and a record unbeaten run'],
+          ['Petr Čech', 'More Premier League clean sheets than anyone in history'],
+          ['Thibaut Courtois', 'A Champions League final so good the losing fans applauded him off']
+        ]
+      }
+    ]
   }
 ];
+
+/**
+ * Categories whose name *is* the title card, so `main.js` must not wrap them
+ * in "Can You Pass as …". Derived from the section rather than listed by hand,
+ * so a new Hot Take needs no second edit.
+ */
+export const STANDALONE_TITLES = new Set(
+  SECTIONS.filter((s) => s.section === 'Hot Takes').flatMap((s) => s.categories.map((c) => c.name))
+);
 
 /** Flat name → [question, answer][] lookup, built from SECTIONS. */
 export const CATEGORY_BANK = SECTIONS.reduce((bank, { categories }) => {

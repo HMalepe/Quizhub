@@ -234,6 +234,31 @@ These look like omissions but are intentional. Check here before changing them.
     accrual versus community of property, NSFAS. That's knowledge the user
     actually has and a generic quiz app doesn't.
 
+18. **Hot Takes are opinion rounds, and they break the "Can You Pass as"
+    framing on purpose.** A Hot Take's category name *is* the prompt
+    ("Better Than Xabi Alonso?"), each question is just a name, and the
+    answer slot carries that person's receipts. The beat on camera is gut
+    reaction first, then the honours that either back you up or make you
+    climb down — which is why these still use the question → reveal loop
+    rather than needing a new phase.
+
+    Two small hooks make that work, and both are opt-in so nothing else
+    changes. `STANDALONE_TITLES` (derived from the `Hot Takes` section, not
+    hand-listed) tells `main.js` not to wrap the name in "Can You Pass as …",
+    which would otherwise render "Can You Pass as Better Than Xabi Alonso?".
+    And `setQuizTitle(title, kicker)` overrides the title-card label, so these
+    read HOT TAKE instead of QUIZ. Everything else — recording, recap,
+    colorize — is untouched.
+
+    Marking maps naturally without relabelling anything: Right / Close /
+    Wrong read as yes / debatable / no, and colour the download green /
+    orange / red the same way. If that ever stops being good enough, the
+    honest fix is per-round mark labels, not overloading these three further.
+
+    There is no correct answer in a Hot Take, so don't write one into the
+    answer slot. Receipts only — verifiable honours and records, so the
+    argument stays about judgement rather than about facts.
+
 ## Architecture
 
 ```
@@ -247,8 +272,8 @@ src/
 │   ├── questions.js      Default bank, parse/stringify, shuffle, localStorage.
 │   ├── quizMachine.js    Phase state machine. No DOM, no canvas — pure logic.
 │   ├── camera.js         getUserMedia wrapper (front cam + mic) + errors.
-│   ├── categoryBank.js   "Can You Pass As..." — 131 built-in categories (15
-│   │                     sections × ~3-35 categories, 8 Qs each, 1048 total).
+│   ├── categoryBank.js   "Can You Pass As..." — 134 built-in categories (16
+│   │                     sections × ~3-35 categories, 8 Qs each, 1072 total).
 │   ├── wakeLock.js      Holds the screen awake while recording.
 │   ├── recordingDiagnostics.js  Polls every layer during a take; names the
 │   │                     first one that stops. Read it before theorising.
@@ -363,8 +388,8 @@ If asked to add these, here's where they'd go:
 
 ## Category picker
 
-Built-in categories live in `core/categoryBank.js` as `SECTIONS` (15 sections,
-grouping 131 "Can You Pass as..." categories, 8 questions each — 1048 total).
+Built-in categories live in `core/categoryBank.js` as `SECTIONS` (16 sections,
+grouping 134 "Can You Pass as..." categories, 8 questions each — 1072 total).
 `main.js` builds a flat `CATEGORY_BANK` name → questions lookup from it.
 
 The `#categorySelect` dropdown lives on the start overlay (shown right after
